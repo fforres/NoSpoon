@@ -2,7 +2,7 @@ import { h, Component } from 'preact';
 import { Router } from 'preact-router';
 
 import Home from '../routes/home';
-import Profile from '../routes/profile';
+import Minecraft from '../routes/minecraft';
 // import Home from 'async!./home';
 // import Profile from 'async!./profile';
 
@@ -21,8 +21,7 @@ export default class App extends Component {
 			<div id="app">
 				<Router onChange={this.handleRoute}>
 					<Home path="/" />
-					<Profile path="/profile/" user="me" />
-					<Profile path="/profile/:user" />
+					<Minecraft path="/minecraft" />
 				</Router>
 			</div>
 		);
