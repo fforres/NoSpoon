@@ -1,5 +1,6 @@
+import 'aframe';
 import './style';
 import App from './components/app';
-import 'aframe';
+import MC from './routes/minecraft';
 
-export default App;
+export default MC;
