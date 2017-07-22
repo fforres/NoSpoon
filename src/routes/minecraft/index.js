@@ -5,9 +5,9 @@ import style from './style';
 import loadComponents from './components';
 import CANNON from 'cannon';
 import physics from 'aframe-physics-system';
-import PlayerBody from './components/PlayerBody';
-import HUD from './components/HUD';
-
+import HeadsetPlayer from './components/HeadsetPlayer';
+import CellphonePlayer from './components/CellphonePlayer';
+import { getDisplay } from './components/helpers';
 physics.registerAll();
 
 export default class Profile extends Component {
@@ -17,46 +17,86 @@ export default class Profile extends Component {
   }
 
   prepareGame = () => {
-    this.setState({
-      lives: 3,
-      timeStart: Date.now(),
-      looser: false,
-    })
-  }
+    getDisplay()
+      .then(isHeadSet => {
+        this.setState({
+          lives: 3,
+          timeStart: Date.now(),
+          isHeadSet,
+          loser: false,
+          isReady: true,
+        }, () => console.log(this.state));
+      })
+  };
 
   removeLife = () => {
-    this.setState(({ lives }) => ({
-      lives: (lives - 1),
-    }), this.gameLoop)
-  }
+    this.setState(
+      ({ lives }) => ({
+        lives: lives - 1
+      }),
+      this.gameLoop
+    );
+  };
 
   gameLoop = () => {
     const { lives, timeStart } = this.state;
-    const looser = (lives) < 0;
+    const loser = lives < 0;
     const timePlaying = Date.now();
-    const timeSession = looser ? timeStart - timePlaying : 0;
+    const timeSession = loser ? timeStart - timePlaying : 0;
     this.setState({
-      looser,
-      timeSession,
-    })
-  }
+      loser,
+      timeSession
+    });
+  };
   componentDidMount() {
     setTimeout(() => {
       this.box.body.applyImpulse(
-        new CANNON.Vec3(10, 10, 2), /* impulse */
-        new CANNON.Vec3().copy(this.box.getAttribute('position')) /* world position */
+        new CANNON.Vec3(10, 10, 2) /* impulse */,
+        new CANNON.Vec3().copy(
+          this.box.getAttribute('position')
+        ) /* world position */
       );
-    }, 10000)
+    }, 10000);
   }
+
+  getPlayer = () => {
+    const { lives, loser, isHeadSet } = this.state;
+    if (isHeadSet) {
+      return (
+        <HeadsetPlayer
+          removeLife={this.removeLife}
+          lives={lives}
+          loser={loser}
+        />
+      );
+    }
+    return (
+      <CellphonePlayer
+        lives={lives}
+        winner={!loser}
+      />
+    );
+  };
 
   render() {
     // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
-    const { lives, looser } = this.state;
+    const { isReady } = this.state;
+    if (!isReady) {
+      return null;
+    }
+    const player = this.getPlayer();
+  
     return (
-      <a-scene physics="friction: 0.2; restitution: 1; gravity: -0.5; debug: true;" >
+      <a-scene physics="friction: 0.2; restitution: 1; gravity: -0.5; debug: true;">
         <a-assets>
-          <img id="skyTexture" src="https://cdn.aframe.io/a-painter/images/sky.jpg" />
-          <img id="groundTexture" src="https://cdn.aframe.io/a-painter/images/floor.jpg" />
+          <img
+            id="skyTexture"
+            src="https://cdn.aframe.io/a-painter/images/sky.jpg"
+          />
+          <img
+            id="groundTexture"
+            src="https://cdn.aframe.io/a-painter/images/floor.jpg"
+          />
           <a-mixin
             id="controller"
             super-hands
@@ -73,12 +113,6 @@ export default class Profile extends Component {
             dynamic-body
           />
         </a-assets>
-        <a-entity
-          geometry="primitive: box; depth: 0.5; height: 0.5; width 0.5"
-          material="shader: standard"
-          position="0 0.5 -2"
-          random-color
-        />
         <a-cylinder
           static-body
           id="ground"
@@ -86,12 +120,20 @@ export default class Profile extends Component {
           radius="32"
           height="0.1"
         />
+        <a-cylinder
+          static-body
+          id="playArea"
+          radius="9"
+          material="color: rgba(123,123,123,0.3);"
+          height="0.2"
+        />
 
-        <a-box static-body position="0 2 -5" width="3" height="1" depth="1" />
         <a-sphere
           grabbable
           maxGrabbers
-          ref={c => { this.box = c }}
+          ref={c => {
+            this.box = c;
+          }}
           dynamic-body
           position="0.5 10 0"
           width="1"
@@ -105,12 +147,7 @@ export default class Profile extends Component {
           theta-length="90"
           radius="30"
         />
-
-        <a-entity id="teleHand" hand-controls="left" mixin="controller" />
-        <a-entity id="blockHand" hand-controls="right" mixin="controller" />
-        <PlayerBody onColission={this.removeLife}/>
-
-        <HUD lives={lives} looser={looser} />
+        { player }
       </a-scene>
     );
   }
