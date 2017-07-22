@@ -21,36 +21,27 @@ export default class Profile extends Component {
     }, 10000)
   }
 
-  detectControlers = () => {
-    return (
-      <div>
-        <a-entity id="teleHand" hand-controls="left" />
-        <a-entity id="blockHand" hand-controls="right" />
-      </div>
-    );
-    // TODO: Check for rift controlers;
-    // <a-entity oculus-touch-controls="hand: left"></a-entity>
-    // <a-entity oculus-touch-controls="hand: right"></a-entity>
-  }
-
   render() {
-    const controllers = this.detectControlers();
     // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
     return (
       <a-scene physics="debug: true">
         <a-assets>
           <img id="skyTexture" src="https://cdn.aframe.io/a-painter/images/sky.jpg" />
           <img id="groundTexture" src="https://cdn.aframe.io/a-painter/images/floor.jpg" />
-          <a-mixin id="voxel"
+          <a-mixin
+            id="voxel"
             geometry="primitive: box; height: 0.5; width: 0.5; depth: 0.5"
             material="shader: standard"
             random-color
-            snap="offset: 0.25 0.25 0.25; snap: 0.5 0.5 0.5" />
+            snap="offset: 0.25 0.25 0.25; snap: 0.5 0.5 0.5"
+          />
         </a-assets>
-        <a-entity geometry="primitive: box; depth: 0.5; height: 0.5; width 0.5"
+        <a-entity
+          geometry="primitive: box; depth: 0.5; height: 0.5; width 0.5"
           material="shader: standard"
           position="0 0.5 -2"
-          random-color />
+          random-color
+        />
         <a-cylinder
           static-body
           id="ground"
@@ -76,7 +67,8 @@ export default class Profile extends Component {
           radius="30"
         />
 
-        { controllers }
+        <a-entity id="teleHand" hand-controls="left" />
+        <a-entity id="blockHand" hand-controls="right" />
 
         <a-box constraint="target: #blockHand;" dynamic-body />
         <a-box constraint="target: #teleHand;" static-body />
