@@ -1424,11 +1424,7 @@ caniuse-lite@^1.0.30000697, caniuse-lite@^1.0.30000701:
   version "1.0.30000703"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000703.tgz#666e8c3f1e4f7abb1d16d48e04e7e9e8df934925"
 
-cannon@^0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/cannon/-/cannon-0.6.2.tgz#1e7bc72dd5841982f3c104c2bc578bfa4fb1c572"
-
-"cannon@github:donmccurdy/cannon.js#v0.6.2-dev1":
+cannon@^0.6.2, "cannon@github:donmccurdy/cannon.js#v0.6.2-dev1":
   version "0.6.2"
   resolved "https://codeload.github.com/donmccurdy/cannon.js/tar.gz/022e8ba53fa83abf0ad8a0e4fd08623123838a17"
 
@@ -6628,6 +6624,10 @@ sum-up@^1.0.1:
   resolved "https://registry.yarnpkg.com/sum-up/-/sum-up-1.0.3.tgz#1c661f667057f63bcb7875aa1438bc162525156e"
   dependencies:
     chalk "^1.0.0"
+
+super-hands@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/super-hands/-/super-hands-1.0.1.tgz#1b9caf37a9ab2fc5458c7118d52d4d26a79cdb4d"
 
 supports-color@^2.0.0:
   version "2.0.0"

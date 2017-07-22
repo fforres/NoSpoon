@@ -39,6 +39,7 @@
     "gh-pages": "^1.0.0",
     "preact": "^8.2.1",
     "preact-compat": "^3.16.0",
-    "preact-router": "^2.5.5"
+    "preact-router": "^2.5.5",
+    "super-hands": "^1.0.1"
   }
 }
