@@ -1,10 +1,10 @@
 import 'aframe';
 import 'super-hands';
 import { h, Component } from 'preact';
-import Face from '../../../components/face';
-import FireBase from '../socket/Firebase';
+import Face from '../face';
+import FireBase from '../../socket/Firebase';
 
-export default class CellphonePlayer extends Component {
+export default class OtherAttackers extends Component {
   constructor(props) {
     super(props);
     this.state = {};

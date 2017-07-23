@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import Face from '../../components/face';
+import Face from '../DefendTheStick/components/face';
 
 export default class Faces extends Component {
   render() {
