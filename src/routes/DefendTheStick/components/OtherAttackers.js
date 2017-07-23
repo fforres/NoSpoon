@@ -23,7 +23,6 @@ export default class CellphonePlayer extends Component {
     const { usersInfo } = this.state;
     const { userID } = this.props;
     for (let key in this.state.usersInfo) {
-      console.log(userID, key);
       if (usersInfo.hasOwnProperty(key) && userID !== key) {
         const { rotation, position } = usersInfo[key];
         array.push(
