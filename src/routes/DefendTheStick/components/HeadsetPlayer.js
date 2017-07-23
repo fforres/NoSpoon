@@ -1,7 +1,6 @@
 import 'aframe';
 import 'super-hands';
 import { h, Component } from 'preact';
-import CANNON from 'cannon';
 import physics from 'aframe-physics-system';
 import PlayerBody from './PlayerBody';
 import HUD from './HUD';
@@ -10,7 +9,7 @@ physics.registerAll();
 export default class HeasetPlayer extends Component {
   render(props) {
     // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
-    const { removeLife, lives, loser } = this.props;
+    const { removeLife, lives, loser } = props;
     return (
       <a-entity>
         <a-entity id="teleHand" hand-controls="left" mixin="controller" />

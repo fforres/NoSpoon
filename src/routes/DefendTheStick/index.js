@@ -1,13 +1,14 @@
 import 'aframe';
 import 'super-hands';
 import { h, Component } from 'preact';
-import style from './style';
 import loadComponents from './components';
 import CANNON from 'cannon';
 import physics from 'aframe-physics-system';
 import HeadsetPlayer from './components/HeadsetPlayer';
 import CellphonePlayer from './components/CellphonePlayer';
+import OtherAttackers from './components/OtherAttackers';
 import { getDisplay } from './components/helpers';
+import './socket';
 physics.registerAll();
 
 export default class Profile extends Component {
@@ -24,8 +25,9 @@ export default class Profile extends Component {
           timeStart: Date.now(),
           isHeadSet,
           loser: false,
+          userID: `user-${performance.now().toString().split('.').join('')}`,
           isReady: true,
-        }, () => console.log(this.state));
+        });
       })
   };
 
@@ -60,13 +62,14 @@ export default class Profile extends Component {
   }
 
   getPlayer = () => {
-    const { lives, loser, isHeadSet } = this.state;
+    const { lives, loser, isHeadSet, userID } = this.state;
     if (isHeadSet) {
       return (
         <HeadsetPlayer
           removeLife={this.removeLife}
           lives={lives}
           loser={loser}
+          userID={userID}
         />
       );
     }
@@ -74,18 +77,19 @@ export default class Profile extends Component {
       <CellphonePlayer
         lives={lives}
         winner={!loser}
+        userID={userID}
       />
     );
   };
 
   render() {
     // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
-    const { isReady } = this.state;
+    const { isReady, userID } = this.state;
     if (!isReady) {
       return null;
     }
     const player = this.getPlayer();
-  
+    const otherAttackers = <OtherAttackers userID={userID} />
     return (
       <a-scene physics="friction: 0.2; restitution: 1; gravity: -0.5; debug: true;">
         <a-assets>
@@ -148,6 +152,7 @@ export default class Profile extends Component {
           radius="30"
         />
         { player }
+        { otherAttackers }
       </a-scene>
     );
   }
