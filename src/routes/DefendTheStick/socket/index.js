@@ -35,6 +35,5 @@ AFRAME.registerComponent('player-emiter', {
   },
   onUserDisconnects () {
     this.FireBase.userRef.onDisconnect().remove();
-    console.log('ONDISCONNECT SETTED')
   }
 });
