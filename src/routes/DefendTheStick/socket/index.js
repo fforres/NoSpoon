@@ -4,9 +4,11 @@ import Firebase from './Firebase';
 AFRAME.registerComponent('player-emiter', {
   schema: {
     id: { type: 'string', default: '' },
+    defender: { type: 'boolean' },
   },
   init () {
     this.id = this.data.id;
+    this.isDefender = this.data.defender;
     this.FireBase = {
       connection: Firebase,
       database: Firebase.database(),
@@ -28,6 +30,7 @@ AFRAME.registerComponent('player-emiter', {
   updateUserPos () {
     const user = this.el.object3D;
     this.FireBase.userRef.set({
+      isDefender: this.isDefender,
       position: user.getWorldPosition(),
       rotation: user.getWorldRotation(),
       timestamp: Firebase.database.ServerValue.TIMESTAMP
