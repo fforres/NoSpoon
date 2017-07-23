@@ -43,6 +43,7 @@ module.exports = {
     "no-var": 2,
     "object-shorthand": 2,
     "prefer-arrow-callback": 2,
+    "comma-dangle": ["error", "only-multiline"],
   },
   "globals": {
     "AFRAME": true,
