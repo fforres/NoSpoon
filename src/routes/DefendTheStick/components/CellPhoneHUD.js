@@ -16,18 +16,19 @@ class CellPhoneHUD extends Component {
       )}
     />;
 
-  LOOSER = lives =>
+  LOOSER = lives => (
     <a-entity
       geometry="primitive: plane; height: 4; width: 4"
       position="0 0 -2"
       material="color: #FF0000; opacity: 0.7"
       text={[`align:center`, `color:white`, `value: YOU Win!!`].join(';')}
-    />;
+    />
+  )
   render(props) {
-    const { lives, winner } = props;
+    const { lives, winner, userID } = props;
     const hudContent = winner ? this.Winner() : this.getPlayingHud(lives);
     return (
-      <a-entity camera position="0 2 -10" rotation="0 100 0" look-controls >
+      <a-entity camera position="0 2 -10" rotation="0 100 0" look-controls player-emiter={`id: ${userID}`}>
         {hudContent}
       </a-entity>
     );

@@ -10,10 +10,10 @@ physics.registerAll();
 export default class CellphonePlayer extends Component {
   render(props) {
     // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
-    const { lives, loser } = this.props;
+    const { lives, loser, userID } = this.props;
     return (
       <a-entity>
-        <CellphoneHUD lives={lives} loser={loser} />
+        <CellphoneHUD lives={lives} loser={loser} userID={userID} />
       </a-entity>
     );
   }
