@@ -1,7 +1,6 @@
 import 'aframe';
 import 'super-hands';
 import { h, Component } from 'preact';
-import CANNON from 'cannon';
 import physics from 'aframe-physics-system';
 physics.registerAll();
 
@@ -16,7 +15,7 @@ class CellPhoneHUD extends Component {
       )}
     />;
 
-  LOOSER = lives => (
+  LOOSER = () => (
     <a-entity
       geometry="primitive: plane; height: 4; width: 4"
       position="0 0 -2"

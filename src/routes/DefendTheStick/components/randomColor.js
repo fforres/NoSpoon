@@ -2,7 +2,7 @@ import AFRAME from 'aframe';
 
 AFRAME.registerComponent('random-color', {
   dependencies: ['material'], // so our material is not overwritten
-  init: function () {
+  init() {
     this.el.setAttribute('material', 'color', getRandomColor());
   }
 });

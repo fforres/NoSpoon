@@ -1,7 +1,6 @@
 import 'aframe';
 import 'super-hands';
 import { h, Component } from 'preact';
-import style from './style';
 import loadComponents from './components';
 import CANNON from 'cannon';
 import physics from 'aframe-physics-system';

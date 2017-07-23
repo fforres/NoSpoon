@@ -1,5 +1,4 @@
 import { h, Component } from 'preact';
-import style from './style';
 import Face from '../../components/face';
 
 export default class Faces extends Component {

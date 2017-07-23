@@ -1,12 +1,11 @@
 import 'aframe';
 import 'super-hands';
 import { h, Component } from 'preact';
-import CANNON from 'cannon';
 import physics from 'aframe-physics-system';
 physics.registerAll();
 
 class HUD extends Component {
-  getPlayingHud = lives =>
+  getPlayingHud = lives => (
     <a-entity
       geometry="primitive: plane; height: 0.3; width: 0.6"
       position="0.4 -0.4 -1"
@@ -14,15 +13,16 @@ class HUD extends Component {
       text={[`align:center`, `color:white`, `value: Lives : ${lives}`].join(
         ';'
       )}
-    />;
-
-  LOOSER = lives =>
+    />
+  )
+  LOOSER = () => (
     <a-entity
       geometry="primitive: plane; height: 4; width: 4"
       position="0 0 -2"
       material="color: #FF0000; opacity: 0.7"
       text={[`align:center`, `color:white`, `value: YOU LOST!!`].join(';')}
-    />;
+    />
+  )
   render(props) {
     const { lives, loser } = props;
     const hudContent = loser ? this.LOOSER() : this.getPlayingHud(lives);
