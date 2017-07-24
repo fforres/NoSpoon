@@ -27,7 +27,7 @@ class CellPhoneHUD extends Component {
     const { lives, winner, userID } = props;
     const hudContent = winner ? this.Winner() : this.getPlayingHud(lives);
     return (
-      <a-entity camera position="0 2 -10" rotation="0 100 0" look-controls player-emiter={`id: ${userID}`}>
+      <a-entity camera position="0 2 -10" rotation="0 0 0" look-controls player-emiter={`id: ${userID}`} player-attacker>
         {hudContent}
       </a-entity>
     );

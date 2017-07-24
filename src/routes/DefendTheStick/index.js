@@ -4,7 +4,7 @@ import { h, Component } from 'preact';
 import loadComponents from './components';
 import CANNON from 'cannon';
 import physics from 'aframe-physics-system';
-import HeadsetPlayer from './components/playerDefender';
+import DefenderPlayer from './components/playerDefender';
 import CellphonePlayer from './components/playerAttacker';
 import OtherAttackers from './components/otherAttackers';
 import { getDisplay } from './components/helpers';
@@ -12,7 +12,9 @@ import './socket';
 physics.registerAll();
 
 export default class Profile extends Component {
+
   componentWillMount() {
+    console.log(this.props);
     loadComponents();
     this.prepareGame();
   }
@@ -24,6 +26,7 @@ export default class Profile extends Component {
           lives: 3,
           timeStart: Date.now(),
           isHeadSet,
+          isDefender: (this.props.defender === 'true'),
           loser: false,
           userID: `user-${performance.now().toString().split('.').join('')}`,
           isReady: true,
@@ -62,10 +65,10 @@ export default class Profile extends Component {
   }
 
   getPlayer = () => {
-    const { lives, loser, isHeadSet, userID } = this.state;
-    if (isHeadSet) {
+    const { lives, loser, isDefender, userID } = this.state;
+    if (isDefender) {
       return (
-        <HeadsetPlayer
+        <DefenderPlayer
           removeLife={this.removeLife}
           lives={lives}
           loser={loser}
@@ -104,10 +107,9 @@ export default class Profile extends Component {
           <a-mixin
             id="controller"
             super-hands
-            sphere-collider="objects: .cube, .transformer"
+            sphere-collider="objects: .cube, .transformer .bullet"
             static-body="shape: sphere; sphereRadius: 0.02;"
           />
-          <a-mixin id="cube-close" material="opacity: 0.7; transparent: true" />
           <a-mixin
             id="cube"
             geometry="primitive: box; width: 0.33; height: 0.33; depth: 0.33"
@@ -116,19 +118,40 @@ export default class Profile extends Component {
             drag-droppable
             dynamic-body
           />
+          <a-mixin
+            id="bullet"
+            geometry="primitive: sphere; radius: 0.2"
+            grabbable
+            dynamic-body
+          />
         </a-assets>
+        <a-entity
+          id="sun"
+          light="angle:45;decay: 0.5; color:#F0F0F0;type:directional"
+          position="0 5.417 0"
+          rotation="-81.64648580614231 0 0"
+        />
+
+        <a-entity
+          id="floor"
+          light="angle:45;decay: 0.5; color:#F0F0F0;type:ambient"
+          position="0 1 0"
+          rotation="0 0 0"
+        />
         <a-cylinder
           static-body
+          shadow="cast:true;receive:true;"
           id="ground"
           src="https://cdn.aframe.io/a-painter/images/floor.jpg"
           radius="32"
           height="0.1"
         />
         <a-cylinder
+          shadow="cast:true;receive:true;"
           static-body
           id="playArea"
           radius="9"
-          material="color: rgb(123,123,123); opacity: 0.7;"
+          material="color: rgb(123,123,123); opacity: 0.5;"
           height="0.3"
         />
 

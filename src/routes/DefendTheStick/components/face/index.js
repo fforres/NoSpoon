@@ -23,6 +23,7 @@ export default class Face extends Component {
         key={key}
         radius="0.3"
         random-color
+        shadow="cast:true;receive:true;"
       >
         <a-circle
           position="-0.09 0.1 0.30"

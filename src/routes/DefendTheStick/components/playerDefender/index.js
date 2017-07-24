@@ -15,7 +15,7 @@ export default class HeadsetPlayer extends Component {
         <a-entity id="teleHand" hand-controls="left" mixin="controller" />
         <a-entity id="blockHand" hand-controls="right" mixin="controller" />
         <PlayerBody onColission={removeLife} />
-        <HUD lives={lives} loser={loser} userID={userID}/>
+        <HUD lives={lives} loser={loser} userID={userID} />
       </a-entity>
     );
   }

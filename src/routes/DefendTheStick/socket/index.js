@@ -9,10 +9,6 @@ AFRAME.registerComponent('player-emiter', {
   init () {
     this.id = this.data.id;
     this.isDefender = this.data.defender;
-    const newPosition = this.getRandomPosition();
-    // const rotationTowardsCenter = this.calculateRotationTowardsCenter(newPosition);
-    this.el.setAttribute('position', newPosition); // position character randomly
-    // this.el.setAttribute('rotation', rotationTowardsCenter); // Rotate character so it faces the center of the arena
 
     this.FireBase = {
       connection: Firebase,
@@ -27,7 +23,7 @@ AFRAME.registerComponent('player-emiter', {
       this.currentTick = 0;
     }
     this.currentTick++
-    if (this.currentTick === 5) { // Small hack to increas MS between updates
+    if (this.currentTick === 2) { // Small hack to increas MS between updates
       this.currentTick = 0
       this.updateUserPos();
     }
@@ -44,6 +40,18 @@ AFRAME.registerComponent('player-emiter', {
   onUserDisconnects () {
     this.FireBase.userRef.onDisconnect().remove();
   },
+});
+
+AFRAME.registerComponent('player-attacker', {
+  schema: {},
+  init () {
+    const newPosition = this.getRandomPosition();
+    this.el.setAttribute('position', newPosition); // position character randomly
+    // const rotationTowardsCenter = this.calculateRotationTowardsCenter(newPosition);
+    // this.el.setAttribute('rotation', rotationTowardsCenter); // Rotate character so it faces the center of the arena
+  },
+  // update: function () {},
+  tick () {},
   getRandomPosition () {
     const angle = Math.random() * Math.PI * 2;
     const radius = 10; // size of the play-area
@@ -65,3 +73,9 @@ AFRAME.registerComponent('player-emiter', {
   }
 });
 
+AFRAME.registerComponent('player-defender', {
+  schema: {},
+  init () {},
+  update () {},
+  tick () {},
+});
