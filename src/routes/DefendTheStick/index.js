@@ -5,13 +5,25 @@ import loadComponents from './components';
 import CANNON from 'cannon';
 import physics from 'aframe-physics-system';
 import DefenderPlayer from './components/playerDefender';
-import CellphonePlayer from './components/playerAttacker';
+import AttackerPlayer from './components/playerAttacker';
 import OtherAttackers from './components/otherAttackers';
+import PlayArea from './components/PlayArea';
+import FireBase from './socket/Firebase';
 import { getDisplay } from './components/helpers';
 import './socket';
 physics.registerAll();
 
 export default class Profile extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      startingLives: 3,
+      timeStart: Date.now(),
+      isDefender: (props.defender === 'true'),
+      loser: false,
+      userID: `user-${performance.now().toString().split('.').join('')}`,
+    }
+  }
 
   componentWillMount() {
     loadComponents();
@@ -19,56 +31,60 @@ export default class Profile extends Component {
   }
 
   prepareGame = () => {
-    getDisplay()
+    this.bindToState()
+      .then(() => this.setFeedbackLoop())
+      .then(() => this.emitState(this.state.startingLives))
+      .then(() => getDisplay())
       .then(isHeadSet => {
         this.setState({
-          lives: 3,
-          timeStart: Date.now(),
           isHeadSet,
-          isDefender: (this.props.defender === 'true'),
-          loser: false,
-          userID: `user-${performance.now().toString().split('.').join('')}`,
           isReady: true,
         });
-      })
+      });
   };
 
-  removeLife = () => {
-    this.setState(
-      ({ lives }) => ({
-        lives: lives - 1
-      }),
-      this.gameLoop
-    );
-  };
-
-  gameLoop = () => {
+  winLoop = () => {
     const { lives, timeStart } = this.state;
-    const loser = lives < 0;
+    const loser = (lives <= 0);
     const timePlaying = Date.now();
     const timeSession = loser ? timeStart - timePlaying : 0;
     this.setState({
       loser,
       timeSession
     });
-  };
-  componentDidMount() {
-    setTimeout(() => {
-      this.box.body.applyImpulse(
-        new CANNON.Vec3(10, 10, 2) /* impulse */,
-        new CANNON.Vec3().copy(
-          this.box.getAttribute('position')
-        ) /* world position */
-      );
-    }, 10000);
   }
+
+  removeLife = () => {
+    this.emitState((this.state.lives - 1))
+  };
+
+  setFeedbackLoop = () => new Promise((resolve) => {
+    this.state.FB.on('value', (snapshot) => {
+      this.setState({
+        lives: snapshot.val().lives,
+      }, this.winLoop);
+    })
+    resolve();
+  })
+
+  emitState = (lives) => {
+    const { isDefender, FB } = this.state;
+    if (isDefender) {
+      return FB.set({ lives })
+    }
+  };
+
+  bindToState = () => new Promise((resolve) => {
+    this.setState({
+      FB: FireBase.database().ref('/gameData'),
+    }, resolve)
+  })
 
   getPlayer = () => {
     const { lives, loser, isDefender, userID } = this.state;
     if (isDefender) {
       return (
         <DefenderPlayer
-          removeLife={this.removeLife}
           lives={lives}
           loser={loser}
           userID={userID}
@@ -76,9 +92,9 @@ export default class Profile extends Component {
       );
     }
     return (
-      <CellphonePlayer
+      <AttackerPlayer
         lives={lives}
-        winner={!loser}
+        winner={loser}
         userID={userID}
       />
     );
@@ -86,14 +102,14 @@ export default class Profile extends Component {
 
   render() {
     // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
-    const { isReady, userID } = this.state;
+    const { isReady, userID, isDefender } = this.state;
     if (!isReady) {
       return null;
     }
     const player = this.getPlayer();
     const otherAttackers = <OtherAttackers userID={userID} />
     return (
-      <a-scene physics="friction: 0.2; restitution: 1; gravity: -0.5; debug: true;">
+      <a-scene physics="friction: 0.2; restitution: 1; gravity: -4; debug: true;">
         <a-assets>
           <img
             id="skyTexture"
@@ -124,55 +140,7 @@ export default class Profile extends Component {
             dynamic-body
           />
         </a-assets>
-        <a-entity
-          id="sun"
-          light="angle:45;decay: 0.5; color:#F0F0F0;type:directional"
-          position="0 5.417 0"
-          rotation="-81.64648580614231 0 0"
-        />
-
-        <a-entity
-          id="floor"
-          light="angle:45;decay: 0.5; color:#F0F0F0;type:ambient"
-          position="0 1 0"
-          rotation="0 0 0"
-        />
-        <a-cylinder
-          static-body
-          shadow="cast:true;receive:true;"
-          id="ground"
-          src="https://cdn.aframe.io/a-painter/images/floor.jpg"
-          radius="32"
-          height="0.1"
-        />
-        <a-cylinder
-          shadow="cast:true;receive:true;"
-          static-body
-          id="playArea"
-          radius="9"
-          material="color: rgb(123,123,123); opacity: 0.5;"
-          height="0.3"
-        />
-
-        <a-sphere
-          grabbable
-          maxGrabbers
-          ref={c => {
-            this.box = c;
-          }}
-          dynamic-body
-          position="0.5 10 0"
-          width="1"
-          height="1"
-          depth="1"
-        />
-
-        <a-sky
-          id="background"
-          src="#skyTexture"
-          theta-length="90"
-          radius="30"
-        />
+        <PlayArea removeLife={this.removeLife} isDefender={isDefender} />
         { player }
         { otherAttackers }
       </a-scene>

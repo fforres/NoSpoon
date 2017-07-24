@@ -15,7 +15,7 @@ class CellPhoneHUD extends Component {
       )}
     />;
 
-  LOOSER = () => (
+  Winner = () => (
     <a-entity
       geometry="primitive: plane; height: 4; width: 4"
       position="0 0 -2"
