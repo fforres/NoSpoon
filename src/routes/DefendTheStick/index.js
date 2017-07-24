@@ -128,8 +128,8 @@ export default class Profile extends Component {
           static-body
           id="playArea"
           radius="9"
-          material="color: rgba(123,123,123,0.3);"
-          height="0.2"
+          material="color: rgb(123,123,123); opacity: 0.7;"
+          height="0.3"
         />
 
         <a-sphere
