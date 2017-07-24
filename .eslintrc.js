@@ -47,6 +47,7 @@ module.exports = {
   },
   "globals": {
     "AFRAME": true,
+    "THREE": true,
     "performance": true,
   },
 };

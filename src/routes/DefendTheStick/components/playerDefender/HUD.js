@@ -9,7 +9,7 @@ class HUD extends Component {
     <a-entity
       geometry="primitive: plane; height: 0.3; width: 0.6"
       position="0.4 -0.4 -1"
-      material="color: 0000FF; opacity: 0.5"
+      material="color: #0000FF; opacity: 0.5"
       text={[`align:center`, `color:white`, `value: Lives : ${lives}`].join(
         ';'
       )}
