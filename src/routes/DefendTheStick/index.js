@@ -14,7 +14,6 @@ physics.registerAll();
 export default class Profile extends Component {
 
   componentWillMount() {
-    console.log(this.props);
     loadComponents();
     this.prepareGame();
   }
