@@ -1,6 +1,7 @@
 import { h, Component } from 'preact';
 import CANNON from 'cannon';
 import TheStick from '../TheStick';
+import Bullet from '../bullet';
 
 export default class PlayArea extends Component {
   componentDidMount() {
@@ -14,10 +15,15 @@ export default class PlayArea extends Component {
     }, 10000);
   }
 
+  renderBalls = () => {
+    const { balls } = this.props;
+    return balls.map(ball => <Bullet id={ball.id} />)
+  }
   render() {
     // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
     const { removeLife, isDefender } = this.props;
-
+    const myBalls = this.renderBalls()
+    const otherPersonsBalls = [];
     return (
       <a-entity>
         <a-entity
@@ -75,7 +81,7 @@ export default class PlayArea extends Component {
           depth="1"
         />
 
-                <a-sphere
+        <a-sphere
           grabbable
           maxGrabbers
           ref={c => {
@@ -87,7 +93,8 @@ export default class PlayArea extends Component {
           height="1"
           depth="1"
         />
-
+        { myBalls }
+        { otherPersonsBalls }
         <a-sky
           id="background"
           src="#skyTexture"

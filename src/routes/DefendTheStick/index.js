@@ -22,6 +22,7 @@ export default class Profile extends Component {
       isDefender: (props.defender === 'true'),
       loser: false,
       userID: `user-${performance.now().toString().split('.').join('')}`,
+      myBalls: [],
     }
   }
 
@@ -80,6 +81,15 @@ export default class Profile extends Component {
     }, resolve)
   })
 
+  createABall = () => {
+    const { userID } = this.state;
+    const Ball = {
+      id: `${userID}_ball-${performance.now().toString().split('.').join('')}`,
+    }
+    this.setState({
+      myBalls: [...this.state.myBalls, Ball],
+    })
+  }
   getPlayer = () => {
     const { lives, loser, isDefender, userID } = this.state;
     if (isDefender) {
@@ -93,6 +103,7 @@ export default class Profile extends Component {
     }
     return (
       <AttackerPlayer
+        createABall={this.createABall}
         lives={lives}
         winner={loser}
         userID={userID}
@@ -102,7 +113,7 @@ export default class Profile extends Component {
 
   render() {
     // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
-    const { isReady, userID, isDefender } = this.state;
+    const { isReady, userID, isDefender, myBalls } = this.state;
     if (!isReady) {
       return null;
     }
@@ -140,7 +151,11 @@ export default class Profile extends Component {
             dynamic-body
           />
         </a-assets>
-        <PlayArea removeLife={this.removeLife} isDefender={isDefender} />
+        <PlayArea
+          removeLife={this.removeLife}
+          isDefender={isDefender}
+          balls={myBalls}
+        />
         { player }
         { otherAttackers }
       </a-scene>
