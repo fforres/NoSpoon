@@ -20,7 +20,6 @@ export default class App extends Component {
       <div id="app">
         <Router onChange={this.handleRoute}>
           <DefendTheStick path="/" />
-          <DefendTheStick path="/defender" defender="true" />
           <Faces path="/faces" />
         </Router>
       </div>

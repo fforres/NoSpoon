@@ -16,10 +16,11 @@ physics.registerAll();
 export default class Profile extends Component {
   constructor(props) {
     super(props);
+    const defender = new URL(window.location.href).searchParams.get('defender');
     this.state = {
       startingLives: 3,
       timeStart: Date.now(),
-      isDefender: (props.defender === 'true'),
+      isDefender: (defender === 'true'),
       loser: false,
       userID: `user-${performance.now().toString().split('.').join('')}`,
       myBalls: [],
