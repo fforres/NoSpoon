@@ -1,11 +1,9 @@
 import 'aframe';
-import 'super-hands';
 import { h, Component } from 'preact';
-import physics from 'aframe-physics-system';
-physics.registerAll();
+import './component';
 
 class CellPhoneHUD extends Component {
-  getPlayingHud = lives =>
+  getPlayingHud = lives => (
     <a-entity
       geometry="primitive: plane; height: 0.3; width: 0.6"
       position="0.4 -0.4 -1"
@@ -13,8 +11,8 @@ class CellPhoneHUD extends Component {
       text={[`align:center`, `color:white`, `value: Lives : ${lives}`].join(
         ';'
       )}
-    />;
-
+    />
+  )
   Winner = () => (
     <a-entity
       geometry="primitive: plane; height: 4; width: 4"
@@ -23,11 +21,32 @@ class CellPhoneHUD extends Component {
       text={[`align:center`, `color:white`, `value: YOU Win!!`].join(';')}
     />
   )
+
+  onClick = (e) => {
+    console.log(e);
+    console.log(this.props);
+    this.props.onCursorClicked(e);
+  }
+
   render(props) {
     const { lives, winner, userID } = props;
     const hudContent = winner ? this.Winner() : this.getPlayingHud(lives);
     return (
-      <a-entity camera position="0 2 -10" rotation="0 0 0" look-controls player-emiter={`id: ${userID}`} player-attacker>
+      <a-entity
+        camera
+        position="0 2 -10"
+        rotation="0 0 0"
+        player-emiter={`id: ${userID}`}
+        look-controls
+        player-attacker
+      >
+        <a-entity
+          onClick={this.onClick}
+          cursor="fuse: false"
+          position="0 0 -1"
+          geometry="primitive: ring; radius-inner: 0.01; radius-outer: 0.011;"
+          material="color: rgba(200, 100, 100, 0.5); shader: flat"
+        />
         {hudContent}
       </a-entity>
     );

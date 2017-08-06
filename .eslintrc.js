@@ -49,5 +49,6 @@ module.exports = {
     "AFRAME": true,
     "THREE": true,
     "performance": true,
+    "URL": true,
   },
 };
