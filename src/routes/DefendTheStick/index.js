@@ -141,7 +141,7 @@ class Profile extends Component {
         <a-assets>
           <img
             id="skyTexture"
-            src="https://cdn.aframe.io/a-painter/images/sky.jpg"
+            src="../../assets/sky-min.jpg"
           />
           <img
             id="groundTexture"
