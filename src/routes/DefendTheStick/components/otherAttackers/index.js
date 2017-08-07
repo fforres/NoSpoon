@@ -1,10 +1,11 @@
 import 'aframe';
 import 'super-hands';
 import { h, Component } from 'preact';
+import { connect } from 'preact-redux';
 import Face from '../face';
 import FireBase from '../../socket/Firebase';
 
-export default class OtherAttackers extends Component {
+class OtherAttackers extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -46,3 +47,10 @@ export default class OtherAttackers extends Component {
     );
   }
 }
+
+const mapDispatchToProps = () => ({})
+const mapStateToProps = ({ players }) => ({
+  players: players.players,
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(OtherAttackers);

@@ -4,16 +4,18 @@ import { h, Component } from 'preact';
 import loadComponents from './components';
 import CANNON from 'cannon';
 import physics from 'aframe-physics-system';
+import { connect } from 'preact-redux';
 import DefenderPlayer from './components/playerDefender';
 import AttackerPlayer from './components/playerAttacker';
 import OtherAttackers from './components/otherAttackers';
 import PlayArea from './components/PlayArea';
 import FireBase from './socket/Firebase';
 import { getDisplay } from './components/helpers';
+import { connectPlayers, connectBalls } from '../../store/reducers/firebase';
 import './socket';
 physics.registerAll();
 
-export default class Profile extends Component {
+class Profile extends Component {
   constructor(props) {
     super(props);
     const defender = new URL(window.location.href).searchParams.get('defender');
@@ -28,8 +30,15 @@ export default class Profile extends Component {
   }
 
   componentWillMount() {
+    this.startFireBase();
     loadComponents();
     this.prepareGame();
+  }
+
+  startFireBase = () => {
+    const { fireBaseConnectPlayers, fireBaseConnectBalls } = this.props;
+    // fireBaseConnectPlayers();
+    fireBaseConnectBalls();
   }
 
   prepareGame = () => {
@@ -163,3 +172,11 @@ export default class Profile extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  fireBaseConnectPlayers: () => dispatch(connectPlayers),
+  fireBaseConnectBalls: () => dispatch(connectBalls),
+})
+const mapStateToProps = () => ({})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

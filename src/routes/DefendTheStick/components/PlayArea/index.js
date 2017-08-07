@@ -1,9 +1,11 @@
 import { h, Component } from 'preact';
 import CANNON from 'cannon';
+import { connect } from 'preact-redux';
+
 import TheStick from '../TheStick';
 import Bullet from '../bullet';
 
-export default class PlayArea extends Component {
+class PlayArea extends Component {
   componentDidMount() {
     setTimeout(() => {
       this.box.body.applyImpulse(
@@ -20,7 +22,6 @@ export default class PlayArea extends Component {
     return balls.map(ball => <Bullet id={ball.id} />)
   }
   render() {
-    // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
     const { removeLife, isDefender } = this.props;
     const myBalls = this.renderBalls()
     const otherPersonsBalls = [];
@@ -105,3 +106,10 @@ export default class PlayArea extends Component {
     );
   }
 }
+
+const mapDispatchToProps = () => ({})
+const mapStateToProps = ({ balls }) => ({
+  reduxBalls: balls.balls,
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlayArea);
