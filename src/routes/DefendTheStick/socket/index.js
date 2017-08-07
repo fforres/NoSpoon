@@ -54,7 +54,7 @@ AFRAME.registerComponent('player-attacker', {
   tick () {},
   getRandomPosition () {
     const angle = Math.random() * Math.PI * 2;
-    const radius = 10; // size of the play-area
+    const radius = 11; // size of the play-area
     return {
       x: Math.cos(angle) * radius,
       z: Math.sin(angle) * radius,

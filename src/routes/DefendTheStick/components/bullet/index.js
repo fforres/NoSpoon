@@ -6,7 +6,6 @@ export default class Bullet extends Component {
   render(props) {
     // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
     const { id } = props;
-    console.log('creating ', id, ' ball');
     return (
       <a-entity
         id={id}

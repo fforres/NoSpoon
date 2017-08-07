@@ -13,6 +13,7 @@ class CellPhoneHUD extends Component {
       )}
     />
   )
+
   Winner = () => (
     <a-entity
       geometry="primitive: plane; height: 4; width: 4"
@@ -23,9 +24,7 @@ class CellPhoneHUD extends Component {
   )
 
   onClick = (e) => {
-    console.log(e);
-    console.log(this.props);
-    this.props.onCursorClicked(e);
+    this.props.onCursorClicked(e.detail.intersection.point);
   }
 
   render(props) {
@@ -41,7 +40,9 @@ class CellPhoneHUD extends Component {
         player-attacker
       >
         <a-entity
+          ref={c => { this.bulletCreator = c }}
           onClick={this.onClick}
+          raycaster="objects: #bulletCreator"
           cursor="fuse: false"
           position="0 0 -1"
           geometry="primitive: ring; radius-inner: 0.01; radius-outer: 0.011;"

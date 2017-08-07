@@ -7,14 +7,14 @@ import Bullet from '../bullet';
 
 class PlayArea extends Component {
   componentDidMount() {
-    setTimeout(() => {
-      this.box.body.applyImpulse(
-        new CANNON.Vec3(10, 10, 2) /* impulse */,
-        new CANNON.Vec3().copy(
-          this.box.getAttribute('position')
-        ) /* world position */
-      );
-    }, 10000);
+    // setTimeout(() => {
+    //   this.box.body.applyImpulse(
+    //     new CANNON.Vec3(10, 10, 2) /* impulse */,
+    //     new CANNON.Vec3().copy(
+    //       this.box.getAttribute('position')
+    //     ) /* world position */
+    //   );
+    // }, 10000);
   }
 
   renderBalls = () => {
@@ -23,7 +23,7 @@ class PlayArea extends Component {
   }
   render() {
     const { removeLife, isDefender } = this.props;
-    const myBalls = this.renderBalls()
+    const myBalls = this.renderBalls();
     const otherPersonsBalls = [];
     return (
       <a-entity>
@@ -36,7 +36,7 @@ class PlayArea extends Component {
 
         <a-entity
           id="floor"
-          light="angle:45;decay: 0.5; color:#F0F0F0;type:ambient"
+          light="angle:45;decay: 0.1; color:#F0F0F0;type:ambient"
           position="0 1 0"
           rotation="0 0 0"
         />
@@ -56,8 +56,16 @@ class PlayArea extends Component {
           material="color: rgb(123,123,123); opacity: 0.5;"
           height="0.3"
         />
+        <a-cylinder
+          static-body
+          id="bulletCreator"
+          radius="9"
+          geometry="height:30"
+          material="color:rgb(100,100,100);opacity:0.1"
+          position="0 15 0"
+        />
         <TheStick onColission={removeLife} isDefender={isDefender} />
-        <a-sphere
+        {/* <a-sphere
           grabbable
           maxGrabbers
           ref={c => {
@@ -81,7 +89,6 @@ class PlayArea extends Component {
           height="1"
           depth="1"
         />
-
         <a-sphere
           grabbable
           maxGrabbers
@@ -93,7 +100,7 @@ class PlayArea extends Component {
           width="1"
           height="1"
           depth="1"
-        />
+        /> */}
         { myBalls }
         { otherPersonsBalls }
         <a-sky
