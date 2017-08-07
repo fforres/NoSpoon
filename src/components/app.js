@@ -1,6 +1,8 @@
 import { h, Component } from 'preact';
 import { Router } from 'preact-router';
+import { Provider } from 'preact-redux';
 
+import store from '../store';
 import Faces from '../routes/Faces';
 import DefendTheStick from '../routes/DefendTheStick';
 // import Home from 'async!./home';
@@ -19,8 +21,10 @@ export default class App extends Component {
     return (
       <div id="app">
         <Router onChange={this.handleRoute}>
-          <DefendTheStick path="/" />
-          <Faces path="/faces" />
+          <Provider store={store}>
+            <DefendTheStick path="/" />
+            <Faces path="/faces" />
+          </Provider>
         </Router>
       </div>
     );
