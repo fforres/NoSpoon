@@ -1,4 +1,5 @@
-// News Feed (tribe) view
+import Firebase from '../../routes/DefendTheStick/socket/Firebase';
+
 const SET_BALLS = 'theMatrix/balls/SET_BALLS';
 const REMOVE_BALLS = 'theMatrix/balls/REMOVE_BALLS';
 const CLEAR = 'theMatrix/balls/CLEAR';
@@ -12,10 +13,8 @@ const defaultState = {
 
 export default function reducer(state = defaultState, { type, payload }) {
   switch (type) {
-  case SET_BALLS: {
-    console.log(payload);
-    return { ...state, balls: { ...state.balls } };
-  }
+  case SET_BALLS:
+    return { ...state, balls: { ...state.balls, ...payload.balls } };
   case REMOVE_BALLS:
     return { ...state, balls: { ...state.balls } };
   case CLEAR:
@@ -26,5 +25,11 @@ export default function reducer(state = defaultState, { type, payload }) {
 }
 
 export const setNewBalls = balls => ({ type: SET_BALLS, payload: { balls } });
+export const connectBalls = () => dispatch => {
+  // Firebase.database().ref('/balls').on('value', (snapshot) => {
+  //   const users = snapshot.val();
+  //   dispatch(setNewPlayers(users));
+  // })
+}
 
 export const clear = () => ({ type: CLEAR });

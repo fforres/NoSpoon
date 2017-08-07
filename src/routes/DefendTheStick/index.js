@@ -11,7 +11,11 @@ import OtherAttackers from './components/otherAttackers';
 import PlayArea from './components/PlayArea';
 import FireBase from './socket/Firebase';
 import { getDisplay } from './components/helpers';
-import { connectPlayers, connectBalls } from '../../store/reducers/firebase';
+
+import { createCurrentPlayer } from '../../store/reducers/firebase';
+import { connectPlayers } from '../../store/reducers/players';
+import { connectBalls } from '../../store/reducers/balls';
+
 import './socket';
 physics.registerAll();
 
@@ -36,9 +40,14 @@ class Profile extends Component {
   }
 
   startFireBase = () => {
-    const { fireBaseConnectPlayers, fireBaseConnectBalls } = this.props;
-    // fireBaseConnectPlayers();
-    fireBaseConnectBalls();
+    const {
+      createCurrentPlayer,
+      connectPlayers,
+      connectBalls
+    } = this.props;
+    createCurrentPlayer();
+    connectPlayers();
+    connectBalls();
   }
 
   prepareGame = () => {
@@ -173,10 +182,14 @@ class Profile extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  fireBaseConnectPlayers: () => dispatch(connectPlayers),
-  fireBaseConnectBalls: () => dispatch(connectBalls),
-})
-const mapStateToProps = () => ({})
+const mapDispatchToProps = (dispatch) => ({
+  createCurrentPlayer: () => dispatch(createCurrentPlayer()),
+  connectPlayers: () => dispatch(connectPlayers()),
+  connectBalls: () => dispatch(connectBalls()),
+});
+
+const mapStateToProps = ({ balls }) => ({
+  ballsStore: balls,
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
