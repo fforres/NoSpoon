@@ -1,12 +1,21 @@
 const CREATE_CURRENT_PLAYER = 'theMatrix/currentPlayer/CREATE_CURRENT_PLAYER';
 const CLEAR = 'theMatrix/currentPlayer/CLEAR';
 
+const defaulState = {
+  startingLives: 10,
+  timeStart: null,
+  isDefender: false,
+  loser: false,
+  userID: null,
+  isReady: false,
+};
+
 export default function reducer(state = {}, { type, payload }) {
   switch (type) {
   case CREATE_CURRENT_PLAYER:
     return { ...state, ...payload.player, isReady: true };
   case CLEAR:
-    return {};
+    return defaulState;
   default:
     return state;
   }
