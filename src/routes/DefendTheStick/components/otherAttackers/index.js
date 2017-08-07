@@ -3,7 +3,6 @@ import 'super-hands';
 import { h, Component } from 'preact';
 import { connect } from 'preact-redux';
 import Face from '../face';
-import FireBase from '../../socket/Firebase';
 
 class OtherAttackers extends Component {
   getAttackersComponents = () => {

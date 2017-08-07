@@ -9,12 +9,11 @@ export default class PlayerBody extends Component {
     const { onColission, isDefender } = this.props;
     if (isDefender) {
       this.player.addEventListener('collide', () => {
-        this.props.onColission();
+        onColission();
       });
     }
   }
   render() {
-    const { isDefender } = this.props;
     return (
       <a-cylinder
         ref={c => (this.player = c)}

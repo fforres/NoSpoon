@@ -25,18 +25,18 @@ export default function reducer(state = defaultState, { type, payload }) {
 }
 
 export const setNewBalls = balls => ({ type: SET_BALLS, payload: { balls } });
-export const createBall = ({userID, position, impulse}) => dispatch => {
+export const createBall = ({userID, position, impulse}) => () => {
   const ballId = `${performance.now().toString().split('.').join('')}__${userID}`
   Firebase.database().ref(`ball/${ballId}`).set({
     impulse,
     position,
   })
 };
-export const connectBalls = () => dispatch => {
-  // Firebase.database().ref('/balls').on('value', (snapshot) => {
-  //   const users = snapshot.val();
-  //   dispatch(setNewPlayers(users));
-  // })
+export const connectBalls = () => (dispatch) => {
+  Firebase.database().ref('/balls').on('value', (snapshot) => {
+    const balls = snapshot.val();
+    dispatch(setNewBalls(balls));
+  })
 }
 
 export const clear = () => ({ type: CLEAR });

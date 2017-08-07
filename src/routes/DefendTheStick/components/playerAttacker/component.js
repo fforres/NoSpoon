@@ -1,5 +1,4 @@
 import 'aframe';
-import Firebase from '../../socket/Firebase';
 
 AFRAME.registerComponent('ball-creator', {
   schema: {

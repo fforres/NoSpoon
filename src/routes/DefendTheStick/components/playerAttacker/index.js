@@ -8,7 +8,6 @@ import CellphoneHUD from './CellphoneHUD';
 physics.registerAll();
 
 class CellphonePlayer extends Component {
-
   onCellPhoneHUDPressed = (position) => {
     const { createBall, userID } = this.props;
     createBall({
@@ -20,7 +19,7 @@ class CellphonePlayer extends Component {
 
   render(props) {
     // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
-    const { lives, winner, userID, createABall } = props;
+    const { lives, winner, userID } = props;
     console.log(userID);
     return (
       <a-entity>

@@ -2,7 +2,6 @@ import 'aframe';
 import 'super-hands';
 import { h, Component } from 'preact';
 import loadComponents from './components';
-import CANNON from 'cannon';
 import physics from 'aframe-physics-system';
 import { connect } from 'preact-redux';
 import DefenderPlayer from './components/playerDefender';
@@ -122,7 +121,6 @@ class Profile extends Component {
     }
     return (
       <AttackerPlayer
-        createABall={this.createABall}
         lives={lives}
         winner={loser}
         userID={userID}

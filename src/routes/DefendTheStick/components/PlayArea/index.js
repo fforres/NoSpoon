@@ -1,5 +1,4 @@
 import { h, Component } from 'preact';
-import CANNON from 'cannon';
 import { connect } from 'preact-redux';
 
 import TheStick from '../TheStick';
