@@ -2,7 +2,7 @@ import { h, Component } from 'preact';
 import { connect } from 'preact-redux';
 
 import TheStick from '../TheStick';
-import Bullet from '../bullet';
+import { AttackerBullet, DefenderBullet } from '../bullet';
 
 class PlayArea extends Component {
   componentDidMount() {
@@ -16,14 +16,51 @@ class PlayArea extends Component {
     // }, 10000);
   }
 
-  renderBalls = () => {
-    const { balls } = this.props;
-    return balls.map(ball => <Bullet id={ball.id} />)
+  renderAttackerBullets = () => {
+    const { balls, isDefender } = this.props;
+
+    const array = [];
+    for (let key in balls) {
+      if (balls.hasOwnProperty(key)) {
+        const { position, impulse } = balls[key];
+        array.push(
+          <AttackerBullet
+            key={key}
+            id={key}
+            position={position}
+            impulse={impulse}
+            shouldEmit={!!isDefender}
+          />
+        );
+      }
+    }
+    return array;
+  }
+
+  renderDefenderBullets = () => {
+    const { balls, isDefender } = this.props;
+
+    const array = [];
+    for (let key in balls) {
+      if (balls.hasOwnProperty(key)) {
+        const { position, impulse } = balls[key];
+        array.push(
+          <DefenderBullet
+            key={key}
+            id={key}
+            position={position}
+            impulse={impulse}
+            shouldEmit={!!isDefender}
+          />
+        );
+      }
+    }
+    return array;
   }
   render() {
     const { removeLife, isDefender } = this.props;
-    const myBalls = this.renderBalls();
-    const otherPersonsBalls = [];
+    const ballsComponent = isDefender ? this.renderAttackerBullets() : this.renderDefenderBullets();
+    // const otherPersonsBalls = [];
     return (
       <a-entity>
         <a-entity
@@ -63,6 +100,14 @@ class PlayArea extends Component {
           material="color:rgb(100,100,100);opacity:0.1"
           position="0 15 0"
         />
+        <a-cylinder
+          static-body
+          id="bulletDestroyer"
+          radius="20"
+          geometry="height:30"
+          // material="color:rgb(100,100,100);opacity:0.05"
+          position="0 15 0"
+        />
         <TheStick onColission={removeLife} isDefender={isDefender} />
         {/* <a-sphere
           grabbable
@@ -100,22 +145,23 @@ class PlayArea extends Component {
           height="1"
           depth="1"
         /> */}
-        { myBalls }
-        { otherPersonsBalls }
-        <a-sky
+        { ballsComponent }
+        {/* <a-sky
           id="background"
           src="#skyTexture"
           theta-length="90"
           radius="30"
-        />
+        /> */}
       </a-entity>
     );
   }
 }
 
 const mapDispatchToProps = () => ({})
-const mapStateToProps = ({ balls }) => ({
-  reduxBalls: balls.balls,
+const mapStateToProps = ({ balls, mainApp }) => ({
+  balls: balls.balls,
+  userID: mainApp.userID,
+  isDefender: mainApp.isDefender,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlayArea);

@@ -4,11 +4,11 @@ import Firebase from '../../socket/Firebase';
 AFRAME.registerComponent('bullet-emiter', {
   schema: {
     id: { type: 'string', default: '' },
-    defender: { type: 'boolean' },
+    shouldEmit: { type: 'boolean' },
   },
   init () {
     this.id = this.data.id;
-    this.isDefender = this.data.defender;
+    this.shouldEmit = this.data.shouldEmit;
     this.FireBase = {
       ballRef: Firebase.database().ref(`balls/${this.id}`),
     }
@@ -22,19 +22,20 @@ AFRAME.registerComponent('bullet-emiter', {
     this.currentTick++
     if (this.currentTick === 1) { // Small hack to increas MS between updates
       this.currentTick = 0
-      this.updatePosition();
+      if (this.shouldEmit) {
+        this.updatePosition();
+      }
     }
   },
   updatePosition () {
     const ballElement = this.el.object3D;
     this.FireBase.ballRef.set({
-      isDefender: this.isDefender,
-      position: ballElement.getWorldPosition(),
-      rotation: ballElement.getWorldRotation(),
+      position: this.el.object3D.getWorldPosition(),
+      rotation: this.el.object3D.getWorldRotation(),
       timestamp: Firebase.database.ServerValue.TIMESTAMP
     });
   },
   onDisconnect () {
-    this.FireBase.ballRef.onDisconnect().remove();
+    // this.FireBase.ballRef.onDisconnect().remove();
   },
 });
