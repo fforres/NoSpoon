@@ -1,6 +1,5 @@
 import 'aframe';
 import { h, Component } from 'preact';
-import './component';
 
 class CellPhoneHUD extends Component {
   getPlayingHud = lives => (

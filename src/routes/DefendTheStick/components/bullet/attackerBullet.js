@@ -5,21 +5,19 @@ import './component';
 export default class AttackerBullet extends Component {
   componentDidMount() {
     const { shouldEmit, position } = this.props;
-    if (shouldEmit) {
-      this.bullet.setAttribute('position', {
-        x: position.x,
-        y: position.y,
-        z: position.z,
-      })
-    }
+    this.bullet.setAttribute('position', {
+      x: position.x,
+      y: position.y,
+      z: position.z,
+    })
   }
 
   render(props) {
-    const { id, shouldEmit } = props;
+    const { name, shouldEmit } = props;
     return (
       <a-entity
         ref={c => { this.bullet = c }}
-        key={id}
+        id={name}
         geometry="primitive: sphere; radius: 0.3"
         material="color: red"
         dynamic-body

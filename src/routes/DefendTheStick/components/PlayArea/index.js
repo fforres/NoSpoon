@@ -26,7 +26,7 @@ class PlayArea extends Component {
         array.push(
           <AttackerBullet
             key={key}
-            id={key}
+            name={key}
             position={position}
             impulse={impulse}
             shouldEmit={!!isDefender}
@@ -47,7 +47,7 @@ class PlayArea extends Component {
         array.push(
           <DefenderBullet
             key={key}
-            id={key}
+            name={key}
             position={position}
             impulse={impulse}
             shouldEmit={!!isDefender}
@@ -105,7 +105,7 @@ class PlayArea extends Component {
           id="bulletDestroyer"
           radius="20"
           geometry="height:30"
-          // material="color:rgb(100,100,100);opacity:0.05"
+          material="color:rgb(100,100,100);opacity:0.05"
           position="0 15 0"
         />
         <TheStick onColission={removeLife} isDefender={isDefender} />

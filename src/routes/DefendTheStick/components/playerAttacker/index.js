@@ -18,7 +18,6 @@ class CellphonePlayer extends Component {
   render(props) {
     // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
     const { lives, winner, userID } = props;
-    console.log(userID);
     return (
       <a-entity>
         <CellphoneHUD
