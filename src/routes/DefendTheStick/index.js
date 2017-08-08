@@ -2,7 +2,6 @@ import 'aframe';
 import 'super-hands';
 import { h, Component } from 'preact';
 import loadComponents from './components';
-import physics from 'aframe-physics-system';
 import { connect } from 'preact-redux';
 import DefenderPlayer from './components/playerDefender';
 import AttackerPlayer from './components/playerAttacker';
@@ -15,8 +14,8 @@ import { createCurrentPlayer } from '../../store/reducers/firebase';
 import { connectPlayers } from '../../store/reducers/players';
 import { connectBalls } from '../../store/reducers/balls';
 
+import 'aframe-physics-system';
 import './socket';
-physics.registerAll();
 
 class Profile extends Component {
   constructor(props) {
@@ -137,7 +136,7 @@ class Profile extends Component {
     const player = this.getPlayer();
     const otherAttackers = <OtherAttackers userID={userID} />
     return (
-      <a-scene physics="friction: 0.2; restitution: 1; gravity: -5; debug:false; driver: worker; ">
+      <a-scene physics="friction: 0; restitution: 0.3; gravity: -0; debug:false; driver: worker; workerFps: 30;">
         <a-assets>
           <img
             id="skyTexture"

@@ -55,6 +55,13 @@ AFRAME.registerComponent('player-attacker', {
     });
   },
   tick () {},
+
+  calculateRotationTowardsCenter ({ x, z }) {
+    const angleRad = Math.atan((x / z));
+    const angleDeg = (angleRad * 180 / Math.PI);
+    return angleDeg;
+  },
+
   getRandomPosition () {
     const angle = Math.random() * Math.PI * 2;
     const radius = 11; // size of the play-area
