@@ -7,6 +7,7 @@ import CellphoneHUD from './CellphoneHUD';
 
 class CellphonePlayer extends Component {
   onCellPhoneHUDPressed = (position) => {
+    console.log(position);
     const { createBall, userID } = this.props;
     createBall({
       userID,

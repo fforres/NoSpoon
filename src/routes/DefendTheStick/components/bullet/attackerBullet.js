@@ -4,7 +4,7 @@ import './component';
 
 export default class AttackerBullet extends Component {
   componentDidMount() {
-    const { shouldEmit, position } = this.props;
+    const { position } = this.props;
     this.bullet.setAttribute('position', {
       x: position.x,
       y: position.y,
@@ -15,14 +15,15 @@ export default class AttackerBullet extends Component {
   render(props) {
     const { name, shouldEmit } = props;
     return (
-      <a-entity
+      <a-sphere
         ref={c => { this.bullet = c }}
         id={name}
-        geometry="primitive: sphere; radius: 0.3"
+        radius="0.1"
+        geometry="primitive: sphere; radius: 0.1;"
         material="color: red"
         dynamic-body
         random-color
-        bullet-emiter={`id: ${id}; shouldEmit: ${shouldEmit}`}
+        bullet-emiter={`id: ${name}; shouldEmit: ${shouldEmit}`}
       />
     );
   }

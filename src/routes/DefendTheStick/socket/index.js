@@ -47,10 +47,13 @@ AFRAME.registerComponent('player-attacker', {
   init () {
     const newPosition = this.getRandomPosition();
     this.el.setAttribute('position', newPosition); // position character randomly
-    // const rotationTowardsCenter = this.calculateRotationTowardsCenter(newPosition);
-    // this.el.setAttribute('rotation', rotationTowardsCenter); // Rotate character so it faces the center of the arena
+    const rotationTowardsCenter = this.calculateRotationTowardsCenter(newPosition);
+    this.el.setAttribute('rotation', {
+      x: 0,
+      y: rotationTowardsCenter, // Rotate character so it faces the center of the arena
+      z: 0,
+    });
   },
-  // update: function () {},
   tick () {},
   getRandomPosition () {
     const angle = Math.random() * Math.PI * 2;
@@ -61,16 +64,6 @@ AFRAME.registerComponent('player-attacker', {
       y: 2,
     };
   },
-  calculateRotationTowardsCenter ({ x, z }) {
-    const angleRad = Math.atan((x / z));
-    const angleDeg = (angleRad * 180 / Math.PI);
-    const oldY = this.el.object3D.getWorldRotation()._y * 180 / Math.PI;
-    return {
-      x: 0,
-      y: oldY + 90 + angleDeg,
-      z: 0,
-    }
-  }
 });
 
 AFRAME.registerComponent('player-defender', {

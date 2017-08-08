@@ -32,6 +32,7 @@ class CellPhoneHUD extends Component {
     return (
       <a-entity
         camera
+        id="CURRENT_PLAYER"
         position="0 2 -10"
         rotation="0 0 0"
         player-emiter={`id: ${userID}`}
