@@ -130,14 +130,14 @@ class Profile extends Component {
 
   render() {
     // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
-    const { isReady, userID, isDefender, myBalls } = this.state;
+    const { isReady, userID, isDefender } = this.state;
     if (!isReady) {
       return null;
     }
     const player = this.getPlayer();
     const otherAttackers = <OtherAttackers userID={userID} />
     return (
-      <a-scene physics="friction: 0.2; restitution: 1; gravity: -4; debug: true;">
+      <a-scene physics="friction: 0.2; restitution: 1; gravity: -5; debug:false; driver: worker; ">
         <a-assets>
           <img
             id="skyTexture"
@@ -171,7 +171,6 @@ class Profile extends Component {
         <PlayArea
           removeLife={this.removeLife}
           isDefender={isDefender}
-          balls={myBalls}
         />
         { player }
         { otherAttackers }
