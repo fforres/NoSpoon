@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "aframe": "^0.6.1",
-    "aframe-physics-system": "^1.4.2",
+    "aframe-physics-system": "^2.0.0",
     "cannon": "^0.6.2",
     "cross-env": "^5.0.1",
     "eslint-plugin-node": "^5.1.0",

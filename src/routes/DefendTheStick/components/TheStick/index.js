@@ -1,8 +1,6 @@
 import 'aframe';
 import 'super-hands';
 import { h, Component } from 'preact';
-import physics from 'aframe-physics-system';
-physics.registerAll();
 
 export default class PlayerBody extends Component {
   componentDidMount() {

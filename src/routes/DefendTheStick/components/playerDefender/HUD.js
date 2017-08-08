@@ -1,8 +1,6 @@
 import 'aframe';
 import 'super-hands';
 import { h, Component } from 'preact';
-import physics from 'aframe-physics-system';
-physics.registerAll();
 
 class HUD extends Component {
   getPlayingHud = lives => (
