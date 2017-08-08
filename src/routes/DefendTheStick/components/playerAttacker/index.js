@@ -1,11 +1,9 @@
 import 'aframe';
 import 'super-hands';
 import { h, Component } from 'preact';
-import physics from 'aframe-physics-system';
 import { connect } from 'preact-redux';
 import { createBall } from '../../../../store/reducers/balls';
 import CellphoneHUD from './CellphoneHUD';
-physics.registerAll();
 
 class CellphonePlayer extends Component {
   onCellPhoneHUDPressed = (position) => {

@@ -1,9 +1,7 @@
 import 'aframe';
 import 'super-hands';
 import { h, Component } from 'preact';
-import physics from 'aframe-physics-system';
 import HUD from './HUD';
-physics.registerAll();
 
 export default class HeadsetPlayer extends Component {
   render(props) {
