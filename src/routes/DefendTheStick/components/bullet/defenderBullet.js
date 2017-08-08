@@ -23,7 +23,6 @@ export default class DefenderBullet extends Component {
 
   render(props) {
     const { name } = props;
-    console.log(name);
     return (
       <a-sphere
         ref={c => { this.bullet = c }}
