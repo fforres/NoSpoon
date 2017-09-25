@@ -10,6 +10,7 @@ export default class AttackerBullet extends Component {
       this.bullet.removeEventListener('body-loaded', this.functionReferenceToRemove)
     }
   }
+
   componentDidMount() {
     const { position } = this.props;
 
@@ -35,26 +36,28 @@ export default class AttackerBullet extends Component {
       }, 0);
     });
 
-    this.bullet.setAttribute('position', {
-      x: position.x,
-      y: position.y,
-      z: position.z,
-    })
+    const { x, y, z } = position;
+    // if (shouldEmit) {
+    this.bullet.setAttribute('position', { x, y, z });
+    // }
   }
 
   render(props) {
-    const { name, shouldEmit } = props;
+    const { name, shouldEmit, position } = props;
+    const { x, y, z } = position;
     return (
       <a-sphere
         grabbable
         maxGrabbers
         ref={c => { this.bullet = c }}
+        key={name}
         id={name}
         dynamic-body
         radius="0.1"
         geometry="primitive: sphere; radius: 0.1;"
         material="color: red"
         // random-color
+        position={{ x, y, z }}
         bullet-emiter={`id: ${name}; shouldEmit: ${shouldEmit}`}
       />
     );

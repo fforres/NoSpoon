@@ -15,8 +15,8 @@ export default function reducer(state = defaultState, { type, payload }) {
   switch (type) {
   case SET_BALLS:
     return { ...state, balls: { ...payload.balls } };
-  case REMOVE_BALLS:
-    return { ...state, balls: { ...state.balls } };
+  // case REMOVE_BALLS:
+  //   return { ...state, balls: { ...state.balls } };
   case CLEAR:
     return defaultState;
   default:
@@ -34,7 +34,7 @@ export const createBall = ({userID, position, impulse}) => () => {
 };
 export const connectBalls = () => (dispatch) => {
   Firebase.database().ref('/balls').on('value', (snapshot) => {
-    const balls = snapshot.val();
+    const balls = snapshot.val() || [];
     dispatch(setNewBalls(balls));
   })
 }
