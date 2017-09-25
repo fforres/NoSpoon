@@ -105,8 +105,9 @@ class PlayArea extends Component {
           id="bulletDestroyer"
           radius="20"
           geometry="height:30"
-          // material="color:rgb(100,100,100);opacity:0.05"
+          material="opacity: 0.04;"
           position="0 15 0"
+
         />
         <TheStick onColission={removeLife} isDefender={isDefender} />
         {/* <a-sphere

@@ -6,21 +6,21 @@ export default class DefenderBullet extends Component {
   componentWillReceiveProps(nextProps) {
     const { shouldEmit, position } = this.props;
     if (!shouldEmit) {
-      this.bullet.setAttribute('position', {
-        x: position.x,
-        y: position.y,
-        z: position.z,
-      })
+      const { x, y, z } = position;
+      this.bullet.setAttribute('position', { x, y, z });
     }
   }
 
   render(props) {
     const { id, shouldEmit, position } = props;
+    const { x, y, z } = position;
     return (
-      <a-entity
+      <a-sphere
+        radius="0.2"
         ref={c => { this.bullet = c }}
         key={id}
-        geometry="primitive: sphere; radius: 0.3"
+        id={id}
+        position={{ x, y, z }}
         material="color: red"
         random-color
       />
