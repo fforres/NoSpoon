@@ -4,23 +4,34 @@ import './component';
 
 export default class DefenderBullet extends Component {
   componentWillReceiveProps(nextProps) {
-    const { shouldEmit, position } = this.props;
-    if (!shouldEmit) {
-      const { x, y, z } = position;
-      this.bullet.setAttribute('position', { x, y, z });
-    }
+    const { position } = nextProps;
+    this.bullet.setAttribute('position', {
+      x: position.x,
+      y: position.y,
+      z: position.z,
+    });
+  }
+
+  componentDidMount() {
+    const { position } = this.props;
+    this.bullet.setAttribute('position', {
+      x: position.x,
+      y: position.y,
+      z: position.z,
+    });
   }
 
   render(props) {
-    const { id, shouldEmit, position } = props;
+    const { name, position } = props;
     const { x, y, z } = position;
+
     return (
       <a-sphere
-        radius="0.2"
         ref={c => { this.bullet = c }}
-        key={id}
-        id={id}
         position={{ x, y, z }}
+        id={name}
+        radius="0.1"
+        geometry="primitive: sphere; radius: 0.1;"
         material="color: red"
         random-color
       />

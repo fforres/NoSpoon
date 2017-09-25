@@ -26,7 +26,7 @@ class PlayArea extends Component {
         array.push(
           <AttackerBullet
             key={key}
-            id={key}
+            name={key}
             position={position}
             impulse={impulse}
             shouldEmit={!!isDefender}
@@ -47,7 +47,7 @@ class PlayArea extends Component {
         array.push(
           <DefenderBullet
             key={key}
-            id={key}
+            name={key}
             position={position}
             impulse={impulse}
             shouldEmit={!!isDefender}
@@ -72,20 +72,21 @@ class PlayArea extends Component {
 
         <a-entity
           id="floor"
-          light="angle:45;decay: 0.1; color:#F0F0F0;type:ambient"
+          static-body
           position="0 1 0"
           rotation="0 0 0"
         />
         <a-cylinder
           static-body
-          shadow="cast:true;receive:true;"
+          shadow="receive:true;"
           id="ground"
           src="https://cdn.aframe.io/a-painter/images/floor.jpg"
           radius="32"
           height="0.1"
         />
         <a-cylinder
-          shadow="cast:true;receive:true;"
+          shadow="receive:true;"
+          light="angle:45;decay: 0.1; color:#F0F0F0;type:ambient"
           static-body
           id="playArea"
           radius="9"
@@ -93,7 +94,7 @@ class PlayArea extends Component {
           height="0.3"
         />
         <a-cylinder
-          static-body
+          // static-body
           id="bulletCreator"
           radius="9"
           geometry="height:30"
@@ -103,7 +104,7 @@ class PlayArea extends Component {
         <a-cylinder
           static-body
           id="bulletDestroyer"
-          radius="20"
+          radius="15"
           geometry="height:30"
           material="opacity: 0.04;"
           position="0 15 0"

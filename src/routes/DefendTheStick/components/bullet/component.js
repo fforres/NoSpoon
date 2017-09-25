@@ -1,4 +1,5 @@
 import 'aframe';
+import CANNON from 'cannon';
 import Firebase from '../../socket/Firebase';
 
 AFRAME.registerComponent('bullet-emiter', {
@@ -23,7 +24,7 @@ AFRAME.registerComponent('bullet-emiter', {
     if (this.currentTick === 1) { // Small hack to increas MS between updates
       this.currentTick = 0
       if (this.shouldEmit) {
-        this.updatePosition();
+        // this.updatePosition();
       }
     }
   },
