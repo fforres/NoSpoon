@@ -130,10 +130,12 @@ class Profile extends Component {
   getAssets = () => (
     <a-assets>
       <img
+        crossorigin="anonymous"
         id="skyTexture"
         src="../../assets/sky-min.jpg"
       />
       <img
+        crossorigin="anonymous"
         id="groundTexture"
         src="https://cdn.aframe.io/a-painter/images/floor.jpg"
       />
@@ -171,7 +173,13 @@ class Profile extends Component {
         ref={c => { this.scene = c }}
         environment
         rain-of-entities="spread: 3"
-        physics={"driver: local; workerFps: 60; workerInterpolate: true; workerInterpBufferSize: 2;"}
+        physics={`
+          driver: local;
+          workerFps: 60;
+          workerInterpolate: true;
+          workerInterpBufferSize: 2;
+          gravity: 0;
+        `}
       >
         { assets }
         {
