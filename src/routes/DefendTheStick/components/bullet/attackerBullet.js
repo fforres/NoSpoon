@@ -29,11 +29,11 @@ export default class AttackerBullet extends Component {
         let force = this.bullet.body.position.vsub(pointOfOrigin);
         force.normalize();
         force.scale(impulseAmount, force);
-        this.bullet.body.applyImpulse(
-          new CANNON.Vec3().copy(bulletPosition),
-          new CANNON.Vec3().copy(new CANNON.Vec3(0, -1, 0)),
-        );
-      }, 0);
+        // this.bullet.body.applyImpulse(
+        //   new CANNON.Vec3().copy(bulletPosition),
+        //   new CANNON.Vec3().copy(new CANNON.Vec3(0, -0.5, 0)),
+        // );
+      }, 5000);
     });
 
     const { x, y, z } = position;
@@ -53,9 +53,10 @@ export default class AttackerBullet extends Component {
         key={name}
         id={name}
         dynamic-body
+        physics-body="boundingBox: 0.2 0.2 0.2; mass: 1; velocity: 0.2 0 0"
         radius="0.1"
         geometry="primitive: sphere; radius: 0.1;"
-        material="color: red"
+        material="color: blue"
         // random-color
         position={{ x, y, z }}
         bullet-emiter={`id: ${name}; shouldEmit: ${shouldEmit}`}

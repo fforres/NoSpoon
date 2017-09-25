@@ -1,4 +1,5 @@
 import 'aframe';
+import 'aframe-physics-system/index';
 import 'super-hands';
 import { h, Component } from 'preact';
 import loadComponents from './components';
@@ -14,7 +15,6 @@ import { createCurrentPlayer } from '../../store/reducers/firebase';
 import { connectPlayers } from '../../store/reducers/players';
 import { connectBalls } from '../../store/reducers/balls';
 
-import 'aframe-physics-system';
 import './socket';
 
 class Profile extends Component {
@@ -35,6 +35,19 @@ class Profile extends Component {
     this.startFireBase();
     loadComponents();
     this.prepareGame();
+  }
+
+  componentDidMount() {
+    // debugger;
+    // setPhysics
+    // this.scene.setAttribute('physics', {
+    //   driver: 'worker',
+    //   workerFps: 61,
+    //   friction: 0.1,
+    //   restitution: 0.5,
+    //   gravity: 1,
+    //   debug: false,
+    // });
   }
 
   startFireBase = () => {
@@ -127,52 +140,73 @@ class Profile extends Component {
     );
   };
 
+  getAssets = () => (
+    <a-assets>
+      <img
+        id="skyTexture"
+        src="../../assets/sky-min.jpg"
+      />
+      <img
+        id="groundTexture"
+        src="https://cdn.aframe.io/a-painter/images/floor.jpg"
+      />
+      <a-mixin
+        id="controller"
+        super-hands
+        sphere-collider="objects: .cube, .transformer .bullet"
+        static-body="shape: sphere; sphereRadius: 0.02;"
+      />
+      <a-mixin
+        id="cube"
+        geometry="primitive: box; width: 0.33; height: 0.33; depth: 0.33"
+        hoverable
+        grabbable
+        drag-droppable
+        dynamic-body
+      />
+      <a-mixin
+        id="bullet"
+        geometry="primitive: sphere; radius: 0.2"
+        grabbable
+        dynamic-body
+      />
+    </a-assets>
+  )
+
   render() {
     // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
     const { isReady, userID, isDefender } = this.state;
-    if (!isReady) {
-      return null;
-    }
     const player = this.getPlayer();
     const otherAttackers = <OtherAttackers userID={userID} />
+    const assets = this.getAssets();
     return (
-      <a-scene physics="friction: 0; restitution: 0.3; gravity: -0; debug:false; driver: worker; workerFps: 30;">
-        <a-assets>
-          <img
-            id="skyTexture"
-            src="../../assets/sky-min.jpg"
+      <a-scene
+        ref={c => { this.scene = c }}
+        environment
+        rain-of-entities="spread: 3"
+        physics={"driver: worker; workerFps: 60; workerInterpolate: true; workerInterpBufferSize: 2;"}
+        /**
+          physics={{
+          driver: 'worker',
+          workerFps: 61,
+          friction: 0.1,
+          restitution: 0.5,
+          gravity: 1,
+          debug: false,
+        }}
+        */
+      >
+        { assets }
+        {
+          isReady &&
+          <PlayArea
+            removeLife={this.removeLife}
+            isDefender={isDefender}
           />
-          <img
-            id="groundTexture"
-            src="https://cdn.aframe.io/a-painter/images/floor.jpg"
-          />
-          <a-mixin
-            id="controller"
-            super-hands
-            sphere-collider="objects: .cube, .transformer .bullet"
-            static-body="shape: sphere; sphereRadius: 0.02;"
-          />
-          <a-mixin
-            id="cube"
-            geometry="primitive: box; width: 0.33; height: 0.33; depth: 0.33"
-            hoverable
-            grabbable
-            drag-droppable
-            dynamic-body
-          />
-          <a-mixin
-            id="bullet"
-            geometry="primitive: sphere; radius: 0.2"
-            grabbable
-            dynamic-body
-          />
-        </a-assets>
-        <PlayArea
-          removeLife={this.removeLife}
-          isDefender={isDefender}
-        />
-        { player }
-        { otherAttackers }
+        }
+        { isReady ? player : null }
+        { isReady ? otherAttackers : null }
+
       </a-scene>
     );
   }
