@@ -15,24 +15,23 @@ AFRAME.registerComponent('bullet-emiter', {
     }
     this.onDisconnect();
   },
-  // update: function () {},
   tick () {
     if (!this.currentTick) {
       this.currentTick = 0;
     }
     this.currentTick++
-    if (this.currentTick === 1) { // Small hack to increas MS between updates
+    if (this.currentTick === 2) { // Small hack to increas MS between updates
       this.currentTick = 0
       if (this.shouldEmit) {
-        // this.updatePosition();
+        this.updatePosition();
       }
     }
   },
   updatePosition () {
     const ballElement = this.el.object3D;
     this.FireBase.ballRef.set({
-      position: this.el.object3D.getWorldPosition(),
-      rotation: this.el.object3D.getWorldRotation(),
+      position: ballElement.getWorldPosition(),
+      rotation: ballElement.getWorldRotation(),
       timestamp: Firebase.database.ServerValue.TIMESTAMP
     });
   },

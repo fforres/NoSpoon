@@ -22,7 +22,7 @@ export default class DefenderBullet extends Component {
   }
 
   render(props) {
-    const { name, position } = props;
+    const { name, position, shouldEmit } = props;
     const { x, y, z } = position;
 
     return (
@@ -34,6 +34,7 @@ export default class DefenderBullet extends Component {
         geometry="primitive: sphere; radius: 0.1;"
         material="color: red"
         random-color
+        bullet-emiter={`id: ${name}; shouldEmit: ${shouldEmit}`}
       />
     );
   }

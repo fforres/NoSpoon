@@ -16,24 +16,23 @@ export default class AttackerBullet extends Component {
 
     this.bullet.addEventListener('body-loaded', () => {
       this.functionReferenceToRemove = arguments.calee;
-      console.log(this.functionReferenceToRemove, arguments);
-      let impulseAmount = 2;
-      // Can't apply forces during the same tick that attaches the body, because
-      // it hasn't been fully synced to the physics sim. (bug)
+      const impulseAmount = 20;
       setTimeout(() => {
-        const theBullet = this.bullet;
+        // Can't apply forces during the same tick that attaches the body, because
+        // it hasn't been fully synced to the physics sim. (bug)
         let pointOfOrigin = new CANNON.Vec3(1, 1, 1);
         // let pStart = new CANNON.Vec3();
         // pStart.copy(this.bullet.object3D.getWorldPosition());
         const bulletPosition = this.bullet.object3D.getWorldPosition();
-        let force = this.bullet.body.position.vsub(pointOfOrigin);
+        const force = this.bullet.body.position.vsub(pointOfOrigin);
         force.normalize();
         force.scale(impulseAmount, force);
         this.bullet.body.applyImpulse(
+          // new CANNON.Vec3().copy(new CANNON.Vec3(0, -1, -1)),
+          new CANNON.Vec3().copy(force.vmul(new CANNON.Vec3(-1, -1, -1))),
           new CANNON.Vec3().copy(bulletPosition),
-          new CANNON.Vec3().copy(new CANNON.Vec3(0, -0.5, 0)),
         );
-      }, 5000);
+      }, 500);
     });
 
     const { x, y, z } = position;
@@ -53,7 +52,7 @@ export default class AttackerBullet extends Component {
         key={name}
         id={name}
         dynamic-body
-        physics-body="boundingBox: 0.2 0.2 0.2; mass: 1; velocity: 0.2 0 0"
+        physics-body="boundingBox: 0.2 0.2 0.2; mass: 1;"
         radius="0.1"
         geometry="primitive: sphere; radius: 0.1;"
         material="color: blue"

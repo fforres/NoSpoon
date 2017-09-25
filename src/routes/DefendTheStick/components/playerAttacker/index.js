@@ -3,7 +3,7 @@ import 'super-hands';
 import { h, Component } from 'preact';
 import { connect } from 'preact-redux';
 import { createBall } from '../../../../store/reducers/balls';
-import CellphoneHUD from './CellphoneHUD';
+import CellphoneHUD from './CellPhoneHUD';
 
 class CellphonePlayer extends Component {
   onCellPhoneHUDPressed = (position) => {
