@@ -37,19 +37,6 @@ class Profile extends Component {
     this.prepareGame();
   }
 
-  componentDidMount() {
-    // debugger;
-    // setPhysics
-    // this.scene.setAttribute('physics', {
-    //   driver: 'worker',
-    //   workerFps: 61,
-    //   friction: 0.1,
-    //   restitution: 0.5,
-    //   gravity: 1,
-    //   debug: false,
-    // });
-  }
-
   startFireBase = () => {
     const {
       createCurrentPlayer,
@@ -184,17 +171,7 @@ class Profile extends Component {
         ref={c => { this.scene = c }}
         environment
         rain-of-entities="spread: 3"
-        physics={"driver: worker; workerFps: 60; workerInterpolate: true; workerInterpBufferSize: 2;"}
-        /**
-          physics={{
-          driver: 'worker',
-          workerFps: 61,
-          friction: 0.1,
-          restitution: 0.5,
-          gravity: 1,
-          debug: false,
-        }}
-        */
+        physics={"driver: local; workerFps: 60; workerInterpolate: true; workerInterpBufferSize: 2;"}
       >
         { assets }
         {
