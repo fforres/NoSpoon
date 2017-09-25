@@ -29,10 +29,10 @@ export default class AttackerBullet extends Component {
         let force = this.bullet.body.position.vsub(pointOfOrigin);
         force.normalize();
         force.scale(impulseAmount, force);
-        // this.bullet.body.applyImpulse(
-        //   new CANNON.Vec3().copy(bulletPosition),
-        //   new CANNON.Vec3().copy(new CANNON.Vec3(0, -0.5, 0)),
-        // );
+        this.bullet.body.applyImpulse(
+          new CANNON.Vec3().copy(bulletPosition),
+          new CANNON.Vec3().copy(new CANNON.Vec3(0, -0.5, 0)),
+        );
       }, 5000);
     });
 
