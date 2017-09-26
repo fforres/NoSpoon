@@ -14,9 +14,9 @@ class OtherAttackers extends Component {
         const { rotation, position } = players[key];
         array.push(
           <Face
-            id={key}
-            position={position}
-            rotation={rotation}
+            id={ key }
+            position={ position }
+            rotation={ rotation }
           />
         );
       }

@@ -44,6 +44,30 @@ module.exports = {
     "object-shorthand": 2,
     "prefer-arrow-callback": 2,
     "comma-dangle": ["error", "only-multiline"],
+    "react/display-name": 0,
+    "react/forbid-prop-types": 0,
+    "react/prefer-stateless-function": 0,
+    "react/no-string-refs": 0,
+    "react/jsx-filename-extension": 0,
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "react/jsx-curly-spacing": ["error", {
+      "when": "always",
+      "children": true,
+      "spacing": {
+        "objectLiterals": "never"
+      }
+    }],
+    "react/jsx-equals-spacing": ["error", "never"],
+    "react/sort-comp": ["error", {
+      "order": [
+        "static-methods",
+        "lifecycle",
+        "everything-else",
+        "render",
+        "/^_render.+$/",
+      ]
+    }],
   },
   "globals": {
     "AFRAME": true,

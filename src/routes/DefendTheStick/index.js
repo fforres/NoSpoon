@@ -112,17 +112,17 @@ class Profile extends Component {
     if (isDefender) {
       return (
         <DefenderPlayer
-          lives={lives}
-          loser={loser}
-          userID={userID}
+          lives={ lives }
+          loser={ loser }
+          userID={ userID }
         />
       );
     }
     return (
       <AttackerPlayer
-        lives={lives}
-        winner={loser}
-        userID={userID}
+        lives={ lives }
+        winner={ loser }
+        userID={ userID }
       />
     );
   };
@@ -166,27 +166,27 @@ class Profile extends Component {
     // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
     const { isReady, userID, isDefender } = this.state;
     const player = this.getPlayer();
-    const otherAttackers = <OtherAttackers userID={userID} />
+    const otherAttackers = <OtherAttackers userID={ userID } />
     const assets = this.getAssets();
     return (
       <a-scene
-        ref={c => { this.scene = c }}
+        ref={ c => { this.scene = c } }
         environment
         rain-of-entities="spread: 3"
-        physics={`
+        physics={ `
           driver: local;
           workerFps: 60;
           workerInterpolate: true;
           workerInterpBufferSize: 2;
           gravity: 0;
-        `}
+        ` }
       >
         { assets }
         {
           isReady &&
           <PlayArea
-            removeLife={this.removeLife}
-            isDefender={isDefender}
+            removeLife={ this.removeLife }
+            isDefender={ isDefender }
           />
         }
         { isReady ? player : null }

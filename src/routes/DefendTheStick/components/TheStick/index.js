@@ -14,7 +14,7 @@ export default class PlayerBody extends Component {
   render() {
     return (
       <a-cylinder
-        ref={c => (this.player = c)}
+        ref={ c => (this.player = c) }
         id="playerBody"
         static-body
         radius="0.01"

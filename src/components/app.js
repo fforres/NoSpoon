@@ -20,8 +20,8 @@ export default class App extends Component {
   render() {
     return (
       <div id="app">
-        <Router onChange={this.handleRoute}>
-          <Provider store={store}>
+        <Router onChange={ this.handleRoute }>
+          <Provider store={ store }>
             <DefendTheStick path="/" />
             <Faces path="/faces" />
           </Provider>

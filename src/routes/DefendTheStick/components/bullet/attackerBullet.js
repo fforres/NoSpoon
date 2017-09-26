@@ -5,12 +5,6 @@ import CANNON from 'cannon';
 import './component';
 
 export default class AttackerBullet extends Component {
-  componentWillUnmount() {
-    if (this.functionReferenceToRemove) {
-      this.bullet.removeEventListener('body-loaded', this.functionReferenceToRemove)
-    }
-  }
-
   componentDidMount() {
     const { position } = this.props;
 
@@ -41,6 +35,12 @@ export default class AttackerBullet extends Component {
     // }
   }
 
+  componentWillUnmount() {
+    if (this.functionReferenceToRemove) {
+      this.bullet.removeEventListener('body-loaded', this.functionReferenceToRemove)
+    }
+  }
+
   render(props) {
     const { name, shouldEmit, position } = props;
     const { x, y, z } = position;
@@ -48,9 +48,9 @@ export default class AttackerBullet extends Component {
       <a-sphere
         grabbable
         maxGrabbers
-        ref={c => { this.bullet = c }}
-        key={name}
-        id={name}
+        ref={ c => { this.bullet = c } }
+        key={ name }
+        id={ name }
         dynamic-body
         physics-body="boundingBox: 0.2 0.2 0.2; mass: 1;"
         radius="0.1"
@@ -58,7 +58,7 @@ export default class AttackerBullet extends Component {
         material="color: blue"
         // random-color
         position={{ x, y, z }}
-        bullet-emiter={`id: ${name}; shouldEmit: ${shouldEmit}`}
+        bullet-emiter={ `id: ${name}; shouldEmit: ${shouldEmit}` }
       />
     );
   }

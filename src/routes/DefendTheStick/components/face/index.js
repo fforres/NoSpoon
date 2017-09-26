@@ -19,8 +19,8 @@ export default class Face extends Component {
     const { key } = props;
     return (
       <a-sphere
-        ref={(c) => { this.character = c }}
-        key={key}
+        ref={ (c) => { this.character = c } }
+        key={ key }
         radius="0.3"
         random-color
         shadow="cast:true;receive:true;"

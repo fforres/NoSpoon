@@ -21,10 +21,10 @@ class CellphonePlayer extends Component {
     return (
       <a-entity>
         <CellphoneHUD
-          onCursorClicked={this.onCellPhoneHUDPressed}
-          lives={lives}
-          winner={winner}
-          userID={userID}
+          onCursorClicked={ this.onCellPhoneHUDPressed }
+          lives={ lives }
+          winner={ winner }
+          userID={ userID }
         />
       </a-entity>
     );

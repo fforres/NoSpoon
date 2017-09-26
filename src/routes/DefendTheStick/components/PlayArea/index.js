@@ -6,30 +6,25 @@ import { AttackerBullet, DefenderBullet } from '../bullet';
 
 class PlayArea extends Component {
   componentDidMount() {
-    // setTimeout(() => {
-    //   this.box.body.applyImpulse(
-    //     new CANNON.Vec3(10, 10, 2) /* impulse */,
-    //     new CANNON.Vec3().copy(
-    //       this.box.getAttribute('position')
-    //     ) /* world position */
-    //   );
-    // }, 10000);
+    this.bulletDestroyer.addEventListener('collide', (e) => {
+      console.log(e);
+      debugger;
+    });
   }
 
   renderAttackerBullets = () => {
-    const { balls, isDefender } = this.props;
+    const { balls } = this.props;
 
     const array = [];
     for (let key in balls) {
       if (balls.hasOwnProperty(key)) {
-        const { position, impulse } = balls[key];
+        const { position } = balls[key];
         array.push(
           <AttackerBullet
-            key={key}
-            name={key}
-            position={position}
-            impulse={impulse}
-            shouldEmit={!!isDefender}
+            key={ key }
+            name={ key }
+            position={ position }
+            shouldEmit
           />
         );
       }
@@ -38,19 +33,17 @@ class PlayArea extends Component {
   }
 
   renderDefenderBullets = () => {
-    const { balls, isDefender } = this.props;
+    const { balls } = this.props;
 
     const array = [];
     for (let key in balls) {
       if (balls.hasOwnProperty(key)) {
-        const { position, impulse } = balls[key];
+        const { position } = balls[key];
         array.push(
           <DefenderBullet
-            key={key}
-            name={key}
-            position={position}
-            impulse={impulse}
-            shouldEmit={!!isDefender}
+            key={ key }
+            name={ key }
+            position={ position }
           />
         );
       }
@@ -94,7 +87,7 @@ class PlayArea extends Component {
           height="0.3"
         />
         <a-cylinder
-          // static-body
+          static-body
           id="bulletCreator"
           radius="9"
           geometry="height:30"
@@ -103,15 +96,16 @@ class PlayArea extends Component {
         />
         <a-cylinder
           static-body
+          ref={ c => (this.bulletDestroyer = c) }
           id="bulletDestroyer"
           radius="15"
           geometry="height:30"
-          material="opacity: 0.04;"
           position="0 15 0"
+          material="opacity: 0.360; color: #9e33cc;"
 
         />
-        <TheStick onColission={removeLife} isDefender={isDefender} />
-        {/* <a-sphere
+        <TheStick onColission={ removeLife } isDefender={ isDefender } />
+        { /* <a-sphere
           grabbable
           maxGrabbers
           ref={c => {
@@ -146,14 +140,14 @@ class PlayArea extends Component {
           width="1"
           height="1"
           depth="1"
-        /> */}
+        /> */ }
         { ballsComponent }
-        {/* <a-sky
+        { /* <a-sky
           id="background"
           src="#skyTexture"
           theta-length="90"
           radius="30"
-        /> */}
+        /> */ }
       </a-entity>
     );
   }
