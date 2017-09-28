@@ -25,10 +25,9 @@ export default function reducer(state = defaultState, { type, payload }) {
 }
 
 export const setNewBalls = balls => ({ type: SET_BALLS, payload: { balls } });
-export const createBall = ({userID, position, impulse}) => () => {
+export const createBall = ({userID, position}) => () => {
   const ballId = `${performance.now().toString().split('.').join('')}__${userID}`
   Firebase.database().ref(`balls/${ballId}`).set({
-    impulse,
     position,
   })
 };

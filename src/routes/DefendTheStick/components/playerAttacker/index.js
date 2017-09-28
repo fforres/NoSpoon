@@ -11,7 +11,6 @@ class CellphonePlayer extends Component {
     createBall({
       userID,
       position,
-      impulse: [10, 10, 2],
     })
   }
 

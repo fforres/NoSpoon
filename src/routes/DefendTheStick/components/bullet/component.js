@@ -9,33 +9,49 @@ AFRAME.registerComponent('bullet-emiter', {
   },
   init () {
     this.id = this.data.id;
+    this.creationTime = new Date().getTime();
     this.shouldEmit = this.data.shouldEmit;
-    this.FireBase = {
-      ballRef: Firebase.database().ref(`balls/${this.id}`),
-    }
+    this.destroy = false;
+    // this.FireBase = Firebase.database().ref(`balls/${this.id}`);
+    this.FireBase = Firebase.database().ref('balls');
     this.onDisconnect();
   },
   tick () {
-    if (!this.currentTick) {
-      this.currentTick = 0;
-    }
-    this.currentTick++
-    if (this.currentTick === 2) { // Small hack to increas MS between updates
-      this.currentTick = 0
-      if (this.shouldEmit) {
+    if (!this.destroy) {
+      if (!this.currentTick) {
+        this.currentTick = 0;
+      }
+      this.currentTick++
+      if (this.currentTick === 10) { // Small hack to increas MS between updates
+        this.currentTick = 0
         this.updatePosition();
       }
+      const currentTime = new Date().getTime();
+      if ((currentTime - this.creationTime) > 5000) { // 50000 miliseconds of life time to a bullet
+        this.destroy = true;
+      }
+    } else {
+      this.FireBase.remove();
     }
   },
   updatePosition () {
     const ballElement = this.el.object3D;
-    this.FireBase.ballRef.set({
-      position: ballElement.getWorldPosition(),
-      rotation: ballElement.getWorldRotation(),
-      timestamp: Firebase.database.ServerValue.TIMESTAMP
+    const position = ballElement.getWorldPosition();
+    const rotation = ballElement.getWorldRotation();
+    const timestamp = Firebase.database.ServerValue.TIMESTAMP;
+    this.FireBase.child(this.id).set({
+      position,
+      rotation,
+      timestamp,
+    }, (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('uploaded', position, rotation, this.id);
+      }
     });
   },
   onDisconnect () {
-    // this.FireBase.ballRef.onDisconnect().remove();
+    this.FireBase.onDisconnect().remove();
   },
 });

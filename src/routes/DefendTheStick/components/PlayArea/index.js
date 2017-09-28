@@ -5,13 +5,6 @@ import TheStick from '../TheStick';
 import { AttackerBullet, DefenderBullet } from '../bullet';
 
 class PlayArea extends Component {
-  componentDidMount() {
-    this.bulletDestroyer.addEventListener('collide', (e) => {
-      console.log(e);
-      debugger;
-    });
-  }
-
   renderAttackerBullets = () => {
     const { balls } = this.props;
 
@@ -19,14 +12,16 @@ class PlayArea extends Component {
     for (let key in balls) {
       if (balls.hasOwnProperty(key)) {
         const { position } = balls[key];
-        array.push(
-          <AttackerBullet
-            key={ key }
-            name={ key }
-            position={ position }
-            shouldEmit
-          />
-        );
+        if (position) {
+          array.push(
+            <AttackerBullet
+              key={ key }
+              name={ key }
+              position={ position }
+              shouldEmit
+            />
+          );
+        }
       }
     }
     return array;
@@ -39,13 +34,15 @@ class PlayArea extends Component {
     for (let key in balls) {
       if (balls.hasOwnProperty(key)) {
         const { position } = balls[key];
-        array.push(
-          <DefenderBullet
-            key={ key }
-            name={ key }
-            position={ position }
-          />
-        );
+        if (position) {
+          array.push(
+            <DefenderBullet
+              key={ key }
+              name={ key }
+              position={ position }
+            />
+          );
+        }
       }
     }
     return array;
