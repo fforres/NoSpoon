@@ -37,17 +37,15 @@ AFRAME.registerComponent('bullet-emiter', {
   updatePosition () {
     const ballElement = this.el.object3D;
     const position = ballElement.getWorldPosition();
-    const rotation = ballElement.getWorldRotation();
-    const timestamp = Firebase.database.ServerValue.TIMESTAMP;
+    // const timestamp = Firebase.database.ServerValue.TIMESTAMP;
     this.FireBase.child(this.id).set({
       position,
-      rotation,
-      timestamp,
+      // timestamp,
     }, (err) => {
       if (err) {
         console.log(err);
       } else {
-        console.log('uploaded', position, rotation, this.id);
+        console.log('uploaded', position, this.id);
       }
     });
   },
