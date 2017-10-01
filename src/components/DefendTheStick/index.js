@@ -1,22 +1,24 @@
 import 'aframe';
 import 'aframe-physics-system/index';
 import 'super-hands';
-import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'; // ES6
+import { connect } from 'react-redux';
 import loadComponents from './components';
 import DefenderPlayer from './components/playerDefender';
 import AttackerPlayer from './components/playerAttacker';
 import OtherAttackers from './components/otherAttackers';
 import PlayArea from './components/PlayArea';
-import FireBase from './socket/Firebase';
+import FireBase from '../../store/socket/Firebase';
 import { getDisplay } from './components/helpers';
 import { createCurrentPlayer } from '../../store/reducers/firebase';
 import { connectPlayers } from '../../store/reducers/players';
 import { connectBalls } from '../../store/reducers/balls';
 
-import './socket';
+import '../../store/socket';
 
-class Profile extends Component {
+class App extends Component {
+
   static getAssets() {
     return (
       <a-assets>
@@ -175,7 +177,7 @@ class Profile extends Component {
     const { isReady, userID, isDefender } = this.state;
     const player = this.getPlayer();
     const otherAttackers = <OtherAttackers userID={ userID } />
-    const assets = this.getAssets();
+    const assets = App.getAssets();
     return (
       <a-scene
         ref={ (c) => { this.scene = c } }
@@ -205,6 +207,12 @@ class Profile extends Component {
   }
 }
 
+App.propTypes = {
+  createCurrentPlayer: PropTypes.func.isRequired,
+  connectPlayers: PropTypes.func.isRequired,
+  connectBalls: PropTypes.func.isRequired,
+}
+
 const mapDispatchToProps = dispatch => ({
   createCurrentPlayer: () => dispatch(createCurrentPlayer()),
   connectPlayers: () => dispatch(connectPlayers()),
@@ -215,4 +223,4 @@ const mapStateToProps = ({ balls }) => ({
   ballsStore: balls,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

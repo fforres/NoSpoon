@@ -1,6 +1,7 @@
 import 'aframe';
 import 'super-hands';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export default class PlayerBody extends Component {
   componentDidMount() {
@@ -24,4 +25,9 @@ export default class PlayerBody extends Component {
       />
     );
   }
+}
+
+PlayerBody.propTypes = {
+  onColission: PropTypes.func.isRequired,
+  isDefender: PropTypes.bool.isRequired,
 }

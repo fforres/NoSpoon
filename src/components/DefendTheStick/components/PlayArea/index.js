@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
 import TheStick from '../TheStick';
 import { AttackerBullet, DefenderBullet } from '../bullet';
 
@@ -144,6 +144,19 @@ class PlayArea extends Component {
       </a-entity>
     );
   }
+}
+
+
+PlayArea.propTypes = {
+  balls: PropTypes.arrayOf(PropTypes.shape({
+    rotation: PropTypes.shape({
+      x: PropTypes.string,
+      y: PropTypes.string,
+      z: PropTypes.string,
+    }),
+  })).isRequired,
+  removeLife: PropTypes.func.isRequired,
+  isDefender: PropTypes.bool.isRequired
 }
 
 const mapDispatchToProps = () => ({})

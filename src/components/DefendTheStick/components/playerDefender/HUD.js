@@ -1,6 +1,7 @@
 import 'aframe';
 import 'super-hands';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class HUD extends Component {
   static getPlayingHud(lives) {
@@ -25,8 +26,8 @@ class HUD extends Component {
     )
   }
 
-  render(props) {
-    const { lives, loser, userID } = props;
+  render() {
+    const { lives, loser, userID } = this.props;
     const hudContent = loser ? this.LOOSER() : this.getPlayingHud(lives);
     return (
       <a-entity camera="userHeight: 1.6;" look-controls wasd-controls player-emiter={ `id: ${userID}; defender: true;` } player-defender>
@@ -34,6 +35,17 @@ class HUD extends Component {
       </a-entity>
     );
   }
+}
+
+HUD.defaultProps = {
+  lives: 3,
+  loser: false,
+}
+
+HUD.propTypes = {
+  lives: PropTypes.number,
+  loser: PropTypes.bool,
+  userID: PropTypes.string.isRequired
 }
 
 export default HUD;

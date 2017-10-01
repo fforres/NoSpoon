@@ -1,5 +1,6 @@
 import 'aframe';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class CellPhoneHUD extends Component {
   static getPlayingHud(lives) {
@@ -33,9 +34,9 @@ class CellPhoneHUD extends Component {
     this.props.onCursorClicked(e.detail.intersection.point);
   }
 
-  render(props) {
-    const { lives, winner, userID } = props;
-    const hudContent = winner ? this.Winner() : this.getPlayingHud(lives);
+  render() {
+    const { lives, winner, userID } = this.props;
+    const hudContent = winner ? CellPhoneHUD.Winner() : CellPhoneHUD.getPlayingHud(lives);
     return (
       <a-entity
         camera
@@ -56,6 +57,18 @@ class CellPhoneHUD extends Component {
       </a-entity>
     );
   }
+}
+
+CellPhoneHUD.defaultProps = {
+  lives: 3,
+  winner: false,
+}
+
+CellPhoneHUD.propTypes = {
+  onCursorClicked: PropTypes.func.isRequired,
+  lives: PropTypes.number,
+  winner: PropTypes.bool,
+  userID: PropTypes.string.isRequired
 }
 
 export default CellPhoneHUD;

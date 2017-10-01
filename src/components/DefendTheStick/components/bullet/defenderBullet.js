@@ -1,5 +1,6 @@
 import 'aframe';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './component';
 
 export default class DefenderBullet extends Component {
@@ -21,8 +22,8 @@ export default class DefenderBullet extends Component {
   //   });
   // }
 
-  render(props) {
-    const { name, position } = props;
+  render() {
+    const { name, position } = this.props;
     const { x, y, z } = position;
 
     return (
@@ -37,4 +38,13 @@ export default class DefenderBullet extends Component {
       />
     );
   }
+}
+
+DefenderBullet.propTypes = {
+  name: PropTypes.string.isRequired,
+  position: PropTypes.shape({
+    x: PropTypes.string,
+    y: PropTypes.string,
+    z: PropTypes.string,
+  }).isRequired,
 }

@@ -1,6 +1,7 @@
 import 'aframe';
 import React, { Component } from 'react';
 import CANNON from 'cannon';
+import PropTypes from 'prop-types';
 
 import './component';
 
@@ -41,8 +42,8 @@ export default class AttackerBullet extends Component {
     }
   }
 
-  render(props) {
-    const { name, position } = props;
+  render() {
+    const { name, position } = this.props;
     const { x, y, z } = position;
     return (
       <a-sphere
@@ -61,4 +62,13 @@ export default class AttackerBullet extends Component {
       />
     );
   }
+}
+
+AttackerBullet.propTypes = {
+  name: PropTypes.string.isRequired,
+  position: PropTypes.shape({
+    x: PropTypes.string,
+    y: PropTypes.string,
+    z: PropTypes.string,
+  }).isRequired,
 }

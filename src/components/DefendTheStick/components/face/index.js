@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export default class Face extends Component {
   componentWillReceiveProps(nextProps) {
@@ -15,8 +16,8 @@ export default class Face extends Component {
     })
   }
 
-  render(props) {
-    const { key } = props;
+  render() {
+    const { key } = this.props;
     return (
       <a-sphere
         ref={ (c) => { this.character = c } }
@@ -51,4 +52,18 @@ export default class Face extends Component {
       </a-sphere>
     );
   }
+}
+
+Face.propTypes = {
+  key: PropTypes.string.isRequired,
+  rotation: PropTypes.shape({
+    x: PropTypes.string,
+    y: PropTypes.string,
+    z: PropTypes.string,
+  }).isRequired,
+  position: PropTypes.shape({
+    x: PropTypes.string,
+    y: PropTypes.string,
+    z: PropTypes.string,
+  }).isRequired,
 }

@@ -1,6 +1,7 @@
 import 'aframe';
 import 'super-hands';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'; // ES6
 import { connect } from 'react-redux';
 import { createBall } from '../../../../store/reducers/balls';
 import CellphoneHUD from './CellPhoneHUD';
@@ -19,9 +20,9 @@ class CellphonePlayer extends Component {
     })
   }
 
-  render(props) {
+  render() {
     // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
-    const { lives, winner, userID } = props;
+    const { lives, winner, userID } = this.props;
     return (
       <a-entity>
         <CellphoneHUD
@@ -33,6 +34,18 @@ class CellphonePlayer extends Component {
       </a-entity>
     );
   }
+}
+
+CellphonePlayer.defaultProps = {
+  lives: 10,
+  winner: true,
+}
+
+CellphonePlayer.propTypes = {
+  createBall: PropTypes.func.isRequired,
+  userID: PropTypes.string.isRequired,
+  lives: PropTypes.number,
+  winner: PropTypes.bool
 }
 
 const mapDispatchToProps = dispatch => ({

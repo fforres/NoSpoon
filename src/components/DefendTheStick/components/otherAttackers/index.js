@@ -1,6 +1,7 @@
 import 'aframe';
 import 'super-hands';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'; // ES6
 import { connect } from 'react-redux';
 import Face from '../face';
 
@@ -37,6 +38,17 @@ class OtherAttackers extends Component {
       </a-entity>
     );
   }
+}
+
+OtherAttackers.propTypes = {
+  userID: PropTypes.string.isRequired,
+  players: PropTypes.arrayOf(PropTypes.shape({
+    rotation: PropTypes.shape({
+      x: PropTypes.string,
+      y: PropTypes.string,
+      z: PropTypes.string,
+    }),
+  })).isRequired
 }
 
 const mapDispatchToProps = () => ({})

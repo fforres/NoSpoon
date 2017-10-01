@@ -1,6 +1,6 @@
 import 'aframe';
 import CANNON from 'cannon';
-import Firebase from '../../socket/Firebase';
+import FireBase from '../../../../store/socket/Firebase';
 
 AFRAME.registerComponent('bullet-emiter', {
   schema: {
@@ -13,7 +13,7 @@ AFRAME.registerComponent('bullet-emiter', {
     this.shouldEmit = this.data.shouldEmit;
     this.destroy = false;
     // this.FireBase = Firebase.database().ref(`balls/${this.id}`);
-    this.FireBase = Firebase.database().ref('balls');
+    this.FireBase = FireBase.database().ref('balls');
     this.onDisconnect();
   },
   tick () {
