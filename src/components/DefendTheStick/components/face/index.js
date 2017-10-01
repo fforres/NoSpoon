@@ -23,7 +23,7 @@ export default class Face extends Component {
         ref={ (c) => { this.character = c } }
         key={ key }
         radius="0.3"
-        random-color
+        // random-color
         shadow="cast:true;receive:true;"
       >
         <a-circle
@@ -62,8 +62,8 @@ Face.propTypes = {
     z: PropTypes.string,
   }).isRequired,
   position: PropTypes.shape({
-    x: PropTypes.string,
-    y: PropTypes.string,
-    z: PropTypes.string,
+    x: PropTypes.number,
+    y: PropTypes.number,
+    z: PropTypes.number,
   }).isRequired,
 }

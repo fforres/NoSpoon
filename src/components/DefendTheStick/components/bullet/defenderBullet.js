@@ -34,7 +34,7 @@ export default class DefenderBullet extends Component {
         radius="0.1"
         geometry="primitive: sphere; radius: 0.1;"
         material="color: red"
-        random-color
+        // random-color
       />
     );
   }
@@ -43,8 +43,8 @@ export default class DefenderBullet extends Component {
 DefenderBullet.propTypes = {
   name: PropTypes.string.isRequired,
   position: PropTypes.shape({
-    x: PropTypes.string,
-    y: PropTypes.string,
-    z: PropTypes.string,
+    x: PropTypes.number,
+    y: PropTypes.number,
+    z: PropTypes.number,
   }).isRequired,
 }

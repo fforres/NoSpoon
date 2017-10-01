@@ -21,6 +21,7 @@ class OtherAttackers extends Component {
         <Face
           id={ player }
           name={ player }
+          key={ player }
           position={ position }
           rotation={ rotation }
         />

@@ -1,10 +1,6 @@
-import 'aframe';
-import 'aframe-physics-system/index';
-import 'super-hands';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'; // ES6
 import { connect } from 'react-redux';
-import loadComponents from './components';
 import DefenderPlayer from './components/playerDefender';
 import AttackerPlayer from './components/playerAttacker';
 import OtherAttackers from './components/otherAttackers';
@@ -72,7 +68,6 @@ class App extends Component {
 
   componentWillMount() {
     this.startFireBase();
-    loadComponents();
     this.prepareGame();
   }
 

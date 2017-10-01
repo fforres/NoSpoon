@@ -21,7 +21,7 @@ export default class PlayerBody extends Component {
         radius="0.01"
         height="1.7"
         position="0 0 0"
-        random-color
+        // random-color
       />
     );
   }

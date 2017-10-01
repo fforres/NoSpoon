@@ -67,8 +67,8 @@ export default class AttackerBullet extends Component {
 AttackerBullet.propTypes = {
   name: PropTypes.string.isRequired,
   position: PropTypes.shape({
-    x: PropTypes.string,
-    y: PropTypes.string,
-    z: PropTypes.string,
+    x: PropTypes.number,
+    y: PropTypes.number,
+    z: PropTypes.number,
   }).isRequired,
 }
