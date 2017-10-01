@@ -1,0 +1,156 @@
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import TheStick from '../TheStick';
+import { AttackerBullet, DefenderBullet } from '../bullet';
+
+class PlayArea extends Component {
+
+  renderAttackerBullets() {
+    const { balls } = this.props;
+    const array = [];
+    Object.keys(balls).forEach((ball) => {
+      const { position } = balls[ball];
+      if (position) {
+        array.push(
+          <AttackerBullet
+            key={ ball }
+            name={ ball }
+            position={ position }
+            shouldEmit
+          />
+        );
+      }
+    })
+    return array;
+  }
+
+  renderDefenderBullets() {
+    const { balls } = this.props;
+
+    const array = [];
+    Object.keys(balls).forEach((ball) => {
+      const { position } = balls[ball];
+      if (position) {
+        array.push(
+          <DefenderBullet
+            key={ ball }
+            name={ ball }
+            position={ position }
+          />
+        );
+      }
+    });
+    return array;
+  }
+  render() {
+    const { removeLife, isDefender } = this.props;
+    const ballsComponent = isDefender ? this.renderAttackerBullets() : this.renderDefenderBullets();
+    // const otherPersonsBalls = [];
+    return (
+      <a-entity>
+        <a-entity
+          id="sun"
+          light="angle:45;decay: 0.5; color:#F0F0F0;type:directional"
+          position="0 5.417 0"
+          rotation="-81.64648580614231 0 0"
+        />
+
+        <a-entity
+          id="floor"
+          static-body
+          position="0 1 0"
+          rotation="0 0 0"
+        />
+        <a-cylinder
+          static-body
+          shadow="receive:true;"
+          id="ground"
+          src="https://cdn.aframe.io/a-painter/images/floor.jpg"
+          radius="32"
+          height="0.1"
+        />
+        <a-cylinder
+          shadow="receive:true;"
+          light="angle:45;decay: 0.1; color:#F0F0F0;type:ambient"
+          static-body
+          id="playArea"
+          radius="9"
+          material="color: rgb(123,123,123); opacity: 0.5;"
+          height="0.3"
+        />
+        <a-cylinder
+          static-body
+          id="bulletCreator"
+          radius="9"
+          geometry="height:30"
+          material="color:rgb(100,100,100);opacity:0.1"
+          position="0 15 0"
+        />
+        <a-cylinder
+          static-body
+          ref={ (c) => { this.bulletDestroyer = c } }
+          id="bulletDestroyer"
+          radius="15"
+          geometry="height:30"
+          position="0 15 0"
+          material="opacity: 0.360; color: #9e33cc;"
+
+        />
+        <TheStick onColission={ removeLife } isDefender={ isDefender } />
+        { /* <a-sphere
+          grabbable
+          maxGrabbers
+          ref={c => {
+            this.box = c;
+          }}
+          dynamic-body
+          position="0.5 10 0"
+          width="1"
+          height="1"
+          depth="1"
+        />
+        <a-sphere
+          grabbable
+          maxGrabbers
+          ref={c => {
+            this.box = c;
+          }}
+          dynamic-body
+          position="0.5 30 0"
+          width="1"
+          height="1"
+          depth="1"
+        />
+        <a-sphere
+          grabbable
+          maxGrabbers
+          ref={c => {
+            this.box = c;
+          }}
+          dynamic-body
+          position="0.5 100 0"
+          width="1"
+          height="1"
+          depth="1"
+        /> */ }
+        { ballsComponent }
+        { /* <a-sky
+          id="background"
+          src="#skyTexture"
+          theta-length="90"
+          radius="30"
+        /> */ }
+      </a-entity>
+    );
+  }
+}
+
+const mapDispatchToProps = () => ({})
+const mapStateToProps = ({ balls, mainApp }) => ({
+  balls: balls.balls,
+  userID: mainApp.userID,
+  isDefender: mainApp.isDefender,
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlayArea);
