@@ -1,6 +1,5 @@
 const ws = new WebSocket('ws://localhost:3001');
 ws.addEventListener('open', (event) => {
-  debugger;
   ws.send('Hello Server!');
 });
 
