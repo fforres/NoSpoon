@@ -12,6 +12,7 @@ module.exports = {
     "comma-style": 2,
     "comma-dangle": [2, "never"],
     "indent": ["error", 2],
+    "no-debugger": 1,
     "no-mixed-spaces-and-tabs": [2, "smart-tabs"],
     "no-tabs": 0,
     "no-trailing-spaces": [2, { "skipBlankLines": true }],
@@ -30,7 +31,8 @@ module.exports = {
     "no-shadow": 0,
     "callback-return": [1, ["callback", "cb", "next", "done"]],
     "no-delete-var": 2,
-    "no-undef-init": 2,
+    "no-undef-init": 0,
+    "no-undef": 0,
     "no-shadow-restricted-names": 2,
     "handle-callback-err": 0,
     "no-lonely-if": 2,
@@ -88,5 +90,6 @@ module.exports = {
     "THREE": true,
     "performance": true,
     "URL": true,
+    "WebSocket": true,
   }
 };

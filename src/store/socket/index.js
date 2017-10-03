@@ -1,5 +1,6 @@
 import 'aframe';
 import Firebase from './Firebase';
+import './ws';
 
 AFRAME.registerComponent('player-emiter', {
   schema: {

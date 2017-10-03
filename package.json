@@ -5,6 +5,7 @@
   "dependencies": {
     "aframe": "^0.7.0",
     "aframe-physics-system": "^2.0.0",
+    "aframe-react": "^4.3.0",
     "autoprefixer": "7.1.2",
     "babel-core": "6.25.0",
     "babel-eslint": "7.2.3",
