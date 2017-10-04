@@ -76,6 +76,10 @@ aframe-physics-system@^2.0.0:
     three-to-cannon "^1.1.1"
     webworkify "^1.4.0"
 
+aframe-react@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/aframe-react/-/aframe-react-4.3.0.tgz#43eba68be4a1e88830aac404e90ac033945fbf54"
+
 aframe@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/aframe/-/aframe-0.7.0.tgz#2c7b31466452d0060ad14426f8d660f97440e3b8"

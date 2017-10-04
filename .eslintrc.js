@@ -12,6 +12,7 @@ module.exports = {
     "comma-style": 2,
     "comma-dangle": [2, "never"],
     "indent": ["error", 2],
+    "no-debugger": 1,
     "no-mixed-spaces-and-tabs": [2, "smart-tabs"],
     "no-tabs": 0,
     "no-trailing-spaces": [2, { "skipBlankLines": true }],
@@ -88,5 +89,6 @@ module.exports = {
     "THREE": true,
     "performance": true,
     "URL": true,
+    "WebSocket": true,
   }
 };

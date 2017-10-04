@@ -16,14 +16,15 @@ export default class AttackerBullet extends Component {
         // Can't apply forces during the same tick that attaches the body, because
         // it hasn't been fully synced to the physics sim. (bug)
         if (this.bullet) {
-          const pointOfOrigin = new CANNON.Vec3(1, 1, 1);
+          const pointOfOrigin = new CANNON.Vec3(0, 0, 0);
           const bulletPosition = this.bullet.object3D.getWorldPosition();
-          const force = this.bullet.body.position.vsub(pointOfOrigin);
-          force.normalize();
-          force.scale(impulseAmount, force);
+          const force = new CANNON.Vec3().copy(bulletPosition);
+          // const force = this.bullet.body.position;
+          // force.normalize();
+          // force.scale(impulseAmount, force);
           this.bullet.body.applyImpulse(
             // new CANNON.Vec3().copy(new CANNON.Vec3(0, -1, -1)),
-            new CANNON.Vec3().copy(force.vmul(new CANNON.Vec3(-1, -1, -1))),
+            force.vmul(new CANNON.Vec3(-1, -1, -1)),
             new CANNON.Vec3().copy(bulletPosition),
           );
         }
