@@ -1,6 +1,6 @@
 import 'aframe';
 import Firebase from './Firebase';
-import './ws';
+import WS from './ws';
 
 AFRAME.registerComponent('player-emiter', {
   schema: {
@@ -9,6 +9,7 @@ AFRAME.registerComponent('player-emiter', {
   },
   init () {
     this.id = this.data.id;
+    this.WS = WS;
     this.isDefender = this.data.defender;
 
     this.FireBase = {
@@ -31,11 +32,20 @@ AFRAME.registerComponent('player-emiter', {
   },
   updateUserPos () {
     const user = this.el.object3D;
-    this.FireBase.userRef.set({
-      isDefender: this.isDefender,
-      position: user.getWorldPosition(),
-      rotation: user.getWorldRotation(),
-    })
+    // const { _x: x, _y: y, _z: z } = { ...user.getWorldRotation() };
+    this.WS.send({
+      type: 'userPosition',
+      user: {
+        id: this.id,
+      },
+      position: { ...user.getWorldPosition() },
+      rotation: { ...user.getWorldRotation() },
+    });
+    // this.FireBase.userRef.set({
+    //   isDefender: this.isDefender,
+    //   position: user.getWorldPosition(),
+    //   rotation: user.getWorldRotation(),
+    // })
   },
   onUserDisconnects () {
     this.FireBase.userRef.onDisconnect().remove();
