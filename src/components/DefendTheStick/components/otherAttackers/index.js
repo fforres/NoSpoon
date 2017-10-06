@@ -17,15 +17,17 @@ class OtherAttackers extends Component {
     const { userID } = this.props;
     Object.keys(players).forEach((player) => {
       const { rotation, position } = players[player];
-      array.push(
-        <Face
-          id={ player }
-          name={ player }
-          key={ player }
-          position={ position }
-          rotation={ rotation }
-        />
-      );
+      if (players[player] && rotation && position) {
+        array.push(
+          <Face
+            id={ player }
+            key={ player }
+            name={ player }
+            position={ position }
+            rotation={ rotation }
+          />
+        );
+      }
     });
     return array;
   }

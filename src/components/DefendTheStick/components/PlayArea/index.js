@@ -7,7 +7,7 @@ import { AttackerBullet, DefenderBullet } from '../bullet';
 class PlayArea extends Component {
 
   renderAttackerBullets() {
-    const { balls } = this.props;
+    const { balls, deleteBullet } = this.props;
     const array = [];
     Object.keys(balls).forEach((ball) => {
       const { position } = balls[ball];
@@ -17,6 +17,7 @@ class PlayArea extends Component {
             key={ ball }
             name={ ball }
             position={ position }
+            deleteBullet={ deleteBullet }
             shouldEmit
           />
         );
@@ -27,7 +28,6 @@ class PlayArea extends Component {
 
   renderDefenderBullets() {
     const { balls } = this.props;
-
     const array = [];
     Object.keys(balls).forEach((ball) => {
       const { position } = balls[ball];
@@ -87,17 +87,8 @@ class PlayArea extends Component {
           material="color:rgb(100,100,100);opacity:0.1"
           position="0 15 0"
         />
-        <a-cylinder
-          static-body
-          ref={ (c) => { this.bulletDestroyer = c } }
-          id="bulletDestroyer"
-          radius="15"
-          geometry="height:30"
-          position="0 15 0"
-          material="opacity: 0.360; color: #9e33cc;"
-
-        />
         <TheStick onColission={ removeLife } isDefender={ isDefender } />
+        { ballsComponent }
         { /* <a-sphere
           grabbable
           maxGrabbers
@@ -134,13 +125,12 @@ class PlayArea extends Component {
           height="1"
           depth="1"
         /> */ }
-        { ballsComponent }
-        { /* <a-sky
+        <a-sky
           id="background"
           src="#skyTexture"
           theta-length="90"
           radius="30"
-        /> */ }
+        />
       </a-entity>
     );
   }
@@ -156,14 +146,14 @@ PlayArea.propTypes = {
     }),
   })).isRequired,
   removeLife: PropTypes.func.isRequired,
+  deleteBullet: PropTypes.func.isRequired,
   isDefender: PropTypes.bool.isRequired
 }
 
-const mapDispatchToProps = () => ({})
 const mapStateToProps = ({ balls, mainApp }) => ({
   balls: balls.balls,
   userID: mainApp.userID,
   isDefender: mainApp.isDefender,
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(PlayArea);
+export default connect(mapStateToProps, null)(PlayArea);

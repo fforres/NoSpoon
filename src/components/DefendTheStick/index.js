@@ -6,10 +6,9 @@ import AttackerPlayer from './components/playerAttacker';
 import OtherAttackers from './components/otherAttackers';
 import PlayArea from './components/PlayArea';
 import FireBase from '../../store/socket/Firebase';
-import { getDisplay } from './components/helpers';
-import { createCurrentPlayer } from '../../store/reducers/firebase';
+import { isPlayerReady } from '../../store/reducers/firebase';
 import { connectPlayers } from '../../store/reducers/players';
-import { connectBalls } from '../../store/reducers/balls';
+import { connectBalls, deleteBullet } from '../../store/reducers/balls';
 
 import '../../store/socket';
 
@@ -55,29 +54,21 @@ class App extends Component {
   }
   constructor(props) {
     super(props);
-    const defender = new URL(window.location.href).searchParams.get('defender');
-    this.state = {
-      startingLives: 3,
-      timeStart: Date.now(),
-      isDefender: (defender === 'true'),
-      loser: false,
-      userID: `user-${performance.now().toString().split('.').join('')}`,
-      myBalls: [],
-    }
+    this.state = {}
   }
 
   componentWillMount() {
-    this.startFireBase();
+    this.startSocket();
     this.prepareGame();
   }
 
-  startFireBase() {
+  startSocket() {
     const {
-      createCurrentPlayer,
       connectPlayers,
-      connectBalls
+      connectBalls,
+      isPlayerReady,
     } = this.props;
-    createCurrentPlayer();
+    isPlayerReady();
     connectPlayers();
     connectBalls();
   }
@@ -85,14 +76,6 @@ class App extends Component {
   prepareGame() {
     this.bindToState()
       .then(() => this.setFeedbackLoop())
-      .then(() => this.emitState(this.state.startingLives))
-      .then(() => getDisplay())
-      .then((isHeadSet) => {
-        this.setState({
-          isHeadSet,
-          isReady: true,
-        });
-      });
   }
 
   winLoop() {
@@ -104,10 +87,6 @@ class App extends Component {
       loser,
       timeSession
     });
-  }
-
-  removeLife() {
-    this.emitState((this.state.lives - 1))
   }
 
   setFeedbackLoop() {
@@ -138,17 +117,8 @@ class App extends Component {
     })
   }
 
-  createABall () {
-    const { userID } = this.state;
-    const Ball = {
-      id: `${userID}_ball-${performance.now().toString().split('.').join('')}`,
-    }
-    this.setState({
-      myBalls: [...this.state.myBalls, Ball],
-    })
-  }
-  getPlayer() {
-    const { lives, loser, isDefender, userID } = this.state;
+  getPlayer(isDefender) {
+    const { lives, loser, userID } = this.state;
     if (isDefender) {
       return (
         <DefenderPlayer
@@ -162,16 +132,28 @@ class App extends Component {
       <AttackerPlayer
         lives={ lives }
         winner={ loser }
-        userID={ userID }
+      />
+    );
+  }
+
+  getPlayArea(isDefender) {
+    const { deleteBullet } = this.props;
+    return (
+      <PlayArea
+        removeLife={ () => {} }
+        isDefender={ isDefender }
+        deleteBullet={ deleteBullet }
       />
     );
   }
 
   render() {
     // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
-    const { isReady, userID, isDefender } = this.state;
-    const player = this.getPlayer();
+    const { isReady, isDefender } = this.props;
+    const { userID } = this.state;
+    const player = this.getPlayer(isDefender);
     const otherAttackers = <OtherAttackers userID={ userID } />
+    const playAreaa = this.getPlayArea(isDefender)
     const assets = App.getAssets();
     return (
       <a-scene
@@ -187,13 +169,7 @@ class App extends Component {
         ` }
       >
         { assets }
-        {
-          isReady &&
-          <PlayArea
-            removeLife={ this.removeLife }
-            isDefender={ isDefender }
-          />
-        }
+        { isReady ? playAreaa : null }
         { isReady ? player : null }
         { isReady ? otherAttackers : null }
 
@@ -202,20 +178,30 @@ class App extends Component {
   }
 }
 
+App.defaultProps = {
+  isReady: false,
+  isDefender: false,
+}
 App.propTypes = {
-  createCurrentPlayer: PropTypes.func.isRequired,
+  isReady: PropTypes.bool,
+  isDefender: PropTypes.bool,
+  isPlayerReady: PropTypes.func.isRequired,
   connectPlayers: PropTypes.func.isRequired,
   connectBalls: PropTypes.func.isRequired,
+  deleteBullet: PropTypes.func.isRequired,
 }
 
 const mapDispatchToProps = dispatch => ({
-  createCurrentPlayer: () => dispatch(createCurrentPlayer()),
-  connectPlayers: () => dispatch(connectPlayers()),
+  isPlayerReady: () => dispatch(isPlayerReady()),
+  connectPlayers: (...props) => dispatch(connectPlayers(...props)),
   connectBalls: () => dispatch(connectBalls()),
+  deleteBullet: (...props) => dispatch(deleteBullet(...props)),
 });
 
-const mapStateToProps = ({ balls }) => ({
-  ballsStore: balls,
+const mapStateToProps = ({ mainApp }) => ({
+  isDefender: mainApp.isDefender,
+  isReady: mainApp.isReady,
+  isHeadSet: mainApp.isHeadSet,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -37,18 +37,19 @@ export default function reducer(state = defaultState, { type, payload }) {
 // export const connectPlayers = () => ({ type: CONNECT_PLAYERS });
 export const setNewPlayer = payload => ({ type: SET_PLAYER, payload });
 
-export const connectPlayers = () => (dispatch) => {
+export const connectPlayers = () => (dispatch, getState) => {
+  const { mainApp } = getState();
   WS.subscribe('userPosition', (data) => {
     dispatch(setNewPlayer({
       id: data.user.id,
+      user: {
+        id: mainApp.userID,
+        attacker: !mainApp.isDefender,
+      },
       position: data.position,
       rotation: data.rotation,
     }));
   });
 };
-  // Firebase.database().ref('/users').on('value', (snapshot) => {
-  //   const users = snapshot.val();
-  //   dispatch(setNewPlayers(users));
-  // })
 
 export const clear = () => ({ type: CLEAR });

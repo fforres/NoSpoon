@@ -5,9 +5,9 @@ export default class Face extends Component {
   componentWillReceiveProps(nextProps) {
     const { position, rotation } = nextProps;
     this.character.setAttribute('rotation', {
-      x: -THREE.Math.radToDeg(rotation._x),
-      y: 180 + THREE.Math.radToDeg(rotation._y),
-      z: THREE.Math.radToDeg(rotation._z),
+      x: -THREE.Math.radToDeg(rotation.x),
+      y: 180 + THREE.Math.radToDeg(rotation.y),
+      z: THREE.Math.radToDeg(rotation.z),
     })
     this.character.setAttribute('position', {
       x: position.x,
@@ -17,11 +17,11 @@ export default class Face extends Component {
   }
 
   render() {
-    const { key } = this.props;
+    const { id } = this.props;
     return (
       <a-sphere
         ref={ (c) => { this.character = c } }
-        key={ key }
+        key={ id }
         radius="0.3"
         // random-color
         shadow="cast:true;receive:true;"
@@ -55,7 +55,7 @@ export default class Face extends Component {
 }
 
 Face.propTypes = {
-  key: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   rotation: PropTypes.shape({
     x: PropTypes.string,
     y: PropTypes.string,

@@ -1,5 +1,3 @@
-import store from './index';
-
 function WS () {
   this.autoReconnectInterval = 5000;
   this.subscriptions = {};
@@ -7,6 +5,9 @@ function WS () {
     try {
       const parsedMsg = JSON.parse(msg.data);
       if (this.subscriptions[parsedMsg.type]) {
+        if (parsedMsg.type === 'createBullet') {
+          // debugger;
+        }
         this.subscriptions[parsedMsg.type].forEach((el) => { el(parsedMsg); })
       }
     } catch (e) {
@@ -27,12 +28,19 @@ function WS () {
       }
     }, this.autoReconnectInterval);
   }
-  this.onOpen = (msg, ws) => {
+  this.onSocketOpened = (msg, ws) => {
     if (this.setTimeout) {
       this.setTimeout = null;
     }
     this.ws = ws
+    if (this.onOpenFunction) {
+      this.onOpenFunction();
+    }
     console.info('socket Opened', msg);
+  }
+
+  this.onOpen = (cb) => {
+    this.onOpenFunction = cb;
   }
   this.connect();
 }
@@ -59,7 +67,7 @@ WS.prototype.connect = function connect(url) {
   const ws = new WebSocket(this.url);
   ws.addEventListener('error', this.onError);
   ws.addEventListener('close', this.onClose);
-  ws.addEventListener('open', msg => this.onOpen(msg, ws));
+  ws.addEventListener('open', msg => this.onSocketOpened(msg, ws));
   ws.addEventListener('message', this.onMessage)
 }
 
@@ -68,6 +76,7 @@ WS.prototype.subscribe = function subscribe(msgType, callback) {
     this.subscriptions[msgType] = new Set();
   }
   this.subscriptions[msgType].add(callback);
+  console.log('added function to', msgType, this.subscriptions);
 }
 
 WS.prototype.unSubscribe = function unSubscribe(msgType, callback) {
@@ -79,10 +88,12 @@ WS.prototype.unSubscribe = function unSubscribe(msgType, callback) {
 
 WS.prototype.send = function send(msg) {
   if (!msg.type) {
-    throw new Error('Message object withouth type');
+    console.error(msg);
+    // throw new Error('Message object withouth type');
   }
-  if (!msg.user.id) {
-    throw new Error('Message object withouth user ID');
+  if (!msg.user || !msg.user.id) {
+    console.error(msg);
+    // throw new Error('Message object withouth user ID');
   }
   if (this.ws) {
     this.ws.send(JSON.stringify(msg));

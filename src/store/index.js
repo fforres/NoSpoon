@@ -1,4 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+
 import thunk from 'redux-thunk';
 // import { autoRehydrate } from 'redux-persist';
 // import { createLogger } from 'redux-logger';
@@ -6,8 +8,6 @@ import reducer from './reducers';
 
 function configureStore(initialState = {}) {
   const middlewares = [thunk];
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
   if (process.env.NODE_ENV !== 'production') {
     // middlewares.push(createLogger());
   }
@@ -15,10 +15,9 @@ function configureStore(initialState = {}) {
   return createStore(
     reducer,
     initialState,
-    composeEnhancers(
+    composeWithDevTools(
       applyMiddleware(...middlewares),
-      // autoRehydrate()
-    ),
+    )
   );
 }
 

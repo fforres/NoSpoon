@@ -1,5 +1,5 @@
-import 'aframe';
 import React, { Component } from 'react';
+import { Entity } from 'aframe-react';
 import PropTypes from 'prop-types';
 
 class CellPhoneHUD extends Component {
@@ -25,9 +25,18 @@ class CellPhoneHUD extends Component {
     );
   }
 
+  static getRandomPosition () {
+    const angle = Math.random() * Math.PI * 2;
+    const radius = 11; // size of the play-area
+    return `${Math.cos(angle) * radius} ${1.65} ${Math.sin(angle) * radius}`;
+  }
+
   constructor(props) {
     super(props);
     this.onClick = this.onClick.bind(this);
+    this.state = {
+      initialPosition: CellPhoneHUD.getRandomPosition(),
+    }
   }
 
   onClick(e) {
@@ -37,13 +46,15 @@ class CellPhoneHUD extends Component {
   render() {
     const { lives, winner, userID } = this.props;
     const hudContent = winner ? CellPhoneHUD.Winner() : CellPhoneHUD.getPlayingHud(lives);
+    console.log(this.state.initialPosition, userID)
     return (
-      <a-entity
-        camera
-        id="CURRENT_PLAYER"
+      <Entity
+        primitive="a-camera"
+        id="CURRENT_PLAYER ATTACKER"
         player-emiter={ `id: ${userID}` }
+        position={ this.state.initialPosition }
         look-controls
-        player-attacker
+        // player-attacker
       >
         <a-entity
           onClick={ this.onClick }
@@ -54,7 +65,7 @@ class CellPhoneHUD extends Component {
           material="color: rgba(200, 100, 100, 0.5); shader: flat"
         />
         { hudContent }
-      </a-entity>
+      </Entity>
     );
   }
 }

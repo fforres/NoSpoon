@@ -1,7 +1,7 @@
-import Firebase from '../socket/Firebase';
+import WS from '../socket/ws';
 
-const SET_BALLS = 'theMatrix/balls/SET_BALLS';
-const REMOVE_BALLS = 'theMatrix/balls/REMOVE_BALLS';
+const SET_BALL = 'theMatrix/balls/SET_BALL';
+const REMOVE_BALL = 'theMatrix/balls/REMOVE_BALL';
 const CLEAR = 'theMatrix/balls/CLEAR';
 
 export const viewStates = ['init', 'loading', 'error', 'success'].reduce((obj, val) => ({ ...obj, [val]: val }), {});
@@ -13,10 +13,21 @@ const defaultState = {
 
 export default function reducer(state = defaultState, { type, payload }) {
   switch (type) {
-  case SET_BALLS:
-    return { ...state, balls: { ...payload.balls } };
-  // case REMOVE_BALLS:
-  //   return { ...state, balls: { ...state.balls } };
+  case SET_BALL:
+    return {
+      ...state,
+      balls: {
+        ...state.balls,
+        [payload.id]: {
+          position: payload.position,
+        }
+      }
+    };
+  case REMOVE_BALL: {
+    const balls = { ...state.balls };
+    delete balls[payload.id]; // TODO: Change for _.omit
+    return { ...state, balls };
+  }
   case CLEAR:
     return defaultState;
   default:
@@ -24,18 +35,35 @@ export default function reducer(state = defaultState, { type, payload }) {
   }
 }
 
-export const setNewBalls = balls => ({ type: SET_BALLS, payload: { balls } });
-export const createBall = ({ userID, position }) => () => {
-  const ballId = `${performance.now().toString().split('.').join('')}__${userID}`
-  Firebase.database().ref(`balls/${ballId}`).set({
-    position,
+export const setNewBall = ({ id, position }) => ({ type: SET_BALL, payload: { id, position } });
+export const removeBall = ({ id }) => ({ type: REMOVE_BALL, payload: { id } });
+
+export const createBall = ({ position }) => (dispatch, getState) => {
+  const { mainApp } = getState();
+  const ballId = `${performance.now().toString().split('.').join('')}__${mainApp.userID}`
+  WS.send({
+    type: 'createBullet',
+    id: ballId,
+    user: {
+      id: mainApp.userID,
+      attacker: !mainApp.isDefender,
+    },
+    position: { ...position },
   })
 };
 export const connectBalls = () => (dispatch) => {
-  Firebase.database().ref('/balls').on('value', (snapshot) => {
-    const balls = snapshot.val() || [];
-    dispatch(setNewBalls(balls));
-  })
+  WS.subscribe('createBullet', (data) => {
+    dispatch(setNewBall({
+      id: data.id,
+      position: data.position,
+    }));
+  });
+}
+
+export const deleteBullet = ({ id }) => (dispatch) => {
+  setTimeout(() => {
+    dispatch(removeBall({ id }))
+  }, 5000)
 }
 
 export const clear = () => ({ type: CLEAR });

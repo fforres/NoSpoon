@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { createBall } from '../../../../store/reducers/balls';
 import CellphoneHUD from './CellPhoneHUD';
 
-class CellphonePlayer extends Component {
+class PlayerAttacker extends Component {
   constructor(props) {
     super(props);
     this.onCellPhoneHUDPressed = this.onCellPhoneHUDPressed.bind(this);
@@ -36,12 +36,12 @@ class CellphonePlayer extends Component {
   }
 }
 
-CellphonePlayer.defaultProps = {
+PlayerAttacker.defaultProps = {
   lives: 10,
   winner: true,
 }
 
-CellphonePlayer.propTypes = {
+PlayerAttacker.propTypes = {
   createBall: PropTypes.func.isRequired,
   userID: PropTypes.string.isRequired,
   lives: PropTypes.number,
@@ -55,4 +55,4 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = ({ mainApp }) => ({
   userID: mainApp.userID,
 })
-export default connect(mapStateToProps, mapDispatchToProps)(CellphonePlayer);
+export default connect(mapStateToProps, mapDispatchToProps)(PlayerAttacker);

@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import HUD from './HUD';
 
-export default class HeadsetPlayer extends Component {
+export default class PlayerDefender extends Component {
   render() {
     // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
     const { lives, loser, userID } = this.props;
@@ -18,12 +18,12 @@ export default class HeadsetPlayer extends Component {
   }
 }
 
-HeadsetPlayer.defaultProps = {
+PlayerDefender.defaultProps = {
   lives: 3,
   loser: false,
 }
 
-HeadsetPlayer.propTypes = {
+PlayerDefender.propTypes = {
   lives: PropTypes.number,
   loser: PropTypes.bool,
   userID: PropTypes.string.isRequired
