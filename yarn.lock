@@ -66,6 +66,10 @@ address@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/address/-/address-1.0.3.tgz#b5f50631f8d6cec8bd20c963963afb55e06cbce9"
 
+aframe-environment-component@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/aframe-environment-component/-/aframe-environment-component-1.0.0.tgz#dde6a8734dc7777d9c4a00b5bab25f877e8b3b37"
+
 aframe-physics-system@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/aframe-physics-system/-/aframe-physics-system-2.0.0.tgz#a17e93183da99bc35c57134f634c634e9806a654"
@@ -2782,6 +2786,10 @@ event-emitter@~0.3.5:
 eventemitter3@1.x.x:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-1.2.0.tgz#1c86991d816ad1e504750e73874224ecf3bec508"
+
+eventemitter3@^2.0.2:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-2.0.3.tgz#b5e1079b59fb5e1ba2771c0a993be060a58c99ba"
 
 events@^1.0.0, events@^1.0.2, events@~1.1.0:
   version "1.1.1"
@@ -6591,6 +6599,10 @@ schema-utils@^0.3.0:
   dependencies:
     ajv "^5.0.0"
 
+screenfull@^3.0.2:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/screenfull/-/screenfull-3.3.1.tgz#5eea886b412043af89e2e5cc4433f894d0ebb90b"
+
 select-hose@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/select-hose/-/select-hose-2.0.0.tgz#625d8658f865af43ec962bfc376a37359a4994ca"
@@ -7680,6 +7692,13 @@ websocket-extensions@>=0.1.1:
 webvr-polyfill@^0.9.36:
   version "0.9.39"
   resolved "https://registry.yarnpkg.com/webvr-polyfill/-/webvr-polyfill-0.9.39.tgz#0193d104924448227b1fcedf44d975eab2e5be21"
+
+webvr-ui@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/webvr-ui/-/webvr-ui-0.10.0.tgz#61e1be3ac1285021dcad954ca38fb860ac8d88c5"
+  dependencies:
+    eventemitter3 "^2.0.2"
+    screenfull "^3.0.2"
 
 webworkify@^1.4.0:
   version "1.4.0"

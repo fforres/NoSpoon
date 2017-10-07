@@ -50,12 +50,8 @@ class PlayArea extends Component {
     return (
       <a-entity>
         <a-entity
-          id="sun"
-          light="angle:45;decay: 0.5; color:#F0F0F0;type:directional"
-          position="0 5.417 0"
-          rotation="-81.64648580614231 0 0"
+          environment="preset: starry; groundColor: #445; grid: cross" // starry, tron, contact
         />
-
         <a-entity
           id="floor"
           static-body
@@ -125,12 +121,12 @@ class PlayArea extends Component {
           height="1"
           depth="1"
         /> */ }
-        <a-sky
+        { /* <a-sky
           id="background"
           src="#skyTexture"
           theta-length="90"
           radius="30"
-        />
+        /> */ }
       </a-entity>
     );
   }

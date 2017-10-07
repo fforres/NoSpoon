@@ -160,9 +160,9 @@ class App extends Component {
     return (
       <a-scene
         ref={ (c) => { this.scene = c } }
-        environment
-        rain-of-entities="spread: 3"
+        webvr-ui
         physics={ `
+          vr-mode-ui="enabled: true">
           driver: local;
           workerFps: 60;
           workerInterpolate: true;
