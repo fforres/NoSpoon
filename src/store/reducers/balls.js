@@ -83,7 +83,8 @@ export const fakeBulletCreator = () => (dispatch) => {
   })
   setTimeout(() => {
     dispatch(deleteBullet({ id }));
-  }, 2000);
+    dispatch(deleteBullet({ id2 }));
+  }, 4000);
 };
 
 export const connectBalls = () => (dispatch) => {
