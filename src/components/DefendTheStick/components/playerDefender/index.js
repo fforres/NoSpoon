@@ -1,5 +1,4 @@
 import 'aframe';
-import 'super-hands';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import HUD from './HUD';

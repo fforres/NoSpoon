@@ -153,9 +153,8 @@ class App extends Component {
   render() {
     // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
     const { isReady, isDefender } = this.props;
-    const { userID } = this.state;
     const player = this.getPlayer(isDefender);
-    const otherAttackers = <OtherAttackers userID={ userID } />
+    const otherAttackers = <OtherAttackers />
     const playAreaa = this.getPlayArea(isDefender)
     const assets = App.getAssets();
     return (
