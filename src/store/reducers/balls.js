@@ -25,7 +25,6 @@ export default function reducer(state = defaultState, { type, payload }) {
       }
     };
   case REMOVE_BALL: {
-    console.log(state.balls, omit(state.balls, payload.id));
     return {
       ...state,
       balls: { ...omit(state.balls, payload.id) },
