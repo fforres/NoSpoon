@@ -79,14 +79,14 @@ class PlayArea extends Component {
           material="color: rgb(123,123,123); opacity: 0.5;"
           height="0.3"
         />
-        <a-cylinder
+        { /* <a-cylinder
           static-body
           id="bulletCreator"
           radius="9"
           geometry="height:30"
           material="color:rgb(100,100,100);opacity:0.1"
           position="0 15 0"
-        />
+        /> */ }
         <TheStick onColission={ removeLife } isDefender={ isDefender } />
         { ballsComponent }
         { /* <a-sphere

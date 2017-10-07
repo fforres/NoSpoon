@@ -46,7 +46,6 @@ class CellPhoneHUD extends Component {
   render() {
     const { lives, winner, userID } = this.props;
     const hudContent = winner ? CellPhoneHUD.Winner() : CellPhoneHUD.getPlayingHud(lives);
-    console.log(this.state.initialPosition, userID)
     return (
       <Entity
         primitive="a-camera"

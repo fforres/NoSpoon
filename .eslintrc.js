@@ -90,5 +90,6 @@ module.exports = {
     "performance": true,
     "URL": true,
     "WebSocket": true,
+    "requestAnimationFrame": true,
   }
 };

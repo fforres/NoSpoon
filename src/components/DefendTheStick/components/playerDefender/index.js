@@ -5,6 +5,11 @@ import PropTypes from 'prop-types';
 import HUD from './HUD';
 
 export default class PlayerDefender extends Component {
+
+  componentDidMount() {
+    setInterval(this.props.fakeBulletCreator, 2000);
+  }
+
   render() {
     // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
     const { lives, loser, userID } = this.props;
@@ -24,6 +29,7 @@ PlayerDefender.defaultProps = {
 }
 
 PlayerDefender.propTypes = {
+  fakeBulletCreator: PropTypes.func.isRequired,
   lives: PropTypes.number,
   loser: PropTypes.bool,
   userID: PropTypes.string.isRequired

@@ -23,7 +23,6 @@ export default class Face extends Component {
         ref={ (c) => { this.character = c } }
         key={ id }
         radius="0.3"
-        // random-color
         shadow="cast:true;receive:true;"
       >
         <a-circle

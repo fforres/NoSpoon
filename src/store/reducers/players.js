@@ -34,7 +34,6 @@ export default function reducer(state = defaultState, { type, payload }) {
   }
 }
 
-// export const connectPlayers = () => ({ type: CONNECT_PLAYERS });
 export const setNewPlayer = payload => ({ type: SET_PLAYER, payload });
 
 export const connectPlayers = () => (dispatch, getState) => {

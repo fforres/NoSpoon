@@ -51,6 +51,27 @@ export const createBall = ({ position }) => (dispatch, getState) => {
     position: { ...position },
   })
 };
+
+export const fakeBulletCreator = () => (dispatch) => {
+  const id = `${performance.now().toString().split('.').join('')}`;
+  WS.send({
+    type: 'createBullet',
+    id,
+    user: {
+      id: 'user-9659250000000001',
+      attacker: true,
+    },
+    position: {
+      x: -5.745240321559881,
+      y: 3.1151000523958334,
+      z: 6.922302134402269,
+    }
+  })
+  setTimeout(() => {
+    dispatch(deleteBullet({ id }));
+  }, 2000);
+};
+
 export const connectBalls = () => (dispatch) => {
   WS.subscribe('createBullet', (data) => {
     dispatch(setNewBall({

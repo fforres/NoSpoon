@@ -22,7 +22,7 @@ function WS () {
 
   this.reconnect = () => {
     this.setTimeout = setTimeout(() => {
-      console.log('Reconnecting WebSocketClient');
+      console.info('Reconnecting WebSocketClient');
       if (!this.ws) {
         this.connect();
       }
@@ -49,19 +49,6 @@ WS.prototype.onError = function onError(msg) {
   console.error('error', msg, this);
 }
 
-
-// WS.prototype.onMessage = function onMessage(msg) {
-//   try {
-//     const parsedMsg = JSON.parse(msg.data)
-//     console.log(parsedMsg)
-//     if (this.subscriptions[parsedMsg.type]) {
-//       this.subscriptions[parsedMsg.type].forEach((el) => { el(msg); })
-//     }
-//   } catch (e) {
-//     console.error(e);
-//   }
-// }
-
 WS.prototype.connect = function connect(url) {
   this.url = url || 'ws://localhost:3001';
   const ws = new WebSocket(this.url);
@@ -76,7 +63,6 @@ WS.prototype.subscribe = function subscribe(msgType, callback) {
     this.subscriptions[msgType] = new Set();
   }
   this.subscriptions[msgType].add(callback);
-  console.log('added function to', msgType, this.subscriptions);
 }
 
 WS.prototype.unSubscribe = function unSubscribe(msgType, callback) {
@@ -100,7 +86,6 @@ WS.prototype.send = function send(msg) {
   }
 }
 
-
 // export enum MessageTypes {
 //   createBullet = 'createBullet',
 //   identifyUser = 'identifyUser',
@@ -115,5 +100,6 @@ WS.prototype.send = function send(msg) {
 //     type: UserTypes;
 //   };
 // }
+
 const ws = new WS();
 export default ws;
