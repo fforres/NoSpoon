@@ -16,7 +16,6 @@ export default class DefenderBullet extends Component {
         radius="0.1"
         geometry="primitive: sphere; radius: 0.1;"
         material="color: red"
-        random-color
         position={ position }
       />
     );

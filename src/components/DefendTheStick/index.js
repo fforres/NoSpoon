@@ -8,7 +8,7 @@ import PlayArea from './components/PlayArea';
 import FireBase from '../../store/socket/Firebase';
 import { isPlayerReady } from '../../store/reducers/firebase';
 import { connectPlayers } from '../../store/reducers/players';
-import { connectBalls, deleteBullet } from '../../store/reducers/balls';
+import { connectBalls, deleteBullet, fakeBulletCreator } from '../../store/reducers/balls';
 
 import '../../store/socket';
 
@@ -55,6 +55,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {}
+    this.getPlayer = this.getPlayer.bind(this);
   }
 
   componentWillMount() {
@@ -118,10 +119,12 @@ class App extends Component {
   }
 
   getPlayer(isDefender) {
+    const { fakeBulletCreator } = this.props;
     const { lives, loser, userID } = this.state;
     if (isDefender) {
       return (
         <DefenderPlayer
+          fakeBulletCreator={ fakeBulletCreator }
           lives={ lives }
           loser={ loser }
           userID={ userID }
@@ -165,7 +168,7 @@ class App extends Component {
           workerFps: 60;
           workerInterpolate: true;
           workerInterpBufferSize: 2;
-          gravity: 0;
+          gravity: -0.1;
         ` }
       >
         { assets }
@@ -185,6 +188,7 @@ App.defaultProps = {
 App.propTypes = {
   isReady: PropTypes.bool,
   isDefender: PropTypes.bool,
+  fakeBulletCreator: PropTypes.func.isRequired,
   isPlayerReady: PropTypes.func.isRequired,
   connectPlayers: PropTypes.func.isRequired,
   connectBalls: PropTypes.func.isRequired,
@@ -192,6 +196,7 @@ App.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
+  fakeBulletCreator: () => dispatch(fakeBulletCreator()),
   isPlayerReady: () => dispatch(isPlayerReady()),
   connectPlayers: (...props) => dispatch(connectPlayers(...props)),
   connectBalls: () => dispatch(connectBalls()),
