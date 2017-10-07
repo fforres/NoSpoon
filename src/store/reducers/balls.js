@@ -1,3 +1,4 @@
+import { omit } from 'lodash';
 import WS from '../socket/ws';
 
 const SET_BALL = 'theMatrix/balls/SET_BALL';
@@ -24,9 +25,10 @@ export default function reducer(state = defaultState, { type, payload }) {
       }
     };
   case REMOVE_BALL: {
-    const balls = { ...state.balls };
-    delete balls[payload.id]; // TODO: Change for _.omit
-    return { ...state, balls };
+    return {
+      ...state,
+      balls: { ...omit(state.balls, payload.id) },
+    }
   }
   case CLEAR:
     return defaultState;
