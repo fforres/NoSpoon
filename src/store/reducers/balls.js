@@ -86,7 +86,7 @@ export const fakeBulletCreator = () => (dispatch) => {
   })
   setTimeout(() => {
     dispatch(deleteBullet({ id }));
-    // dispatch(deleteBullet({ id2 }));
+    dispatch(deleteBullet({ id2 }));
   }, 4000);
 };
 
