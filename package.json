@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "aframe": "^0.7.0",
+    "aframe-environment-component": "^1.0.0",
     "aframe-physics-system": "^2.0.0",
     "aframe-react": "^4.3.0",
     "autoprefixer": "7.1.2",
@@ -47,6 +48,7 @@
     "webpack": "3.5.1",
     "webpack-dev-server": "2.8.2",
     "webpack-manifest-plugin": "1.2.1",
+    "webvr-ui": "^0.10.0",
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
