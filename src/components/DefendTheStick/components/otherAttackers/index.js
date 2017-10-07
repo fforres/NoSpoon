@@ -1,5 +1,4 @@
 import 'aframe';
-import 'super-hands';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'; // ES6
 import { connect } from 'react-redux';
@@ -14,7 +13,6 @@ class OtherAttackers extends Component {
   getAttackersComponents() {
     const array = [];
     const { players } = this.props;
-    const { userID } = this.props;
     Object.keys(players).forEach((player) => {
       const { rotation, position } = players[player];
       if (players[player] && rotation && position) {
@@ -44,7 +42,6 @@ class OtherAttackers extends Component {
 }
 
 OtherAttackers.propTypes = {
-  userID: PropTypes.string.isRequired,
   players: PropTypes.arrayOf(PropTypes.shape({
     rotation: PropTypes.shape({
       x: PropTypes.string,
