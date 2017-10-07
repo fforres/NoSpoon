@@ -1,3 +1,4 @@
+import { omit } from 'lodash';
 import WS from '../socket/ws';
 
 const SET_BALL = 'theMatrix/balls/SET_BALL';
@@ -24,9 +25,11 @@ export default function reducer(state = defaultState, { type, payload }) {
       }
     };
   case REMOVE_BALL: {
-    const balls = { ...state.balls };
-    delete balls[payload.id]; // TODO: Change for _.omit
-    return { ...state, balls };
+    console.log(state.balls, omit(state.balls, payload.id));
+    return {
+      ...state,
+      balls: { ...omit(state.balls, payload.id) },
+    }
   }
   case CLEAR:
     return defaultState;
@@ -67,23 +70,23 @@ export const fakeBulletCreator = () => (dispatch) => {
       z: 6.922302134402269,
     }
   })
-  const id2 = `${performance.now().toString().split('.').join('')}`;
-  WS.send({
-    type: 'createBullet',
-    id: id2,
-    user: {
-      id: 'user-9659250000000001',
-      attacker: true,
-    },
-    position: {
-      x: 5.745240321559881,
-      y: 3.1151000523958334,
-      z: -6.922302134402269,
-    }
-  })
+  // const id2 = `${performance.now().toString().split('.').join('')}`;
+  // WS.send({
+  //   type: 'createBullet',
+  //   id: id2,
+  //   user: {
+  //     id: 'user-9659250000000001',
+  //     attacker: true,
+  //   },
+  //   position: {
+  //     x: 5.745240321559881,
+  //     y: 3.1151000523958334,
+  //     z: -6.922302134402269,
+  //   }
+  // })
   setTimeout(() => {
     dispatch(deleteBullet({ id }));
-    dispatch(deleteBullet({ id2 }));
+    // dispatch(deleteBullet({ id2 }));
   }, 4000);
 };
 
