@@ -50,7 +50,7 @@ WS.prototype.onError = function onError(msg) {
 }
 
 WS.prototype.connect = function connect() {
-  this.url = process.env.NODE_ENV === 'development' ? 'ws://localhost:3001' : 'https://nospoon.herokuapp.com/';
+  this.url = process.env.NODE_ENV === 'development' ? 'ws://localhost:3001' : 'wss://aqueous-lake-16031.herokuapp.com/';
   const ws = new WebSocket(this.url);
   ws.addEventListener('error', this.onError);
   ws.addEventListener('close', this.onClose);
