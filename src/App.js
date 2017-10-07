@@ -5,7 +5,7 @@ import 'super-hands/dist/super-hands';
 import 'webvr-ui/build/webvr-ui';
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import store from './store';
 import DefendTheStick from './components/DefendTheStick';
 

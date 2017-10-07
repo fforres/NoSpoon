@@ -34,6 +34,7 @@ class HUD extends Component {
         camera="userHeight: 1.6;"
         look-controls
         wasd-controls
+        super-hands
         player-emiter={ `id: ${userID}; defender: true;` }
       >
         { hudContent }

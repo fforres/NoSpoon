@@ -14,8 +14,10 @@ export default class PlayerDefender extends Component {
     const { lives, loser, userID } = this.props;
     return (
       <a-entity>
-        <a-entity id="teleHand" hand-controls="left" mixin="controller" />
-        <a-entity id="blockHand" hand-controls="right" mixin="controller" />
+        { /* <a-entity id="teleHand" hand-controls="left" mixin="controller" />
+        <a-entity id="blockHand" hand-controls="right" mixin="controller" /> */ }
+        <a-entity class="right-controller" super-hands />
+        <a-entity class="left-controller" super-hands />
         <HUD lives={ lives } loser={ loser } userID={ userID } />
       </a-entity>
     );

@@ -19,12 +19,6 @@ class App extends Component {
       <a-assets>
         <img
           crossOrigin="anonymous"
-          id="skyTexture"
-          src="../../assets/sky-min.jpg"
-          alt="skyTexture"
-        />
-        <img
-          crossOrigin="anonymous"
           id="groundTexture"
           src="https://cdn.aframe.io/a-painter/images/floor.jpg"
           alt="groundTexture"
