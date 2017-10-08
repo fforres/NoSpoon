@@ -49,11 +49,9 @@ class CellPhoneHUD extends Component {
     return (
       <Entity
         primitive="a-camera"
-        id="CURRENT_PLAYER ATTACKER"
         player-emiter={ `id: ${userID}` }
         position={ this.state.initialPosition }
         look-controls
-        // player-attacker
       >
         <a-entity
           onClick={ this.onClick }

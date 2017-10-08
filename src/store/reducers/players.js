@@ -39,6 +39,7 @@ export const setNewPlayer = payload => ({ type: SET_PLAYER, payload });
 export const connectPlayers = () => (dispatch, getState) => {
   const { mainApp } = getState();
   WS.subscribe('userPosition', (data) => {
+    console.log(data);
     dispatch(setNewPlayer({
       id: data.user.id,
       user: {

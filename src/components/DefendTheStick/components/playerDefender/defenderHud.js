@@ -30,7 +30,6 @@ class HUD extends Component {
     const hudContent = loser ? HUD.LOOSER() : HUD.getPlayingHud(lives);
     return (
       <a-entity
-        id="CURRENT_PLAYER DEFENDER"
         camera="userHeight: 1.6;"
         look-controls
         wasd-controls

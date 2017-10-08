@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'; // ES6
 import { connect } from 'react-redux';
 import Face from '../face';
 
-class OtherAttackers extends Component {
+class OtherPlayers extends Component {
   constructor(props) {
     super(props);
     this.getAttackersComponents = this.getAttackersComponents.bind(this);
@@ -13,6 +13,7 @@ class OtherAttackers extends Component {
   getAttackersComponents() {
     const array = [];
     const { players } = this.props;
+    console.log(players);
     Object.keys(players).forEach((player) => {
       const { rotation, position } = players[player];
       if (players[player] && rotation && position) {
@@ -31,24 +32,16 @@ class OtherAttackers extends Component {
   }
 
   render() {
-    // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
-    const attackers = this.getAttackersComponents();
     return (
       <a-entity>
-        { attackers }
+        { this.getAttackersComponents() }
       </a-entity>
     );
   }
 }
 
-OtherAttackers.propTypes = {
-  players: PropTypes.arrayOf(PropTypes.shape({
-    rotation: PropTypes.shape({
-      x: PropTypes.string,
-      y: PropTypes.string,
-      z: PropTypes.string,
-    }),
-  })).isRequired
+OtherPlayers.propTypes = {
+  players: PropTypes.object.isRequired,
 }
 
 const mapDispatchToProps = () => ({})
@@ -56,4 +49,4 @@ const mapStateToProps = ({ players }) => ({
   players: players.players,
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(OtherAttackers);
+export default connect(mapStateToProps, mapDispatchToProps)(OtherPlayers);

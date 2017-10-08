@@ -1,46 +1,46 @@
 import 'aframe';
-import Firebase from './Firebase';
 import WS from './ws';
 
 AFRAME.registerComponent('player-emiter', {
   schema: {
-    id: { type: 'string', default: '' },
+    id: { type: 'string' },
     defender: { type: 'boolean' },
   },
   init () {
     this.id = this.data.id;
     this.WS = WS;
-    this.isDefender = this.data.defender;
-
-    this.FireBase = {
-      connection: Firebase,
-      database: Firebase.database(),
-      userRef: Firebase.database().ref(`users/${this.id}`),
-    }
+    this.currentTick = 0;
+    this.userData = {
+      id: this.data.id,
+      isDefender: this.data.defender,
+    };
   },
   // update: function () {},
   tick () {
-    if (!this.currentTick) {
-      this.currentTick = 0;
-    }
     this.currentTick = this.currentTick + 1;
-    if (this.currentTick === 2) { // Small hack to increas MS between updates
+    if (this.currentTick === 10) { // Small hack to increas MS between updates
       this.currentTick = 0
       this.updateUserPos();
     }
   },
   updateUserPos () {
+    // const user = this.el.object3D;
+    // const { _x: x, _y: y, _z: z } = user.getWorldRotation();
+    // const data = {
+    //   type: 'userPosition',
+    //   user: this.userData,
+    //   position: { ...user.getWorldPosition() },
+    //   rotation: { x, y, z },
+    // };
+    // this.WS.send(data);
     const user = this.el.object3D;
-    // const { _x: x, _y: y, _z: z } = { ...user.getWorldRotation() };
-    this.WS.send({
+    const data = {
       type: 'userPosition',
-      user: {
-        id: this.id,
-        isDefender: this.isDefender,
-      },
+      user: this.userData,
       position: { ...user.getWorldPosition() },
       rotation: { ...user.getWorldRotation() },
-    });
+    };
+    this.WS.send(data);
   },
 });
 

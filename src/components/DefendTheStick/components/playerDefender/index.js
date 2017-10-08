@@ -1,7 +1,7 @@
 import 'aframe';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import HUD from './HUD';
+import HUD from './defenderHud';
 
 export default class PlayerDefender extends Component {
 
@@ -13,7 +13,7 @@ export default class PlayerDefender extends Component {
     // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
     const { lives, loser, userID } = this.props;
     return (
-      <a-entity>
+      <a-entity name={ 'PLAYER_DEFENDER' }>
         { /* <a-entity id="teleHand" hand-controls="left" mixin="controller" />
         <a-entity id="blockHand" hand-controls="right" mixin="controller" /> */ }
         <a-entity class="right-controller" super-hands />
