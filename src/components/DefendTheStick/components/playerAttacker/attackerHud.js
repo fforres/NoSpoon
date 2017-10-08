@@ -9,7 +9,7 @@ class CellPhoneHUD extends Component {
         geometry="primitive: plane; height: 0.3; width: 0.6"
         position="0.4 -0.4 -1"
         material="color: #0000FF; opacity: 0.5"
-        text={ ['align:center', 'color:white', `value: Lives : ${lives}`].join(';') }
+        text={ ['align:center', 'color:white', `value: ATTACK! Lives : ${lives}`].join(';') }
       />
     )
   }
@@ -20,7 +20,7 @@ class CellPhoneHUD extends Component {
         geometry="primitive: plane; height: 4; width: 4"
         position="0 0 -2"
         material="color: #FF0000; opacity: 0.7"
-        text={ ['align:center', 'color:white', 'value: YOU Win!!'].join(';') }
+        text={ ['align:center', 'color:white', 'value: ATTACK! YOU Win!!'].join(';') }
       />
     );
   }
@@ -34,9 +34,7 @@ class CellPhoneHUD extends Component {
   constructor(props) {
     super(props);
     this.onClick = this.onClick.bind(this);
-    this.state = {
-      initialPosition: CellPhoneHUD.getRandomPosition(),
-    }
+    this.initialPosition = CellPhoneHUD.getRandomPosition();
   }
 
   onClick(e) {
@@ -49,11 +47,9 @@ class CellPhoneHUD extends Component {
     return (
       <Entity
         primitive="a-camera"
-        id="CURRENT_PLAYER ATTACKER"
-        player-emiter={ `id: ${userID}` }
-        position={ this.state.initialPosition }
+        player-emiter={ `id: ${userID}; defender: false;` }
+        position={ this.initialPosition }
         look-controls
-        // player-attacker
       >
         <a-entity
           onClick={ this.onClick }
@@ -61,7 +57,6 @@ class CellPhoneHUD extends Component {
           cursor="fuse: false"
           position="0 0 -1"
           geometry="primitive: ring; radius-inner: 0.01; radius-outer: 0.011;"
-          material="color: rgba(200, 100, 100, 0.5); shader: flat"
         />
         { hudContent }
       </Entity>

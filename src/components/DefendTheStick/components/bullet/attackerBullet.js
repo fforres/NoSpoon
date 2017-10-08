@@ -1,11 +1,13 @@
 import 'aframe';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import CANNON from 'cannon';
 import PropTypes from 'prop-types';
+import { deleteBullet } from '../../../../store/reducers/balls';
 
 import './component';
 
-export default class AttackerBullet extends Component {
+class AttackerBullet extends Component {
 
   constructor(props) {
     super(props);
@@ -17,6 +19,8 @@ export default class AttackerBullet extends Component {
     this.bullet.addEventListener('body-loaded', () => {
       requestAnimationFrame(this.bodyLoaded);
     });
+    const { deleteBullet, name } = this.props;
+    deleteBullet({ id: name })
   }
 
   componentWillUnmount() {
@@ -28,15 +32,17 @@ export default class AttackerBullet extends Component {
 
   bodyLoaded() {
     const impulseAmount = 10;
-    const directionVector = new CANNON.Vec3().copy(
-      this.worldOrigin.vsub(this.bullet.body.position)
-    );
-    const bulletVector = new CANNON.Vec3();
-    bulletVector.copy(this.bullet.body.position);
-
-    directionVector.normalize();
-    directionVector.scale(impulseAmount, directionVector);
-    this.bullet.body.applyImpulse(directionVector, bulletVector);
+    if (this.bullet) {
+      const position = { ...this.bullet.body.position };
+      const directionVector = new CANNON.Vec3().copy(
+        this.worldOrigin.vsub(position)
+      );
+      const bulletVector = new CANNON.Vec3();
+      bulletVector.copy(position);
+      directionVector.normalize();
+      directionVector.scale(impulseAmount, directionVector);
+      this.bullet.body.applyImpulse(directionVector, bulletVector);
+    }
   }
   render() {
     const { name, position } = this.props;
@@ -64,9 +70,16 @@ export default class AttackerBullet extends Component {
 
 AttackerBullet.propTypes = {
   name: PropTypes.string.isRequired,
+  deleteBullet: PropTypes.func.isRequired,
   position: PropTypes.shape({
     x: PropTypes.number,
     y: PropTypes.number,
     z: PropTypes.number,
   }).isRequired,
 }
+
+const mapDispatchToProps = dispatch => ({
+  deleteBullet: ({ id }) => dispatch(deleteBullet({ id })),
+})
+
+export default connect(null, mapDispatchToProps)(AttackerBullet);

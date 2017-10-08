@@ -30,11 +30,11 @@ class HUD extends Component {
     const hudContent = loser ? HUD.LOOSER() : HUD.getPlayingHud(lives);
     return (
       <a-entity
-        id="CURRENT_PLAYER DEFENDER"
         camera="userHeight: 1.6;"
+        player-emiter={ `id: ${userID}; defender: true;` }
         look-controls
         wasd-controls
-        player-emiter={ `id: ${userID}; defender: true;` }
+        super-hands
       >
         { hudContent }
       </a-entity>

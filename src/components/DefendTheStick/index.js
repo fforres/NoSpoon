@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types'; // ES6
 import { connect } from 'react-redux';
 import DefenderPlayer from './components/playerDefender';
-import AttackerPlayer from './components/playerAttacker';
-import OtherAttackers from './components/otherAttackers';
+import PlayerAttacker from './components/playerAttacker';
+import OtherPlayers from './components/otherPlayers';
 import PlayArea from './components/PlayArea';
-import FireBase from '../../store/socket/Firebase';
 import { isPlayerReady } from '../../store/reducers/firebase';
 import { connectPlayers } from '../../store/reducers/players';
 import { connectBalls, deleteBullet, fakeBulletCreator } from '../../store/reducers/balls';
@@ -17,12 +16,6 @@ class App extends Component {
   static getAssets() {
     return (
       <a-assets>
-        <img
-          crossOrigin="anonymous"
-          id="skyTexture"
-          src="../../assets/sky-min.jpg"
-          alt="skyTexture"
-        />
         <img
           crossOrigin="anonymous"
           id="groundTexture"
@@ -59,82 +52,34 @@ class App extends Component {
   }
 
   componentWillMount() {
-    this.startSocket();
-    this.prepareGame();
+    this.props.isPlayerReady();
   }
 
-  startSocket() {
-    const {
-      connectPlayers,
-      connectBalls,
-      isPlayerReady,
-    } = this.props;
-    isPlayerReady();
-    connectPlayers();
-    connectBalls();
-  }
-
-  prepareGame() {
-    this.bindToState()
-      .then(() => this.setFeedbackLoop())
-  }
-
-  winLoop() {
-    const { lives, timeStart } = this.state;
-    const loser = (lives <= 0);
-    const timePlaying = Date.now();
-    const timeSession = loser ? timeStart - timePlaying : 0;
-    this.setState({
-      loser,
-      timeSession
-    });
-  }
-
-  setFeedbackLoop() {
-    return new Promise((resolve) => {
-      this.state.FB.on('value', (snapshot) => {
-        this.setState({
-          lives: snapshot.val().lives,
-        }, this.winLoop);
-      })
-      resolve();
-    })
-  }
-
-  emitState(lives) {
-    const { isDefender, FB } = this.state;
-    let toReturn = {};
-    if (isDefender) {
-      toReturn = FB.set({ lives })
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isReady) {
+      this.props.connectPlayers();
+      this.props.connectBalls();
     }
-    return toReturn;
   }
 
-  bindToState () {
-    return new Promise((resolve) => {
-      this.setState({
-        FB: FireBase.database().ref('/gameData'),
-      }, resolve)
-    })
-  }
 
   getPlayer(isDefender) {
-    const { fakeBulletCreator } = this.props;
-    const { lives, loser, userID } = this.state;
+    const { fakeBulletCreator, userID } = this.props;
     if (isDefender) {
       return (
         <DefenderPlayer
-          fakeBulletCreator={ fakeBulletCreator }
-          lives={ lives }
-          loser={ loser }
           userID={ userID }
+          fakeBulletCreator={ fakeBulletCreator }
+          lives={ 10 }
+          loser={ false }
         />
       );
     }
     return (
-      <AttackerPlayer
-        lives={ lives }
-        winner={ loser }
+      <PlayerAttacker
+        userID={ userID }
+        lives={ 10 }
+        winner={ false }
       />
     );
   }
@@ -151,10 +96,8 @@ class App extends Component {
   }
 
   render() {
-    // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
     const { isReady, isDefender } = this.props;
     const player = this.getPlayer(isDefender);
-    const otherAttackers = <OtherAttackers />
     const playAreaa = this.getPlayArea(isDefender)
     const assets = App.getAssets();
     return (
@@ -173,7 +116,7 @@ class App extends Component {
         { assets }
         { isReady ? playAreaa : null }
         { isReady ? player : null }
-        { isReady ? otherAttackers : null }
+        { isReady ? <OtherPlayers /> : null }
 
       </a-scene>
     );
@@ -183,8 +126,10 @@ class App extends Component {
 App.defaultProps = {
   isReady: false,
   isDefender: false,
+  userID: '',
 }
 App.propTypes = {
+  userID: PropTypes.string.isRequired,
   isReady: PropTypes.bool,
   isDefender: PropTypes.bool,
   fakeBulletCreator: PropTypes.func.isRequired,
@@ -197,12 +142,13 @@ App.propTypes = {
 const mapDispatchToProps = dispatch => ({
   fakeBulletCreator: () => dispatch(fakeBulletCreator()),
   isPlayerReady: () => dispatch(isPlayerReady()),
-  connectPlayers: (...props) => dispatch(connectPlayers(...props)),
+  connectPlayers: () => dispatch(connectPlayers()),
   connectBalls: () => dispatch(connectBalls()),
   deleteBullet: (...props) => dispatch(deleteBullet(...props)),
 });
 
 const mapStateToProps = ({ mainApp }) => ({
+  userID: mainApp.userID,
   isDefender: mainApp.isDefender,
   isReady: mainApp.isReady,
   isHeadSet: mainApp.isHeadSet,

@@ -18,7 +18,6 @@ class PlayArea extends Component {
             name={ ball }
             position={ position }
             deleteBullet={ deleteBullet }
-            shouldEmit
           />
         );
       }
@@ -134,13 +133,7 @@ class PlayArea extends Component {
 
 
 PlayArea.propTypes = {
-  balls: PropTypes.arrayOf(PropTypes.shape({
-    rotation: PropTypes.shape({
-      x: PropTypes.string,
-      y: PropTypes.string,
-      z: PropTypes.string,
-    }),
-  })).isRequired,
+  balls: PropTypes.object.isRequired,
   removeLife: PropTypes.func.isRequired,
   deleteBullet: PropTypes.func.isRequired,
   isDefender: PropTypes.bool.isRequired

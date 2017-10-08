@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types'; // ES6
 import { connect } from 'react-redux';
 import { createBall } from '../../../../store/reducers/balls';
-import CellphoneHUD from './CellPhoneHUD';
+import HUD from './attackerHud';
 
 class PlayerAttacker extends Component {
   constructor(props) {
@@ -23,8 +23,8 @@ class PlayerAttacker extends Component {
     // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
     const { lives, winner, userID } = this.props;
     return (
-      <a-entity>
-        <CellphoneHUD
+      <a-entity name={ 'PLAYER_ATTACKER' }>
+        <HUD
           onCursorClicked={ this.onCellPhoneHUDPressed }
           lives={ lives }
           winner={ winner }
