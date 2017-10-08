@@ -36,12 +36,6 @@ class App extends Component {
           drag-droppable
           dynamic-body
         />
-        <a-mixin
-          id="bullet"
-          geometry="primitive: sphere; radius: 0.2"
-          grabbable
-          dynamic-body
-        />
       </a-assets>
     );
   }
@@ -98,14 +92,14 @@ class App extends Component {
   render() {
     const { isReady, isDefender } = this.props;
     const player = this.getPlayer(isDefender);
-    const playAreaa = this.getPlayArea(isDefender)
+    const playArea = this.getPlayArea(isDefender);
     const assets = App.getAssets();
     return (
       <a-scene
         ref={ (c) => { this.scene = c } }
         webvr-ui
         physics={ `
-          vr-mode-ui="enabled: true">
+          debug: true;
           driver: local;
           workerFps: 60;
           workerInterpolate: true;
@@ -114,10 +108,9 @@ class App extends Component {
         ` }
       >
         { assets }
-        { isReady ? playAreaa : null }
+        { isReady ? playArea : null }
         { isReady ? player : null }
         { isReady ? <OtherPlayers /> : null }
-
       </a-scene>
     );
   }

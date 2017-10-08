@@ -53,6 +53,7 @@ class PlayArea extends Component {
         />
         <a-entity
           id="floor"
+          name="floor"
           static-body
           position="0 1 0"
           rotation="0 0 0"
@@ -61,6 +62,7 @@ class PlayArea extends Component {
           static-body
           shadow="receive:true;"
           id="ground"
+          name="ground"
           src="https://cdn.aframe.io/a-painter/images/floor.jpg"
           radius="32"
           height="0.1"
@@ -70,18 +72,11 @@ class PlayArea extends Component {
           light="angle:45;decay: 0.1; color:#F0F0F0;type:ambient"
           static-body
           id="playArea"
+          name="playArea"
           radius="9"
           material="color: rgb(123,123,123); opacity: 0.5;"
           height="0.3"
         />
-        { /* <a-cylinder
-          static-body
-          id="bulletCreator"
-          radius="9"
-          geometry="height:30"
-          material="color:rgb(100,100,100);opacity:0.1"
-          position="0 15 0"
-        /> */ }
         <TheStick onColission={ removeLife } isDefender={ isDefender } />
         { ballsComponent }
         { /* <a-sphere
@@ -122,7 +117,6 @@ class PlayArea extends Component {
         /> */ }
         { /* <a-sky
           id="background"
-          src="#skyTexture"
           theta-length="90"
           radius="30"
         /> */ }

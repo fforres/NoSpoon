@@ -16,7 +16,6 @@ export default class PlayerBody extends Component {
       <a-cylinder
         ref={ (c) => { this.player = c } }
         id="playerBody"
-        static-body
         radius="0.01"
         height="1.7"
         position="0 0 0"
