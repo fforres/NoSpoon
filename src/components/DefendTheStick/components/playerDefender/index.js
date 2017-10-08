@@ -6,7 +6,7 @@ import HUD from './defenderHud';
 export default class PlayerDefender extends Component {
 
   componentDidMount() {
-    setInterval(this.props.fakeBulletCreator, 2000);
+    this.props.fakeBulletCreator();
   }
 
   render() {

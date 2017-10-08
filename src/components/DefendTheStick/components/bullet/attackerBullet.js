@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CANNON from 'cannon';
 import PropTypes from 'prop-types';
-import { deleteBullet } from '../../../../store/reducers/balls';
+import { deleteBullet, fakeBulletCreator } from '../../../../store/reducers/balls';
 
 import './component';
 
@@ -26,8 +26,8 @@ class AttackerBullet extends Component {
   componentWillUnmount() {
     if (this.functionReferenceToRemove) {
       this.bullet.removeEventListener('body-loaded');
-      this.bullet.parentNode.removeChild(this.bullet);
     }
+    setTimeout(this.props.fakeBulletCreator, 5000);
   }
 
   bodyLoaded() {
@@ -50,13 +50,10 @@ class AttackerBullet extends Component {
     return (
       <a-sphere
         grabbable
-        mass={ 1 }
-        maxGrabbers
         ref={ (c) => { this.bullet = c } }
         key={ name }
         id={ name }
-        dynamic-body
-        physics-body="boundingBox: 0.2 0.2 0.2; mass: 1;"
+        dynamic-body={ 'angularDamping: 1' }
         radius="0.1"
         shader="flat"
         geometry="primitive: sphere; radius: 0.1;"
@@ -71,6 +68,7 @@ class AttackerBullet extends Component {
 AttackerBullet.propTypes = {
   name: PropTypes.string.isRequired,
   deleteBullet: PropTypes.func.isRequired,
+  fakeBulletCreator: PropTypes.func.isRequired,
   position: PropTypes.shape({
     x: PropTypes.number,
     y: PropTypes.number,
@@ -79,6 +77,7 @@ AttackerBullet.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
+  fakeBulletCreator: () => dispatch(fakeBulletCreator()),
   deleteBullet: ({ id }) => dispatch(deleteBullet({ id })),
 })
 

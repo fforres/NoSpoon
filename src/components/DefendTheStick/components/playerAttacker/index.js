@@ -23,14 +23,13 @@ class PlayerAttacker extends Component {
     // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
     const { lives, winner, userID } = this.props;
     return (
-      <a-entity name={ 'PLAYER_ATTACKER' }>
-        <HUD
-          onCursorClicked={ this.onCellPhoneHUDPressed }
-          lives={ lives }
-          winner={ winner }
-          userID={ userID }
-        />
-      </a-entity>
+      <HUD
+        name={ 'PLAYER_ATTACKER' }
+        onCursorClicked={ this.onCellPhoneHUDPressed }
+        lives={ lives }
+        winner={ winner }
+        userID={ userID }
+      />
     );
   }
 }

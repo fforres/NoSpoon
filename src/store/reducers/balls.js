@@ -56,8 +56,6 @@ export const createBall = ({ position }) => (dispatch, getState) => {
 };
 
 export const fakeBulletCreator = () => () => {
-  if (true) { return; }
-
   const data = {
     type: 'createBullet',
     user: {
@@ -109,19 +107,30 @@ export const fakeBulletCreator = () => () => {
 
 };
 
-export const connectBalls = () => (dispatch) => {
-  WS.subscribe('createBullet', (data) => {
-    dispatch(setNewBall({
-      id: data.id,
-      position: data.position,
-    }));
-  });
+export const connectBalls = () => (dispatch, getState) => {
+  const { mainApp } = getState();
+  if (mainApp.isDefender) {
+    WS.subscribe('createBullet', (data) => {
+      dispatch(setNewBall({
+        id: data.id,
+        position: data.position,
+      }));
+    });
+  } else {
+    WS.subscribe('bulletPosition', (data) => {
+      console.log(data)
+      // dispatch(setNewBall({
+      //   id: data.id,
+      //   position: data.position,
+      // }));
+    })
+  }
 }
 
 export const deleteBullet = ({ id }) => (dispatch) => {
   setTimeout(() => {
     dispatch(removeBall({ id }))
-  }, 15000)
+  }, 2000)
 }
 
 export const clear = () => ({ type: CLEAR });

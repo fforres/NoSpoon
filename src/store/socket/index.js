@@ -57,17 +57,17 @@ AFRAME.registerComponent('bullet-emiter', {
     }
   },
   updatePosition ({ x = 0, y = 0, z = 0 }) {
-    if (Number.isNaN(x) || Number.isNaN(y) || Number.isNaN(z)) {
-      return;
-    }
-    this.WS.send({
-      type: 'bulletPosition',
-      user: {
-        id: this.id,
-      },
-      id: this.id,
-      position: { x, y, z },
-    });
+    // if (Number.isNaN(x) || Number.isNaN(y) || Number.isNaN(z)) {
+    //   return;
+    // }
+    // this.WS.send({
+    //   type: 'bulletPosition',
+    //   user: {
+    //     id: this.id,
+    //   },
+    //   id: this.id,
+    //   position: { x, y, z },
+    // });
   },
   deleteBall() {
     this.WS.send({
