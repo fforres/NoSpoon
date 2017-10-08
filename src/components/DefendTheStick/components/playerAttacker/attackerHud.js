@@ -47,9 +47,9 @@ class CellPhoneHUD extends Component {
     const { lives, winner, userID } = this.props;
     const hudContent = winner ? CellPhoneHUD.Winner() : CellPhoneHUD.getPlayingHud(lives);
     return (
-      <Entity
-        primitive="a-camera"
-        player-emiter={ `id: ${userID}` }
+      <a-entity
+        camera="userHeight: 1.6;"
+        player-emiter={ `id: ${userID}; defender: false;` }
         position={ this.state.initialPosition }
         look-controls
       >
@@ -61,7 +61,7 @@ class CellPhoneHUD extends Component {
           geometry="primitive: ring; radius-inner: 0.01; radius-outer: 0.011;"
         />
         { hudContent }
-      </Entity>
+      </a-entity>
     );
   }
 }

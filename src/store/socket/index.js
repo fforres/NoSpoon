@@ -44,47 +44,12 @@ AFRAME.registerComponent('player-emiter', {
   },
 });
 
-// AFRAME.registerComponent('player-attacker', {
-//   dependencies: ['position'],
-//   schema: { type: 'vec3' },
-//   init () {
-//     const newPosition = this.getRandomPosition();
-//     this.el.setAttribute('position', newPosition); // position character randomly
-//     const rotationTowardsCenter = this.calculateRotationTowardsCenter(newPosition);
-//     // rotationTowardsCenter = 0;
-//     this.el.setAttribute('rotation', {
-//       x: 0,
-//       y: rotationTowardsCenter, // Rotate character so it faces the center of the arena
-//       z: 0,
-//     });
-//   },
-//   tick () {},
-
-//   calculateRotationTowardsCenter ({ x, z }) {
-//     const angleRad = Math.atan((x / z));
-//     const angleDeg = angleRad * 180;
-//     return angleDeg;
-//   },
-
-//   getRandomPosition () {
-//     const angle = Math.random() * Math.PI * 2;
-//     const radius = 11; // size of the play-area
-//     return {
-//       x: Math.cos(angle) * radius,
-//       z: Math.sin(angle) * radius,
-//       y: 2,
-//     };
-//   },
-// });
-
 AFRAME.registerComponent('bullet-emiter', {
   schema: {
     id: { type: 'string', default: '' },
-    shouldEmit: { type: 'boolean' },
   },
   init () {
     this.id = this.data.id;
-    this.shouldEmit = this.data.shouldEmit;
     this.WS = WS;
     this.destroy = false;
   },
@@ -106,7 +71,7 @@ AFRAME.registerComponent('bullet-emiter', {
       return;
     }
     this.WS.send({
-      type: 'userPosition',
+      type: 'bulletPosition',
       user: {
         id: this.id,
       },

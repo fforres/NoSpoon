@@ -56,9 +56,7 @@ export const createBall = ({ position }) => (dispatch, getState) => {
 };
 
 export const fakeBulletCreator = () => () => {
-  if (true) {
-    return;
-  }
+  if (true) { return; }
 
   const data = {
     type: 'createBullet',

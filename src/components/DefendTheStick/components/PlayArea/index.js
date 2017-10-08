@@ -18,7 +18,6 @@ class PlayArea extends Component {
             name={ ball }
             position={ position }
             deleteBullet={ deleteBullet }
-            shouldEmit
           />
         );
       }
