@@ -20,6 +20,7 @@ export default function reducer(state = defaultState, { type, payload }) {
       players: {
         ...state.players,
         [payload.id]: {
+          id: payload.id,
           position: payload.position,
           rotation: payload.rotation,
         }
@@ -39,16 +40,12 @@ export const setNewPlayer = payload => ({ type: SET_PLAYER, payload });
 export const connectPlayers = () => (dispatch, getState) => {
   const { mainApp } = getState();
   WS.subscribe('userPosition', (data) => {
-    console.log(data);
-    dispatch(setNewPlayer({
+    const newPlayer = {
       id: data.user.id,
-      user: {
-        id: mainApp.userID,
-        attacker: !mainApp.isDefender,
-      },
       position: data.position,
       rotation: data.rotation,
-    }));
+    };
+    dispatch(setNewPlayer(newPlayer));
   });
 };
 

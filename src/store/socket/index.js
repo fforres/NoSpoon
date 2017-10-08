@@ -14,26 +14,15 @@ AFRAME.registerComponent('player-emiter', {
       id: this.data.id,
       isDefender: this.data.defender,
     };
-    debugger;
   },
-  // update: function () {},
   tick () {
     this.currentTick = this.currentTick + 1;
-    if (this.currentTick === 10) { // Small hack to increas MS between updates
+    if (this.currentTick === 4) { // To increase MS between updates
       this.currentTick = 0
       this.updateUserPos();
     }
   },
   updateUserPos () {
-    // const user = this.el.object3D;
-    // const { _x: x, _y: y, _z: z } = user.getWorldRotation();
-    // const data = {
-    //   type: 'userPosition',
-    //   user: this.userData,
-    //   position: { ...user.getWorldPosition() },
-    //   rotation: { x, y, z },
-    // };
-    // this.WS.send(data);
     const user = this.el.object3D;
     const data = {
       type: 'userPosition',

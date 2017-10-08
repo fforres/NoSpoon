@@ -34,6 +34,7 @@ class CellPhoneHUD extends Component {
   constructor(props) {
     super(props);
     this.onClick = this.onClick.bind(this);
+    this.initialPosition = CellPhoneHUD.getRandomPosition();
   }
 
   onClick(e) {
@@ -44,10 +45,10 @@ class CellPhoneHUD extends Component {
     const { lives, winner, userID } = this.props;
     const hudContent = winner ? CellPhoneHUD.Winner() : CellPhoneHUD.getPlayingHud(lives);
     return (
-      <a-entity
-        camera="userHeight: 1.6;"
+      <Entity
+        primitive="a-camera"
         player-emiter={ `id: ${userID}; defender: false;` }
-        position={ CellPhoneHUD.getRandomPosition() }
+        position={ this.initialPosition }
         look-controls
       >
         <a-entity
@@ -58,7 +59,7 @@ class CellPhoneHUD extends Component {
           geometry="primitive: ring; radius-inner: 0.01; radius-outer: 0.011;"
         />
         { hudContent }
-      </a-entity>
+      </Entity>
     );
   }
 }

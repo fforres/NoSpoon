@@ -13,28 +13,26 @@ class OtherPlayers extends Component {
   getAttackersComponents() {
     const array = [];
     const { players } = this.props;
-    console.log(players);
     Object.keys(players).forEach((player) => {
-      const { rotation, position } = players[player];
-      if (players[player] && rotation && position) {
-        array.push(
-          <Face
-            id={ player }
-            key={ player }
-            name={ player }
-            position={ position }
-            rotation={ rotation }
-          />
-        );
-      }
+      const { rotation, position, id } = players[player];
+      array.push(
+        <Face
+          id={ id }
+          key={ id }
+          name={ id }
+          position={ position }
+          rotation={ rotation }
+        />
+      );
     });
     return array;
   }
 
   render() {
+    const attackerComponents = this.getAttackersComponents();
     return (
       <a-entity>
-        { this.getAttackersComponents() }
+        { attackerComponents }
       </a-entity>
     );
   }
