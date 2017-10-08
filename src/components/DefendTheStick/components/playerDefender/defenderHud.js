@@ -31,10 +31,10 @@ class HUD extends Component {
     return (
       <a-entity
         camera="userHeight: 1.6;"
+        player-emiter={ `id: ${userID}; defender: true;` }
         look-controls
         wasd-controls
         super-hands
-        player-emiter={ `id: ${userID}; defender: true;` }
       >
         { hudContent }
       </a-entity>

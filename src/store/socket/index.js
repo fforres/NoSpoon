@@ -14,6 +14,7 @@ AFRAME.registerComponent('player-emiter', {
       id: this.data.id,
       isDefender: this.data.defender,
     };
+    debugger;
   },
   // update: function () {},
   tick () {

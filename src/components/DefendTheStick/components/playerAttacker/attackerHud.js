@@ -34,9 +34,6 @@ class CellPhoneHUD extends Component {
   constructor(props) {
     super(props);
     this.onClick = this.onClick.bind(this);
-    this.state = {
-      initialPosition: CellPhoneHUD.getRandomPosition(),
-    }
   }
 
   onClick(e) {
@@ -50,7 +47,7 @@ class CellPhoneHUD extends Component {
       <a-entity
         camera="userHeight: 1.6;"
         player-emiter={ `id: ${userID}; defender: false;` }
-        position={ this.state.initialPosition }
+        position={ CellPhoneHUD.getRandomPosition() }
         look-controls
       >
         <a-entity

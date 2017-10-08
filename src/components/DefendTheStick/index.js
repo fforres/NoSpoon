@@ -96,7 +96,6 @@ class App extends Component {
   }
 
   render() {
-    // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
     const { isReady, isDefender } = this.props;
     const player = this.getPlayer(isDefender);
     const playAreaa = this.getPlayArea(isDefender)
