@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Entity } from 'aframe-react';
 import PropTypes from 'prop-types';
 
-class AttackerHUD extends Component {
+class CellPhoneHUD extends Component {
   static getPlayingHud(lives) {
     return (
       <a-entity
@@ -34,48 +34,29 @@ class AttackerHUD extends Component {
   constructor(props) {
     super(props);
     this.onClick = this.onClick.bind(this);
-    this.initialPosition = AttackerHUD.getRandomPosition();
+    this.initialPosition = CellPhoneHUD.getRandomPosition();
   }
 
-  componentDidMount() {
-    console.log(this.boundingBall);
-  }
-
-  onClick() {
-    // console.info(this, 'kjsdjhfdshjkdfs', this.props.onCursorClicked);
-    this.props.onCursorClicked(this.camera.el.getAttribute('position'));
+  onClick(e) {
+    this.props.onCursorClicked(e.detail.intersection.point);
   }
 
   render() {
     const { lives, winner, userID } = this.props;
-    const hudContent = winner ? AttackerHUD.Winner() : AttackerHUD.getPlayingHud(lives);
+    const hudContent = winner ? CellPhoneHUD.Winner() : CellPhoneHUD.getPlayingHud(lives);
     return (
       <Entity
         primitive="a-camera"
-        id={ 'PLAYER_CAMERA' }
-        ref={ (c) => { this.camera = c } }
         player-emiter={ `id: ${userID}; defender: false;` }
         position={ this.initialPosition }
         look-controls
       >
-        <a-plane
-          static-body
-          id={ 'PLAYER_BULLET_GENERATOR' }
-          ref={ (c) => { this.boundingBall = c } }
-          height="2"
-          width="2"
-          position="0 0 -0.11"
-          material="opacity: 0.1; color: #697676;"
-          className="bulletGenerator"
-          class="bulletGenerator"
-        />
         <a-entity
-          click={ this.onClick }
           onClick={ this.onClick }
-          cursor="fuse: false;"
-          position="0 0 -0.1"
-          geometry="primitive: ring; radius-inner: 0.002; radius-outer: 0.0021;"
-          raycaster="interval: 100; objects: .bulletGenerator"
+          raycaster="objects: #bulletCreator"
+          cursor="fuse: false"
+          position="0 0 -1"
+          geometry="primitive: ring; radius-inner: 0.01; radius-outer: 0.011;"
         />
         { hudContent }
       </Entity>
@@ -83,16 +64,16 @@ class AttackerHUD extends Component {
   }
 }
 
-AttackerHUD.defaultProps = {
+CellPhoneHUD.defaultProps = {
   lives: 3,
   winner: false,
 }
 
-AttackerHUD.propTypes = {
+CellPhoneHUD.propTypes = {
   onCursorClicked: PropTypes.func.isRequired,
   lives: PropTypes.number,
   winner: PropTypes.bool,
   userID: PropTypes.string.isRequired
 }
 
-export default AttackerHUD;
+export default CellPhoneHUD;

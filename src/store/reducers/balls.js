@@ -101,9 +101,9 @@ export const fakeBulletCreator = () => () => {
     }
   };
   WS.send(data1)
-  // WS.send(data2)
-  // WS.send(data3)
-  // WS.send(data4)
+  WS.send(data2)
+  WS.send(data3)
+  WS.send(data4)
 
 };
 

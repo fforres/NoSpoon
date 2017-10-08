@@ -27,7 +27,6 @@ class AttackerBullet extends Component {
     if (this.functionReferenceToRemove) {
       this.bullet.removeEventListener('body-loaded');
     }
-    // this.bullet.parentNode.removeChild(this.bullet);
     setTimeout(this.props.fakeBulletCreator, 5000);
   }
 
