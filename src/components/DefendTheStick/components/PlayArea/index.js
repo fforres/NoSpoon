@@ -10,13 +10,14 @@ class PlayArea extends Component {
     const { balls, deleteBullet } = this.props;
     const array = [];
     Object.keys(balls).forEach((ball) => {
-      const { position } = balls[ball];
+      const { position, impulse } = balls[ball];
       if (position) {
         array.push(
           <AttackerBullet
             key={ ball }
             name={ ball }
             position={ position }
+            impulse={ impulse }
             deleteBullet={ deleteBullet }
           />
         );
@@ -29,15 +30,15 @@ class PlayArea extends Component {
     const { balls, deleteBullet } = this.props;
     const array = [];
     Object.keys(balls).forEach((ball) => {
-      const { position } = balls[ball];
+      const { position, impulse } = balls[ball];
       if (position) {
         array.push(
           <DefenderBullet
             key={ ball }
             name={ ball }
             position={ position }
+            impulse={ impulse }
             deleteBullet={ deleteBullet }
-
           />
         );
       }

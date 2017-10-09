@@ -39,7 +39,8 @@ class PlayerAttacker extends Component {
   constructor(props) {
     super(props);
     this.onPressDragDelay = 150;
-    this.onCellPhoneHUDPressed = this.onCellPhoneHUDPressed.bind(this);
+    this.impulseAmount = 10;
+    this.onClick = this.onClick.bind(this);
     this.startCounter = this.startCounter.bind(this);
     this.releaseCounter = this.releaseCounter.bind(this);
     this.initialPosition = PlayerAttacker.getRandomPosition();
@@ -53,22 +54,42 @@ class PlayerAttacker extends Component {
     if ((performance.now() - this.counter) > this.onPressDragDelay) {
       return;
     }
-    this.onCellPhoneHUDPressed();
+    this.onClick();
   }
 
-  onCellPhoneHUDPressed() {
-    const { createBall, userID } = this.props;
+  onClick() {
+    const { createBall } = this.props;
     const cameraPosition = this.camera.el.object3D.getWorldPosition();
     const bulletCreatorPosition = this.bulletCreator.object3D.getWorldPosition();
     const newVector = new CANNON.Vec3().copy(bulletCreatorPosition).vsub(cameraPosition);
+
+    // CALCULATE NEW BULLET POSITION
     const position = {
       x: bulletCreatorPosition.x + newVector.x,
       y: bulletCreatorPosition.y + newVector.y,
       z: bulletCreatorPosition.z + newVector.z,
     };
+
+    // CALCULATE NEW BULLET IMPULSE
+    const worldOrigin = new CANNON.Vec3(0, 0, 0);
+    const directionVector = new CANNON.Vec3().copy(
+      worldOrigin.vsub(position)
+      // We get a vector from the current ball position towards the game center (0, 0, 0);
+    ); // Immutable - We copy the vector to a new vector (Too prevent reference reusing);
+    const bulletVector = new CANNON.Vec3();
+    bulletVector.copy(position); // We copy the ball vector to a new vector.
+    directionVector.normalize(); // Normalize (We make it size 1)
+    directionVector.scale(this.impulseAmount, directionVector);
+    // We scale it acording to the impulse size
+    const impulse = {
+      directionV: { ...directionVector },
+      bulletV: { ...bulletVector },
+    };
+    // this.bullet.body.applyImpulse(directionVector, bulletVector);
+
     createBall({
-      userID,
       position,
+      impulse,
     });
   }
 

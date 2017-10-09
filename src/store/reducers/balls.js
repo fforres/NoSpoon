@@ -21,6 +21,7 @@ export default function reducer(state = defaultState, { type, payload }) {
         ...state.balls,
         [payload.id]: {
           position: payload.position,
+          impulse: payload.impulse,
         }
       }
     };
@@ -37,16 +38,17 @@ export default function reducer(state = defaultState, { type, payload }) {
   }
 }
 
-export const setNewBall = ({ id, position }) => ({ type: SET_BALL, payload: { id, position } });
+export const setNewBall = data => ({ type: SET_BALL, payload: data });
 
-export const removeBall = ({ id }) => ({ type: REMOVE_BALL, payload: { id } });
+export const removeBall = data => ({ type: REMOVE_BALL, payload: data });
 
-export const createBall = ({ position }) => (dispatch, getState) => {
+export const createBall = ({ position, impulse }) => (dispatch, getState) => {
   const { mainApp } = getState();
   const id = `${performance.now().toString().split('.').join('')}__${mainApp.userID}`;
   dispatch(setNewBall({
     id,
     position,
+    impulse
   }));
 
   WS.send({
@@ -57,10 +59,15 @@ export const createBall = ({ position }) => (dispatch, getState) => {
       attacker: !mainApp.isDefender,
     },
     position: { ...position },
+    impulse: { ...impulse },
   });
 };
 
 export const fakeBulletCreator = () => () => {
+  if (true) {
+    return;
+  }
+
   const data = {
     type: 'createBullet',
     user: {
@@ -112,24 +119,21 @@ export const fakeBulletCreator = () => () => {
 
 };
 
-export const connectBalls = () => (dispatch, getState) => {
-  const { mainApp } = getState();
-  if (mainApp.isDefender) {
-    WS.subscribe('createBullet', (data) => {
-      dispatch(setNewBall({
-        id: data.id,
-        position: data.position,
-      }));
-    });
-  } else {
-    WS.subscribe('bulletPosition', (data) => {
-      console.log(data);
-      // dispatch(setNewBall({
-      //   id: data.id,
-      //   position: data.position,
-      // }));
-    });
-  }
+export const connectBalls = () => (dispatch) => {
+  WS.subscribe('createBullet', (data) => {
+    dispatch(setNewBall({
+      id: data.id,
+      position: data.position,
+      impulse: data.impulse,
+    }));
+  });
+  WS.subscribe('bulletPosition', (data) => {
+    console.log(data);
+    // dispatch(setNewBall({
+    //   id: data.id,
+    //   position: data.position,
+    // }));
+  });
 };
 
 export const deleteBullet = ({ id }) => (dispatch) => {

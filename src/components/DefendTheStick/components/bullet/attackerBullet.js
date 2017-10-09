@@ -5,8 +5,6 @@ import CANNON from 'cannon';
 import PropTypes from 'prop-types';
 import { deleteBullet, fakeBulletCreator } from '../../../../store/reducers/balls';
 
-import './component';
-
 class AttackerBullet extends Component {
 
   constructor(props) {
@@ -27,20 +25,14 @@ class AttackerBullet extends Component {
     if (this.functionReferenceToRemove) {
       this.bullet.removeEventListener('body-loaded');
     }
-    setTimeout(this.props.fakeBulletCreator, 5000);
+    setTimeout(this.props.fakeBulletCreator, 10000);
   }
 
   bodyLoaded() {
-    const impulseAmount = 10;
     if (this.bullet) {
-      const position = { ...this.bullet.body.position };
-      const directionVector = new CANNON.Vec3().copy(
-        this.worldOrigin.vsub(position)
-      );
-      const bulletVector = new CANNON.Vec3();
-      bulletVector.copy(position);
-      directionVector.normalize();
-      directionVector.scale(impulseAmount, directionVector);
+      const { directionV, bulletV } = this.props.impulse;
+      const directionVector = new CANNON.Vec3(directionV.x, directionV.y, directionV.z);
+      const bulletVector = new CANNON.Vec3(bulletV.x, bulletV.y, bulletV.z);
       this.bullet.body.applyImpulse(directionVector, bulletVector);
     }
   }
@@ -69,6 +61,18 @@ AttackerBullet.propTypes = {
   name: PropTypes.string.isRequired,
   deleteBullet: PropTypes.func.isRequired,
   fakeBulletCreator: PropTypes.func.isRequired,
+  impulse: PropTypes.shape({
+    directionV: PropTypes.shape({
+      x: PropTypes.number,
+      y: PropTypes.number,
+      z: PropTypes.number,
+    }).isRequired,
+    bulletV: PropTypes.shape({
+      x: PropTypes.number,
+      y: PropTypes.number,
+      z: PropTypes.number,
+    }).isRequired
+  }).isRequired,
   position: PropTypes.shape({
     x: PropTypes.number,
     y: PropTypes.number,
