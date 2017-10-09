@@ -49,14 +49,14 @@ class PlayerAttacker extends Component {
     this.counter = performance.now();
   }
 
-  releaseCounter(e) {
+  releaseCounter() {
     if ((performance.now() - this.counter) > this.onPressDragDelay) {
       return;
     }
-    this.onCellPhoneHUDPressed(e)
+    this.onCellPhoneHUDPressed()
   }
 
-  onCellPhoneHUDPressed(e) {
+  onCellPhoneHUDPressed() {
     const { createBall, userID } = this.props;
     const cameraPosition = this.camera.el.object3D.getWorldPosition();
     const bulletCreatorPosition = this.bulletCreator.object3D.getWorldPosition();
