@@ -139,7 +139,7 @@ export const connectBalls = () => (dispatch) => {
 export const deleteBullet = ({ id }) => (dispatch) => {
   setTimeout(() => {
     dispatch(removeBall({ id }));
-  }, 2000);
+  }, 10000);
 };
 
 export const clear = () => ({ type: CLEAR });

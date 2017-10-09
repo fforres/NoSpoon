@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'; // ES6
 import { connect } from 'react-redux';
-import DefenderPlayer from './components/playerDefender';
+import PlayerDefender from './components/playerDefender';
 import PlayerAttacker from './components/playerAttacker';
 import OtherPlayers from './components/otherPlayers';
 import PlayArea from './components/PlayArea';
@@ -61,7 +61,7 @@ class App extends Component {
     const { fakeBulletCreator, userID } = this.props;
     if (isDefender) {
       return (
-        <DefenderPlayer
+        <PlayerDefender
           userID={ userID }
           fakeBulletCreator={ fakeBulletCreator }
           lives={ 10 }
