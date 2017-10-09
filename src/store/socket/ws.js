@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 function WS () {
   this.autoReconnectInterval = 5000;
   this.subscriptions = {};

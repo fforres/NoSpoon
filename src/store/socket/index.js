@@ -56,10 +56,7 @@ AFRAME.registerComponent('bullet-emiter', {
       }
     }
   },
-  updatePosition ({ x = 0, y = 0, z = 0 }) {
-    // if (Number.isNaN(x) || Number.isNaN(y) || Number.isNaN(z)) {
-    //   return;
-    // }
+  updatePosition () {
     // this.WS.send({
     //   type: 'bulletPosition',
     //   user: {
