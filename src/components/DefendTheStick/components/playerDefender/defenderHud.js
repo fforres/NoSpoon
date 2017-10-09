@@ -22,7 +22,7 @@ class HUD extends Component {
         material="color: #FF0000; opacity: 0.7"
         text={ ['align:center', 'color:white', 'value: YOU LOST!!'].join(';') }
       />
-    )
+    );
   }
 
   render() {
@@ -45,12 +45,12 @@ class HUD extends Component {
 HUD.defaultProps = {
   lives: 3,
   loser: false,
-}
+};
 
 HUD.propTypes = {
   lives: PropTypes.number,
   loser: PropTypes.bool,
   userID: PropTypes.string.isRequired
-}
+};
 
 export default HUD;

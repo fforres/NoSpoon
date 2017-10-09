@@ -40,11 +40,11 @@ class OtherPlayers extends Component {
 
 OtherPlayers.propTypes = {
   players: PropTypes.object.isRequired,
-}
+};
 
-const mapDispatchToProps = () => ({})
+const mapDispatchToProps = () => ({});
 const mapStateToProps = ({ players }) => ({
   players: players.players,
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(OtherPlayers);

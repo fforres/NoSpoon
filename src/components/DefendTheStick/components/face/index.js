@@ -18,7 +18,7 @@ export default class Face extends Component {
           position={ '0 0 0.055' }
         />
       </Entity>
-    )
+    );
   }
 
   static getFaceRotation(rotation) {
@@ -26,7 +26,7 @@ export default class Face extends Component {
       x: -THREE.Math.radToDeg(rotation._x),
       y: 180 + THREE.Math.radToDeg(rotation._y),
       z: THREE.Math.radToDeg(rotation._z),
-    })
+    });
   }
 
   render() {

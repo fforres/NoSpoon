@@ -46,7 +46,7 @@ export const createCurrentPlayer = () => {
       id: player.userID,
       isDefender: player.isDefender,
     },
-  })
+  });
 
   return { type: CREATE_CURRENT_PLAYER, payload: { player } };
 };
@@ -63,4 +63,4 @@ export const isPlayerReady = () => (dispatch) => {
     dispatch(createCurrentPlayer());
   });
 
-}
+};

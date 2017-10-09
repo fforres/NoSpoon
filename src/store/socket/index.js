@@ -18,7 +18,7 @@ AFRAME.registerComponent('player-emiter', {
   tick () {
     this.currentTick = this.currentTick + 1;
     if (this.currentTick === 4) { // To increase MS between updates
-      this.currentTick = 0
+      this.currentTick = 0;
       this.updateUserPos();
     }
   },
@@ -70,6 +70,6 @@ AFRAME.registerComponent('bullet-emiter', {
     this.WS.send({
       type: 'deleteBall',
       id: this.id,
-    })
+    });
   }
 });

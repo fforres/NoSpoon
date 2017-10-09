@@ -6,7 +6,7 @@ module.exports = {
     "no-unused-vars": [1, { "varsIgnorePattern": "^h$" }],
     "jsx-quotes": [2, "prefer-double"],
     "no-cond-assign": 1,
-    "semi": 0,
+    "semi": ["error", "always"],
     "camelcase": 0,
     "global-require": 0,
     "comma-style": 2,

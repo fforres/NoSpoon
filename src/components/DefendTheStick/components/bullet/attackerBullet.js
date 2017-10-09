@@ -20,7 +20,7 @@ class AttackerBullet extends Component {
       requestAnimationFrame(this.bodyLoaded);
     });
     const { deleteBullet, name } = this.props;
-    deleteBullet({ id: name })
+    deleteBullet({ id: name });
   }
 
   componentWillUnmount() {
@@ -50,7 +50,7 @@ class AttackerBullet extends Component {
     return (
       <a-sphere
         grabbable
-        ref={ (c) => { this.bullet = c } }
+        ref={ (c) => { this.bullet = c; } }
         id={ name }
         key={ name }
         name={ 'defender bullet' }
@@ -74,11 +74,11 @@ AttackerBullet.propTypes = {
     y: PropTypes.number,
     z: PropTypes.number,
   }).isRequired,
-}
+};
 
 const mapDispatchToProps = dispatch => ({
   fakeBulletCreator: () => dispatch(fakeBulletCreator()),
   deleteBullet: ({ id }) => dispatch(deleteBullet({ id })),
-})
+});
 
 export default connect(null, mapDispatchToProps)(AttackerBullet);

@@ -18,7 +18,7 @@ export default class DefenderBullet extends Component {
       requestAnimationFrame(this.bodyLoaded);
     });
     const { deleteBullet, name } = this.props;
-    deleteBullet({ id: name })
+    deleteBullet({ id: name });
   }
 
   componentWillUnmount() {
@@ -47,7 +47,7 @@ export default class DefenderBullet extends Component {
     const { x, y, z } = position;
     return (
       <a-sphere
-        ref={ (c) => { this.bullet = c } }
+        ref={ (c) => { this.bullet = c; } }
         id={ name }
         key={ name }
         name={ 'defender bullet' }
@@ -69,4 +69,4 @@ DefenderBullet.propTypes = {
     y: PropTypes.number,
     z: PropTypes.number,
   }).isRequired,
-}
+};

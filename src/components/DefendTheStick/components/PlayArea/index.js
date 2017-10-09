@@ -21,7 +21,7 @@ class PlayArea extends Component {
           />
         );
       }
-    })
+    });
     return array;
   }
 
@@ -133,12 +133,12 @@ PlayArea.propTypes = {
   removeLife: PropTypes.func.isRequired,
   deleteBullet: PropTypes.func.isRequired,
   isDefender: PropTypes.bool.isRequired
-}
+};
 
 const mapStateToProps = ({ balls, mainApp }) => ({
   balls: balls.balls,
   userID: mainApp.userID,
   isDefender: mainApp.isDefender,
-})
+});
 
 export default connect(mapStateToProps, null)(PlayArea);

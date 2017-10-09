@@ -28,7 +28,7 @@ export default function reducer(state = defaultState, { type, payload }) {
     return {
       ...state,
       balls: { ...omit(state.balls, payload.id) },
-    }
+    };
   }
   case CLEAR:
     return defaultState;
@@ -43,7 +43,7 @@ export const removeBall = ({ id }) => ({ type: REMOVE_BALL, payload: { id } });
 
 export const createBall = ({ position }) => (dispatch, getState) => {
   const { mainApp } = getState();
-  const id = `${performance.now().toString().split('.').join('')}__${mainApp.userID}`
+  const id = `${performance.now().toString().split('.').join('')}__${mainApp.userID}`;
   dispatch(setNewBall({
     id,
     position,
@@ -57,7 +57,7 @@ export const createBall = ({ position }) => (dispatch, getState) => {
       attacker: !mainApp.isDefender,
     },
     position: { ...position },
-  })
+  });
 };
 
 export const fakeBulletCreator = () => () => {
@@ -105,10 +105,10 @@ export const fakeBulletCreator = () => () => {
       z: -6.922302134402269,
     }
   };
-  WS.send(data1)
-  WS.send(data2)
-  WS.send(data3)
-  WS.send(data4)
+  WS.send(data1);
+  WS.send(data2);
+  WS.send(data3);
+  WS.send(data4);
 
 };
 
@@ -123,19 +123,19 @@ export const connectBalls = () => (dispatch, getState) => {
     });
   } else {
     WS.subscribe('bulletPosition', (data) => {
-      console.log(data)
+      console.log(data);
       // dispatch(setNewBall({
       //   id: data.id,
       //   position: data.position,
       // }));
-    })
+    });
   }
-}
+};
 
 export const deleteBullet = ({ id }) => (dispatch) => {
   setTimeout(() => {
-    dispatch(removeBall({ id }))
-  }, 2000)
-}
+    dispatch(removeBall({ id }));
+  }, 2000);
+};
 
 export const clear = () => ({ type: CLEAR });

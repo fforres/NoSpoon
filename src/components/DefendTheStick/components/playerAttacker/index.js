@@ -16,7 +16,7 @@ class PlayerAttacker extends Component {
         material="color: #0000FF; opacity: 0.5"
         text={ ['align:center', 'color:white', `value: ATTACK! Lives : ${lives}`].join(';') }
       />
-    )
+    );
   }
 
   static Winner() {
@@ -53,7 +53,7 @@ class PlayerAttacker extends Component {
     if ((performance.now() - this.counter) > this.onPressDragDelay) {
       return;
     }
-    this.onCellPhoneHUDPressed()
+    this.onCellPhoneHUDPressed();
   }
 
   onCellPhoneHUDPressed() {
@@ -65,11 +65,11 @@ class PlayerAttacker extends Component {
       x: bulletCreatorPosition.x + newVector.x,
       y: bulletCreatorPosition.y + newVector.y,
       z: bulletCreatorPosition.z + newVector.z,
-    }
+    };
     createBall({
       userID,
       position,
-    })
+    });
   }
 
   render() {
@@ -82,7 +82,7 @@ class PlayerAttacker extends Component {
         primitive="a-camera"
         name={ 'PLAYER_ATTACKER CAMERA' }
         id={ 'PLAYER_CAMERA' }
-        ref={ (c) => { this.camera = c } }
+        ref={ (c) => { this.camera = c; } }
         player-emiter={ `id: ${userID}; defender: false;` }
         position={ this.initialPosition }
         look-controls
@@ -90,7 +90,7 @@ class PlayerAttacker extends Component {
         <a-plane
           static-body
           id={ 'PLAYER_BULLET_GENERATOR' }
-          ref={ (c) => { this.bulletCreator = c } }
+          ref={ (c) => { this.bulletCreator = c; } }
           height="2"
           width="2"
           position="0 0 -0.11"
@@ -115,14 +115,14 @@ class PlayerAttacker extends Component {
 PlayerAttacker.defaultProps = {
   lives: 10,
   winner: true,
-}
+};
 
 PlayerAttacker.propTypes = {
   createBall: PropTypes.func.isRequired,
   userID: PropTypes.string.isRequired,
   lives: PropTypes.number,
   winner: PropTypes.bool
-}
+};
 
 const mapDispatchToProps = dispatch => ({
   createBall: data => dispatch(createBall(data)),
@@ -130,5 +130,5 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = ({ mainApp }) => ({
   userID: mainApp.userID,
-})
+});
 export default connect(mapStateToProps, mapDispatchToProps)(PlayerAttacker);
