@@ -1,7 +1,6 @@
 import 'aframe';
 import React, { Component } from 'react';
 import CANNON from 'cannon';
-import { Entity } from 'aframe-react';
 import PropTypes from 'prop-types';
 
 export default class DefenderBullet extends Component {
