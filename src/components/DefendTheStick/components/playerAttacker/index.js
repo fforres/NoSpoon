@@ -38,12 +38,18 @@ class PlayerAttacker extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      blocked: false,
+    };
     this.onPressDragDelay = 150;
     this.impulseAmount = 10;
+    this.bulletTimeout = 1250;
+    this.initialPosition = PlayerAttacker.getRandomPosition();
     this.onClick = this.onClick.bind(this);
     this.startCounter = this.startCounter.bind(this);
     this.releaseCounter = this.releaseCounter.bind(this);
-    this.initialPosition = PlayerAttacker.getRandomPosition();
+    this.blockUserBallCreator = this.blockUserBallCreator.bind(this);
+    this.unBlockUserBallCreator = this.unBlockUserBallCreator.bind(this);
   }
 
   startCounter() {
@@ -51,9 +57,13 @@ class PlayerAttacker extends Component {
   }
 
   releaseCounter() {
+    if (this.state.blocked) {
+      return;
+    }
     if ((performance.now() - this.counter) > this.onPressDragDelay) {
       return;
     }
+    this.blockUserBallCreator();
     this.onClick();
   }
 
@@ -93,11 +103,24 @@ class PlayerAttacker extends Component {
     });
   }
 
+  blockUserBallCreator() {
+    this.setState({
+      blocked: true,
+    }, () => setTimeout(this.unBlockUserBallCreator, this.bulletTimeout));
+  }
+
+  unBlockUserBallCreator() {
+    this.setState({
+      blocked: false,
+    });
+  }
+
   render() {
     // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
     const { lives, winner, userID } = this.props;
+    const { blocked } = this.state;
     const hudContent = winner ? PlayerAttacker.Winner() : PlayerAttacker.getPlayingHud(lives);
-
+    const cursorColor = blocked ? 'color: red' : 'color: green';
     return (
       <Entity
         primitive="a-camera"
@@ -120,12 +143,14 @@ class PlayerAttacker extends Component {
           class="bulletGenerator"
         />
         <a-entity
+          id={ 'PLAYER_CROSSHAIR' }
           onMouseDown={ this.startCounter }
           onMouseUp={ this.releaseCounter }
           cursor="fuse: false;"
           position="0 0 -0.1"
-          geometry="primitive: ring; radius-inner: 0.002; radius-outer: 0.0021;"
+          geometry={ 'primitive: ring; radius-inner: 0.002; radius-outer: 0.003;' }
           raycaster="interval: 100; objects: .bulletGenerator"
+          material={ cursorColor }
         />
         { hudContent }
       </Entity>
