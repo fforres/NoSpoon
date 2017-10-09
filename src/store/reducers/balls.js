@@ -43,10 +43,15 @@ export const removeBall = ({ id }) => ({ type: REMOVE_BALL, payload: { id } });
 
 export const createBall = ({ position }) => (dispatch, getState) => {
   const { mainApp } = getState();
-  const ballId = `${performance.now().toString().split('.').join('')}__${mainApp.userID}`
+  const id = `${performance.now().toString().split('.').join('')}__${mainApp.userID}`
+  dispatch(setNewBall({
+    id,
+    position,
+  }));
+
   WS.send({
     type: 'createBullet',
-    id: ballId,
+    id,
     user: {
       id: mainApp.userID,
       attacker: !mainApp.isDefender,

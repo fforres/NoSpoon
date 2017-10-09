@@ -37,8 +37,7 @@ export default function reducer(state = defaultState, { type, payload }) {
 
 export const setNewPlayer = payload => ({ type: SET_PLAYER, payload });
 
-export const connectPlayers = () => (dispatch, getState) => {
-  const { mainApp } = getState();
+export const connectPlayers = () => (dispatch) => {
   WS.subscribe('userPosition', (data) => {
     const newPlayer = {
       id: data.user.id,

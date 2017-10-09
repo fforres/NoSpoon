@@ -51,11 +51,11 @@ class AttackerBullet extends Component {
       <a-sphere
         grabbable
         ref={ (c) => { this.bullet = c } }
-        key={ name }
         id={ name }
+        key={ name }
+        name={ 'defender bullet' }
         dynamic-body={ 'angularDamping: 1' }
         radius="0.1"
-        shader="flat"
         geometry="primitive: sphere; radius: 0.1;"
         material="color: blue"
         position={ `${x} ${y} ${z}` }

@@ -26,7 +26,7 @@ class PlayArea extends Component {
   }
 
   renderDefenderBullets() {
-    const { balls } = this.props;
+    const { balls, deleteBullet } = this.props;
     const array = [];
     Object.keys(balls).forEach((ball) => {
       const { position } = balls[ball];
@@ -36,6 +36,8 @@ class PlayArea extends Component {
             key={ ball }
             name={ ball }
             position={ position }
+            deleteBullet={ deleteBullet }
+
           />
         );
       }
