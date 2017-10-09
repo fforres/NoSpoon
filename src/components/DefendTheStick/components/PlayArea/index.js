@@ -10,18 +10,19 @@ class PlayArea extends Component {
     const { balls, deleteBullet } = this.props;
     const array = [];
     Object.keys(balls).forEach((ball) => {
-      const { position } = balls[ball];
+      const { position, impulse } = balls[ball];
       if (position) {
         array.push(
           <AttackerBullet
             key={ ball }
             name={ ball }
             position={ position }
+            impulse={ impulse }
             deleteBullet={ deleteBullet }
           />
         );
       }
-    })
+    });
     return array;
   }
 
@@ -29,15 +30,15 @@ class PlayArea extends Component {
     const { balls, deleteBullet } = this.props;
     const array = [];
     Object.keys(balls).forEach((ball) => {
-      const { position } = balls[ball];
+      const { position, impulse } = balls[ball];
       if (position) {
         array.push(
           <DefenderBullet
             key={ ball }
             name={ ball }
             position={ position }
+            impulse={ impulse }
             deleteBullet={ deleteBullet }
-
           />
         );
       }
@@ -133,12 +134,12 @@ PlayArea.propTypes = {
   removeLife: PropTypes.func.isRequired,
   deleteBullet: PropTypes.func.isRequired,
   isDefender: PropTypes.bool.isRequired
-}
+};
 
 const mapStateToProps = ({ balls, mainApp }) => ({
   balls: balls.balls,
   userID: mainApp.userID,
   isDefender: mainApp.isDefender,
-})
+});
 
 export default connect(mapStateToProps, null)(PlayArea);

@@ -27,11 +27,11 @@ export default class PlayerDefender extends Component {
 PlayerDefender.defaultProps = {
   lives: 3,
   loser: false,
-}
+};
 
 PlayerDefender.propTypes = {
   fakeBulletCreator: PropTypes.func.isRequired,
   lives: PropTypes.number,
   loser: PropTypes.bool,
   userID: PropTypes.string.isRequired
-}
+};

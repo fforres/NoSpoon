@@ -10,17 +10,17 @@ function WS () {
         if (parsedMsg.type === 'createBullet') {
           // debugger;
         }
-        this.subscriptions[parsedMsg.type].forEach((el) => { el(parsedMsg); })
+        this.subscriptions[parsedMsg.type].forEach((el) => { el(parsedMsg); });
       }
     } catch (e) {
       console.error(e);
     }
-  }
+  };
   this.onClose = (msg) => {
     this.ws = null;
-    this.reconnect()
+    this.reconnect();
     console.info('closed', msg);
-  }
+  };
 
   this.reconnect = () => {
     this.setTimeout = setTimeout(() => {
@@ -29,27 +29,27 @@ function WS () {
         this.connect();
       }
     }, this.autoReconnectInterval);
-  }
+  };
   this.onSocketOpened = (msg, ws) => {
     if (this.setTimeout) {
       this.setTimeout = null;
     }
-    this.ws = ws
+    this.ws = ws;
     if (this.onOpenFunction) {
       this.onOpenFunction();
     }
     console.info('socket Opened', msg);
-  }
+  };
 
   this.onOpen = (cb) => {
     this.onOpenFunction = cb;
-  }
+  };
   this.connect();
 }
 
 WS.prototype.onError = function onError(msg) {
   console.error('error', msg, this);
-}
+};
 
 WS.prototype.connect = function connect() {
   this.url = process.env.NODE_ENV === 'development' ? 'ws://localhost:3001' : 'wss://aqueous-lake-16031.herokuapp.com/';
@@ -57,22 +57,22 @@ WS.prototype.connect = function connect() {
   ws.addEventListener('error', this.onError);
   ws.addEventListener('close', this.onClose);
   ws.addEventListener('open', msg => this.onSocketOpened(msg, ws));
-  ws.addEventListener('message', this.onMessage)
-}
+  ws.addEventListener('message', this.onMessage);
+};
 
 WS.prototype.subscribe = function subscribe(msgType, callback) {
   if (!this.subscriptions[msgType]) {
     this.subscriptions[msgType] = new Set();
   }
   this.subscriptions[msgType].add(callback);
-}
+};
 
 WS.prototype.unSubscribe = function unSubscribe(msgType, callback) {
   if (this.subscriptions[msgType]) {
     return this.subscriptions[msgType].delete(callback);
   }
   return false;
-}
+};
 
 WS.prototype.send = function send(msg) {
   if (!msg.type) {
@@ -86,7 +86,7 @@ WS.prototype.send = function send(msg) {
   if (this.ws) {
     this.ws.send(JSON.stringify(msg));
   }
-}
+};
 
 // export enum MessageTypes {
 //   createBullet = 'createBullet',

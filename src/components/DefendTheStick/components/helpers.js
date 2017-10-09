@@ -6,7 +6,7 @@ export const getDisplay = () => new Promise((resolve) => {
       displays[0].capabilities &&
       displays[0].isConnected &&
       displays[0].capabilities.hasExternalDisplay
-    )
+    );
   });
 });
 

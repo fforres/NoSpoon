@@ -1,9 +1,7 @@
 import 'aframe';
 import React, { Component } from 'react';
 import CANNON from 'cannon';
-import { Entity } from 'aframe-react';
 import PropTypes from 'prop-types';
-import './component';
 
 export default class DefenderBullet extends Component {
 
@@ -18,7 +16,7 @@ export default class DefenderBullet extends Component {
       requestAnimationFrame(this.bodyLoaded);
     });
     const { deleteBullet, name } = this.props;
-    deleteBullet({ id: name })
+    deleteBullet({ id: name });
   }
 
   componentWillUnmount() {
@@ -28,16 +26,10 @@ export default class DefenderBullet extends Component {
   }
 
   bodyLoaded() {
-    const impulseAmount = 10;
     if (this.bullet) {
-      const position = { ...this.bullet.body.position };
-      const directionVector = new CANNON.Vec3().copy(
-        this.worldOrigin.vsub(position)
-      );
-      const bulletVector = new CANNON.Vec3();
-      bulletVector.copy(position);
-      directionVector.normalize();
-      directionVector.scale(impulseAmount, directionVector);
+      const { directionV, bulletV } = this.props.impulse;
+      const directionVector = new CANNON.Vec3(directionV.x, directionV.y, directionV.z);
+      const bulletVector = new CANNON.Vec3(bulletV.x, bulletV.y, bulletV.z);
       this.bullet.body.applyImpulse(directionVector, bulletVector);
     }
   }
@@ -47,7 +39,7 @@ export default class DefenderBullet extends Component {
     const { x, y, z } = position;
     return (
       <a-sphere
-        ref={ (c) => { this.bullet = c } }
+        ref={ (c) => { this.bullet = c; } }
         id={ name }
         key={ name }
         name={ 'defender bullet' }
@@ -64,9 +56,21 @@ export default class DefenderBullet extends Component {
 DefenderBullet.propTypes = {
   deleteBullet: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
+  impulse: PropTypes.shape({
+    directionV: PropTypes.shape({
+      x: PropTypes.number,
+      y: PropTypes.number,
+      z: PropTypes.number,
+    }).isRequired,
+    bulletV: PropTypes.shape({
+      x: PropTypes.number,
+      y: PropTypes.number,
+      z: PropTypes.number,
+    }).isRequired
+  }).isRequired,
   position: PropTypes.shape({
     x: PropTypes.number,
     y: PropTypes.number,
     z: PropTypes.number,
   }).isRequired,
-}
+};

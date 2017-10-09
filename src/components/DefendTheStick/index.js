@@ -41,7 +41,7 @@ class App extends Component {
   }
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {};
     this.getPlayer = this.getPlayer.bind(this);
   }
 
@@ -96,7 +96,7 @@ class App extends Component {
     const assets = App.getAssets();
     return (
       <a-scene
-        ref={ (c) => { this.scene = c } }
+        ref={ (c) => { this.scene = c; } }
         webvr-ui
         physics={ `
           debug: true;
@@ -120,7 +120,7 @@ App.defaultProps = {
   isReady: false,
   isDefender: false,
   userID: '',
-}
+};
 App.propTypes = {
   userID: PropTypes.string.isRequired,
   isReady: PropTypes.bool,
@@ -130,7 +130,7 @@ App.propTypes = {
   connectPlayers: PropTypes.func.isRequired,
   connectBalls: PropTypes.func.isRequired,
   deleteBullet: PropTypes.func.isRequired,
-}
+};
 
 const mapDispatchToProps = dispatch => ({
   fakeBulletCreator: () => dispatch(fakeBulletCreator()),
