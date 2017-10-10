@@ -2,14 +2,12 @@ import WS from '../socket/ws';
 import { getDisplay } from '../../components/DefendTheStick/components/helpers';
 
 const CREATE_CURRENT_PLAYER = 'theMatrix/currentPlayer/CREATE_CURRENT_PLAYER';
-const SET_NEW_LIVES = 'theMatrix/currentPlayer/SET_NEW_LIVES';
+const ADD_POINT = 'theMatrix/currentPlayer/ADD_POINT';
 const READY = 'theMatrix/currentPlayer/READY';
 const CLEAR = 'theMatrix/currentPlayer/CLEAR';
 
 const defaulState = {
-  startingLives: 10,
-  currentLives: 10,
-  timeStart: null,
+  points: 0,
   isDefender: false,
   loser: false,
   userID: null,
@@ -22,8 +20,8 @@ export default function reducer(state = {}, { type, payload }) {
     return { ...state, ...payload.player, isReady: false };
   case READY:
     return { ...state, isReady: payload.isReady, isHeadSet: payload.isHeadSet };
-  case SET_NEW_LIVES:
-    return { ...state, startingLives: payload.lives };
+  case ADD_POINT:
+    return { ...state, points: payload.points };
   case CLEAR:
     return defaulState;
   default:
@@ -33,15 +31,21 @@ export default function reducer(state = {}, { type, payload }) {
 
 export const setReady = payload => ({ type: READY, payload });
 
-export const setLives = payload => ({ type: SET_NEW_LIVES, payload });
+export const setLives = payload => ({ type: ADD_POINT, payload });
 
+export const userMadeAPoint = ({ userId }) => () => {
+  WS.send({
+    type: 'userMadeAPoint',
+    user: {
+      id: userId,
+    },
+  });
+};
 
 export const createCurrentPlayer = () => {
   const defender = new URL(window.location.href).searchParams.get('defender');
   const player = {
-    startingLives: 10,
-    currentLives: 10,
-    timeStart: Date.now(),
+    points: 0,
     isDefender: !!(defender === 'true'),
     loser: false,
     userID: `user-${performance.now().toString().split('.').join('')}`,
