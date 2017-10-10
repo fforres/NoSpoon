@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CANNON from 'cannon';
 import PropTypes from 'prop-types';
-import { deleteBullet, fakeBulletCreator } from '../../../../store/reducers/balls';
+import { deleteBullet, fakeBulletCreator } from '../../../../store/reducers/bullets';
 
 class AttackerBullet extends Component {
 

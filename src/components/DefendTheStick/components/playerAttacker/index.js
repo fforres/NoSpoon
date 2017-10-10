@@ -4,7 +4,7 @@ import { Entity } from 'aframe-react';
 import CANNON from 'cannon';
 import PropTypes from 'prop-types'; // ES6
 import { connect } from 'react-redux';
-import { createBall } from '../../../../store/reducers/balls';
+import { createBall } from '../../../../store/reducers/bullets';
 
 class PlayerAttacker extends Component {
 

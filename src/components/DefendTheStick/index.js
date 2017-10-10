@@ -5,9 +5,9 @@ import PlayerDefender from './components/playerDefender';
 import PlayerAttacker from './components/playerAttacker';
 import OtherPlayers from './components/otherPlayers';
 import PlayArea from './components/PlayArea';
-import { isPlayerReady } from '../../store/reducers/firebase';
+import { isPlayerReady } from '../../store/reducers/app';
 import { connectPlayers } from '../../store/reducers/players';
-import { connectBalls, deleteBullet, fakeBulletCreator } from '../../store/reducers/balls';
+import { connectBullets, deleteBullet, fakeBulletCreator } from '../../store/reducers/bullets';
 
 import '../../store/socket';
 
@@ -52,7 +52,7 @@ class App extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.isReady) {
       this.props.connectPlayers();
-      this.props.connectBalls();
+      this.props.connectBullets();
     }
   }
 
@@ -128,7 +128,7 @@ App.propTypes = {
   fakeBulletCreator: PropTypes.func.isRequired,
   isPlayerReady: PropTypes.func.isRequired,
   connectPlayers: PropTypes.func.isRequired,
-  connectBalls: PropTypes.func.isRequired,
+  connectBullets: PropTypes.func.isRequired,
   deleteBullet: PropTypes.func.isRequired,
 };
 
@@ -136,7 +136,7 @@ const mapDispatchToProps = dispatch => ({
   fakeBulletCreator: () => dispatch(fakeBulletCreator()),
   isPlayerReady: () => dispatch(isPlayerReady()),
   connectPlayers: () => dispatch(connectPlayers()),
-  connectBalls: () => dispatch(connectBalls()),
+  connectBullets: () => dispatch(connectBullets()),
   deleteBullet: (...props) => dispatch(deleteBullet(...props)),
 });
 
