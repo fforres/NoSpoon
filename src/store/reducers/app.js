@@ -2,11 +2,13 @@ import WS from '../socket/ws';
 import { getDisplay } from '../../components/DefendTheStick/components/helpers';
 
 const CREATE_CURRENT_PLAYER = 'theMatrix/currentPlayer/CREATE_CURRENT_PLAYER';
+const SET_NEW_LIVES = 'theMatrix/currentPlayer/SET_NEW_LIVES';
 const READY = 'theMatrix/currentPlayer/READY';
 const CLEAR = 'theMatrix/currentPlayer/CLEAR';
 
 const defaulState = {
   startingLives: 10,
+  currentLives: 10,
   timeStart: null,
   isDefender: false,
   loser: false,
@@ -20,6 +22,8 @@ export default function reducer(state = {}, { type, payload }) {
     return { ...state, ...payload.player, isReady: false };
   case READY:
     return { ...state, isReady: payload.isReady, isHeadSet: payload.isHeadSet };
+  case SET_NEW_LIVES:
+    return { ...state, startingLives: payload.lives };
   case CLEAR:
     return defaulState;
   default:
@@ -29,11 +33,14 @@ export default function reducer(state = {}, { type, payload }) {
 
 export const setReady = payload => ({ type: READY, payload });
 
+export const setLives = payload => ({ type: SET_NEW_LIVES, payload });
+
 
 export const createCurrentPlayer = () => {
   const defender = new URL(window.location.href).searchParams.get('defender');
   const player = {
     startingLives: 10,
+    currentLives: 10,
     timeStart: Date.now(),
     isDefender: !!(defender === 'true'),
     loser: false,
@@ -50,6 +57,7 @@ export const createCurrentPlayer = () => {
 
   return { type: CREATE_CURRENT_PLAYER, payload: { player } };
 };
+
 
 export const isPlayerReady = () => (dispatch) => {
   WS.subscribe('identifyUser', () => {
