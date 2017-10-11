@@ -33,7 +33,8 @@ class PlayerAttacker extends Component {
   static getRandomPosition () {
     const angle = Math.random() * Math.PI * 2;
     const radius = 11; // size of the play-area
-    return `${Math.cos(angle) * radius} ${1.65} ${Math.sin(angle) * radius}`;
+    return `${(Math.cos(angle) * radius)} 1.8 ${(Math.sin(angle) * radius)}`;
+    // return { x: (Math.cos(angle) * radius), y: 1.8, z: (Math.sin(angle) * radius) };
   }
 
   constructor(props) {
@@ -69,36 +70,18 @@ class PlayerAttacker extends Component {
 
   onClick() {
     const { createBall } = this.props;
-    const cameraPosition = this.camera.el.object3D.getWorldPosition();
-    const bulletCreatorPosition = this.bulletCreator.object3D.getWorldPosition();
-    const newVector = new CANNON.Vec3().copy(bulletCreatorPosition).vsub(cameraPosition);
 
-    // CALCULATE NEW BULLET POSITION
-    const position = {
-      x: bulletCreatorPosition.x + newVector.x,
-      y: bulletCreatorPosition.y + newVector.y,
-      z: bulletCreatorPosition.z + newVector.z,
-    };
+    const bulletOrigin = this.bulletOrigin.object3D.getWorldPosition();
+    const crossHair = this.crossHair.object3D.getWorldPosition();
 
-    // CALCULATE NEW BULLET IMPULSE
-    const worldOrigin = new CANNON.Vec3(0, 0, 0);
-    const directionVector = new CANNON.Vec3().copy(
-      worldOrigin.vsub(position)
-      // We get a vector from the current ball position towards the game center (0, 0, 0);
-    ); // Immutable - We copy the vector to a new vector (Too prevent reference reusing);
-    const bulletVector = new CANNON.Vec3();
-    bulletVector.copy(position); // We copy the ball vector to a new vector.
-    directionVector.normalize(); // Normalize (We make it size 1)
-    directionVector.scale(this.impulseAmount, directionVector);
-    // We scale it acording to the impulse size
-    const impulse = {
-      directionV: { ...directionVector },
-      bulletV: { ...bulletVector },
-    };
-    // this.bullet.body.applyImpulse(directionVector, bulletVector);
+    const crossHairVec = new CANNON.Vec3(crossHair.x, crossHair.y, crossHair.z);
+    const bulletOriginVec = new CANNON.Vec3(bulletOrigin.x, bulletOrigin.y, bulletOrigin.z);
 
+    const impulse = crossHairVec.vsub(bulletOriginVec);
+    impulse.normalize();
+    impulse.scale(this.impulseAmount, impulse);
     createBall({
-      position,
+      position: bulletOrigin,
       impulse,
     });
   }
@@ -121,6 +104,7 @@ class PlayerAttacker extends Component {
     const { blocked } = this.state;
     const hudContent = winner ? PlayerAttacker.Winner() : PlayerAttacker.getPlayingHud(lives);
     const cursorColor = blocked ? 'color: red' : 'color: green';
+
     return (
       <Entity
         primitive="a-camera"
@@ -131,6 +115,11 @@ class PlayerAttacker extends Component {
         position={ this.initialPosition }
         look-controls
       >
+        <a-entity
+          id={ 'BULLET_POSITION_ORIGIN' }
+          position="0 0 -0.42"
+          ref={ (c) => { this.bulletOrigin = c; } }
+        />
         <a-plane
           static-body
           id={ 'PLAYER_BULLET_GENERATOR' }
@@ -144,6 +133,7 @@ class PlayerAttacker extends Component {
         />
         <a-entity
           id={ 'PLAYER_CROSSHAIR' }
+          ref={ (c) => { this.crossHair = c; } }
           onMouseDown={ this.startCounter }
           onMouseUp={ this.releaseCounter }
           cursor="fuse: false;"

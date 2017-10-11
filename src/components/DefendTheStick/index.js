@@ -96,15 +96,13 @@ class App extends Component {
     const assets = App.getAssets();
     return (
       <a-scene
+        antialias={ 'true' }
         ref={ (c) => { this.scene = c; } }
         webvr-ui
         physics={ `
           debug: true;
           driver: local;
-          workerFps: 60;
-          workerInterpolate: true;
-          workerInterpBufferSize: 2;
-          gravity: -0.1;
+          gravity: 0;
         ` }
       >
         { assets }

@@ -9,7 +9,6 @@ class AttackerBullet extends Component {
 
   constructor(props) {
     super(props);
-    this.worldOrigin = new CANNON.Vec3(0, Math.random() * 2.5, 0);
     this.bodyLoaded = this.bodyLoaded.bind(this);
   }
 
@@ -30,9 +29,9 @@ class AttackerBullet extends Component {
 
   bodyLoaded() {
     if (this.bullet) {
-      const { directionV, bulletV } = this.props.impulse;
-      const directionVector = new CANNON.Vec3(directionV.x, directionV.y, directionV.z);
-      const bulletVector = new CANNON.Vec3(bulletV.x, bulletV.y, bulletV.z);
+      const { position, impulse } = this.props;
+      const directionVector = new CANNON.Vec3(-impulse.x, -impulse.y, -impulse.z);
+      const bulletVector = new CANNON.Vec3(position.x, position.y, position.z);
       this.bullet.body.applyImpulse(directionVector, bulletVector);
     }
   }
@@ -46,9 +45,8 @@ class AttackerBullet extends Component {
         id={ name }
         key={ name }
         name={ 'defender bullet' }
-        dynamic-body={ 'angularDamping: 1' }
-        radius="0.1"
-        geometry="primitive: sphere; radius: 0.1;"
+        dynamic-body={ 'angularDamping: 0.1; mass: 1; linearDamping: 0.2;' }
+        geometry="primitive: sphere; radius: 0.2;"
         material="color: blue"
         position={ `${x} ${y} ${z}` }
         bullet-emiter={ `id: ${name}` }
@@ -62,16 +60,9 @@ AttackerBullet.propTypes = {
   deleteBullet: PropTypes.func.isRequired,
   fakeBulletCreator: PropTypes.func.isRequired,
   impulse: PropTypes.shape({
-    directionV: PropTypes.shape({
-      x: PropTypes.number,
-      y: PropTypes.number,
-      z: PropTypes.number,
-    }).isRequired,
-    bulletV: PropTypes.shape({
-      x: PropTypes.number,
-      y: PropTypes.number,
-      z: PropTypes.number,
-    }).isRequired
+    x: PropTypes.number,
+    y: PropTypes.number,
+    z: PropTypes.number,
   }).isRequired,
   position: PropTypes.shape({
     x: PropTypes.number,
