@@ -1,6 +1,7 @@
 import 'aframe';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Entity } from 'aframe-react';
 
 class HUD extends Component {
   static getPlayingHud(lives) {
@@ -25,6 +26,20 @@ class HUD extends Component {
     );
   }
 
+
+  constructor(props) {
+    super(props);
+    this.onColission = this.onColission.bind(this);
+  }
+
+  componentDidMount() {
+    this.defender.addEventListener('collide', this.onColission);
+  }
+
+  onColission(e) {
+    console.log(e, this);
+  }
+
   render() {
     const { lives, loser, userID } = this.props;
     const hudContent = loser ? HUD.LOOSER() : HUD.getPlayingHud(lives);
@@ -36,7 +51,23 @@ class HUD extends Component {
         wasd-controls
         super-hands
       >
-        { hudContent }
+        <a-entity
+          id={ 'COLLIDER_CONSTRAINT' }
+          static-body="shape: sphere; sphereRadius: 0.1"
+        >
+          { hudContent }
+        </a-entity>
+        <a-entity
+          id={ 'COLLIDER' }
+          geometry="primitive: sphere; radius: 0.3;"
+          constraint={ `
+            target: #COLLIDER_CONSTRAINT;
+            type: distance;
+            distance: Default;
+          ` }
+          dynamic-body="linearDamping: 1; angularDamping: 1;"
+          ref={ (c) => { this.defender = c; } }
+        />
       </a-entity>
     );
   }

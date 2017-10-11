@@ -9,7 +9,9 @@ export default class PlayerDefender extends Component {
     // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
     const { lives, loser, userID } = this.props;
     return (
-      <a-entity name={ 'PLAYER_DEFENDER' }>
+      <a-entity
+        ID={ 'PLAYER_DEFENDER' }
+      >
         { /* <a-entity id="teleHand" hand-controls="left" mixin="controller" />
         <a-entity id="blockHand" hand-controls="right" mixin="controller" /> */ }
         <a-entity class="right-controller" super-hands />
