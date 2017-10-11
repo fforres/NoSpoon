@@ -1,9 +1,11 @@
 import 'aframe';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import CANNON from 'cannon';
 import PropTypes from 'prop-types';
+import { deleteBullet, fakeBulletCreator } from '../../../../store/reducers/bullets';
 
-export default class DefenderBullet extends Component {
+class DefenderBullet extends Component {
 
   constructor(props) {
     super(props);
@@ -65,3 +67,10 @@ DefenderBullet.propTypes = {
     z: PropTypes.number,
   }).isRequired,
 };
+
+const mapDispatchToProps = dispatch => ({
+  fakeBulletCreator: () => dispatch(fakeBulletCreator()),
+  deleteBullet: ({ id }) => dispatch(deleteBullet({ id })),
+});
+
+export default connect(null, mapDispatchToProps)(DefenderBullet);

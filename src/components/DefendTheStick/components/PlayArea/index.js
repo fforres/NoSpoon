@@ -7,7 +7,7 @@ import { AttackerBullet, DefenderBullet } from '../bullet';
 class PlayArea extends Component {
 
   renderAttackerBullets() {
-    const { balls, deleteBullet } = this.props;
+    const { balls } = this.props;
     const array = [];
     Object.keys(balls).forEach((ball) => {
       const { position, impulse } = balls[ball];
@@ -18,7 +18,6 @@ class PlayArea extends Component {
             name={ ball }
             position={ position }
             impulse={ impulse }
-            deleteBullet={ deleteBullet }
           />
         );
       }
@@ -27,7 +26,7 @@ class PlayArea extends Component {
   }
 
   renderDefenderBullets() {
-    const { balls, deleteBullet } = this.props;
+    const { balls } = this.props;
     const array = [];
     Object.keys(balls).forEach((ball) => {
       const { position, impulse } = balls[ball];
@@ -38,7 +37,6 @@ class PlayArea extends Component {
             name={ ball }
             position={ position }
             impulse={ impulse }
-            deleteBullet={ deleteBullet }
           />
         );
       }
@@ -132,7 +130,6 @@ class PlayArea extends Component {
 PlayArea.propTypes = {
   balls: PropTypes.object.isRequired,
   removeLife: PropTypes.func.isRequired,
-  deleteBullet: PropTypes.func.isRequired,
   isDefender: PropTypes.bool.isRequired
 };
 

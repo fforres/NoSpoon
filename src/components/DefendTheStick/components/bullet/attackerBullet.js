@@ -35,6 +35,7 @@ class AttackerBullet extends Component {
       this.bullet.body.applyImpulse(directionVector, bulletVector);
     }
   }
+
   render() {
     const { name, position } = this.props;
     const { x, y, z } = position;
@@ -53,6 +54,7 @@ class AttackerBullet extends Component {
       />
     );
   }
+
 }
 
 AttackerBullet.propTypes = {

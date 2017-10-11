@@ -7,7 +7,7 @@ import OtherPlayers from './components/otherPlayers';
 import PlayArea from './components/PlayArea';
 import { isPlayerReady } from '../../store/reducers/app';
 import { connectPlayers } from '../../store/reducers/players';
-import { connectBullets, deleteBullet, fakeBulletCreator } from '../../store/reducers/bullets';
+import { connectBullets, fakeBulletCreator } from '../../store/reducers/bullets';
 
 import '../../store/socket';
 
@@ -57,8 +57,8 @@ class App extends Component {
   }
 
 
-  getPlayer(isDefender) {
-    const { fakeBulletCreator, userID } = this.props;
+  getPlayer() {
+    const { fakeBulletCreator, userID, isDefender } = this.props;
     if (isDefender) {
       return (
         <PlayerDefender
@@ -78,21 +78,20 @@ class App extends Component {
     );
   }
 
-  getPlayArea(isDefender) {
-    const { deleteBullet } = this.props;
+  getPlayArea() {
+    const { isDefender } = this.props;
     return (
       <PlayArea
         removeLife={ () => {} }
         isDefender={ isDefender }
-        deleteBullet={ deleteBullet }
       />
     );
   }
 
   render() {
-    const { isReady, isDefender } = this.props;
-    const player = this.getPlayer(isDefender);
-    const playArea = this.getPlayArea(isDefender);
+    const { isReady } = this.props;
+    const player = this.getPlayer();
+    const playArea = this.getPlayArea();
     const assets = App.getAssets();
     return (
       <a-scene
@@ -127,7 +126,6 @@ App.propTypes = {
   isPlayerReady: PropTypes.func.isRequired,
   connectPlayers: PropTypes.func.isRequired,
   connectBullets: PropTypes.func.isRequired,
-  deleteBullet: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -135,7 +133,6 @@ const mapDispatchToProps = dispatch => ({
   isPlayerReady: () => dispatch(isPlayerReady()),
   connectPlayers: () => dispatch(connectPlayers()),
   connectBullets: () => dispatch(connectBullets()),
-  deleteBullet: (...props) => dispatch(deleteBullet(...props)),
 });
 
 const mapStateToProps = ({ mainApp }) => ({
