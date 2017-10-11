@@ -59,11 +59,13 @@ class HUD extends Component {
         </a-entity>
         <a-entity
           id={ 'COLLIDER' }
-          geometry="primitive: sphere; radius: 0.3;"
           constraint={ `
             target: #COLLIDER_CONSTRAINT;
             type: distance;
-            distance: Default;
+            distance: 0;
+            collideConnected: false;
+            shape: sphere;
+            sphereRadius: 0.3;
           ` }
           dynamic-body="linearDamping: 1; angularDamping: 1;"
           ref={ (c) => { this.defender = c; } }
