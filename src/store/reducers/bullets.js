@@ -1,9 +1,9 @@
 import { omit } from 'lodash';
 import WS from '../socket/ws';
 
-const SET_BALL = 'theMatrix/balls/SET_BALL';
-const REMOVE_BALL = 'theMatrix/balls/REMOVE_BALL';
-const CLEAR = 'theMatrix/balls/CLEAR';
+const SET_BALL = 'theMatrix/bullets/SET_BALL';
+const REMOVE_BALL = 'theMatrix/bullets/REMOVE_BALL';
+const CLEAR = 'theMatrix/bullets/CLEAR';
 
 export const viewStates = ['init', 'loading', 'error', 'success'].reduce((obj, val) => ({ ...obj, [val]: val }), {});
 
@@ -119,7 +119,7 @@ export const fakeBulletCreator = () => () => {
 
 };
 
-export const connectBalls = () => (dispatch) => {
+export const connectBullets = () => (dispatch) => {
   WS.subscribe('createBullet', (data) => {
     dispatch(setNewBall({
       id: data.id,

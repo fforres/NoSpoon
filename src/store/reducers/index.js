@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 
-import ballsReducer from './balls';
+import bulletsReducer from './bullets';
 import playersReducer from './players';
-import firebaseReducer from './firebase';
+import appReducer from './app';
 
 const rootReducer = combineReducers({
-  mainApp: firebaseReducer,
-  balls: ballsReducer,
+  mainApp: appReducer,
+  balls: bulletsReducer,
   players: playersReducer,
 });
 

@@ -1,13 +1,14 @@
 import 'aframe';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import CANNON from 'cannon';
 import PropTypes from 'prop-types';
+import { deleteBullet, fakeBulletCreator } from '../../../../store/reducers/bullets';
 
-export default class DefenderBullet extends Component {
+class DefenderBullet extends Component {
 
   constructor(props) {
     super(props);
-    this.worldOrigin = new CANNON.Vec3(0, Math.random() * 2.5, 0);
     this.bodyLoaded = this.bodyLoaded.bind(this);
   }
 
@@ -27,9 +28,9 @@ export default class DefenderBullet extends Component {
 
   bodyLoaded() {
     if (this.bullet) {
-      const { directionV, bulletV } = this.props.impulse;
-      const directionVector = new CANNON.Vec3(directionV.x, directionV.y, directionV.z);
-      const bulletVector = new CANNON.Vec3(bulletV.x, bulletV.y, bulletV.z);
+      const { position, impulse } = this.props;
+      const directionVector = new CANNON.Vec3(-impulse.x, -impulse.y, -impulse.z);
+      const bulletVector = new CANNON.Vec3(position.x, position.y, position.z);
       this.bullet.body.applyImpulse(directionVector, bulletVector);
     }
   }
@@ -43,10 +44,9 @@ export default class DefenderBullet extends Component {
         id={ name }
         key={ name }
         name={ 'defender bullet' }
-        dynamic-body={ 'angularDamping: 1' }
-        radius="0.1"
-        geometry="primitive: sphere; radius: 0.1;"
-        material="color: red"
+        dynamic-body={ 'angularDamping: 0.1; mass: 1; linearDamping: 0.2;' }
+        geometry="primitive: sphere; radius: 0.2;"
+        material="color: yellow"
         position={ `${x} ${y} ${z}` }
       />
     );
@@ -57,16 +57,9 @@ DefenderBullet.propTypes = {
   deleteBullet: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   impulse: PropTypes.shape({
-    directionV: PropTypes.shape({
-      x: PropTypes.number,
-      y: PropTypes.number,
-      z: PropTypes.number,
-    }).isRequired,
-    bulletV: PropTypes.shape({
-      x: PropTypes.number,
-      y: PropTypes.number,
-      z: PropTypes.number,
-    }).isRequired
+    x: PropTypes.number,
+    y: PropTypes.number,
+    z: PropTypes.number,
   }).isRequired,
   position: PropTypes.shape({
     x: PropTypes.number,
@@ -74,3 +67,10 @@ DefenderBullet.propTypes = {
     z: PropTypes.number,
   }).isRequired,
 };
+
+const mapDispatchToProps = dispatch => ({
+  fakeBulletCreator: () => dispatch(fakeBulletCreator()),
+  deleteBullet: ({ id }) => dispatch(deleteBullet({ id })),
+});
+
+export default connect(null, mapDispatchToProps)(DefenderBullet);

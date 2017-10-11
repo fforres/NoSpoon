@@ -5,9 +5,9 @@ import PlayerDefender from './components/playerDefender';
 import PlayerAttacker from './components/playerAttacker';
 import OtherPlayers from './components/otherPlayers';
 import PlayArea from './components/PlayArea';
-import { isPlayerReady } from '../../store/reducers/firebase';
+import { isPlayerReady } from '../../store/reducers/app';
 import { connectPlayers } from '../../store/reducers/players';
-import { connectBalls, deleteBullet, fakeBulletCreator } from '../../store/reducers/balls';
+import { connectBullets } from '../../store/reducers/bullets';
 
 import '../../store/socket';
 
@@ -52,18 +52,17 @@ class App extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.isReady) {
       this.props.connectPlayers();
-      this.props.connectBalls();
+      this.props.connectBullets();
     }
   }
 
 
-  getPlayer(isDefender) {
-    const { fakeBulletCreator, userID } = this.props;
+  getPlayer() {
+    const { userID, isDefender } = this.props;
     if (isDefender) {
       return (
         <PlayerDefender
           userID={ userID }
-          fakeBulletCreator={ fakeBulletCreator }
           lives={ 10 }
           loser={ false }
         />
@@ -78,33 +77,30 @@ class App extends Component {
     );
   }
 
-  getPlayArea(isDefender) {
-    const { deleteBullet } = this.props;
+  getPlayArea() {
+    const { isDefender } = this.props;
     return (
       <PlayArea
         removeLife={ () => {} }
         isDefender={ isDefender }
-        deleteBullet={ deleteBullet }
       />
     );
   }
 
   render() {
-    const { isReady, isDefender } = this.props;
-    const player = this.getPlayer(isDefender);
-    const playArea = this.getPlayArea(isDefender);
+    const { isReady } = this.props;
+    const player = this.getPlayer();
+    const playArea = this.getPlayArea();
     const assets = App.getAssets();
     return (
       <a-scene
+        antialias={ 'true' }
         ref={ (c) => { this.scene = c; } }
         webvr-ui
         physics={ `
           debug: true;
           driver: local;
-          workerFps: 60;
-          workerInterpolate: true;
-          workerInterpBufferSize: 2;
-          gravity: -0.1;
+          gravity: 0;
         ` }
       >
         { assets }
@@ -125,19 +121,15 @@ App.propTypes = {
   userID: PropTypes.string.isRequired,
   isReady: PropTypes.bool,
   isDefender: PropTypes.bool,
-  fakeBulletCreator: PropTypes.func.isRequired,
   isPlayerReady: PropTypes.func.isRequired,
   connectPlayers: PropTypes.func.isRequired,
-  connectBalls: PropTypes.func.isRequired,
-  deleteBullet: PropTypes.func.isRequired,
+  connectBullets: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({
-  fakeBulletCreator: () => dispatch(fakeBulletCreator()),
   isPlayerReady: () => dispatch(isPlayerReady()),
   connectPlayers: () => dispatch(connectPlayers()),
-  connectBalls: () => dispatch(connectBalls()),
-  deleteBullet: (...props) => dispatch(deleteBullet(...props)),
+  connectBullets: () => dispatch(connectBullets()),
 });
 
 const mapStateToProps = ({ mainApp }) => ({
