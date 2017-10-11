@@ -29,7 +29,7 @@ class DefenderBullet extends Component {
   bodyLoaded() {
     if (this.bullet) {
       const { position, impulse } = this.props;
-      const directionVector = new CANNON.Vec3(impulse.x, impulse.y, impulse.z);
+      const directionVector = new CANNON.Vec3(-impulse.x, -impulse.y, -impulse.z);
       const bulletVector = new CANNON.Vec3(position.x, position.y, position.z);
       this.bullet.body.applyImpulse(directionVector, bulletVector);
     }

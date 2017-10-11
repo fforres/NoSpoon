@@ -43,7 +43,7 @@ class PlayerAttacker extends Component {
       blocked: false,
     };
     this.onPressDragDelay = 150;
-    this.impulseAmount = 10;
+    this.impulseAmount = 4;
     this.bulletTimeout = 1250;
     this.initialPosition = PlayerAttacker.getRandomPosition();
     this.onClick = this.onClick.bind(this);

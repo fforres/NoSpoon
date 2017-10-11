@@ -18,7 +18,6 @@ class AttackerBullet extends Component {
     });
     const { deleteBullet, name } = this.props;
     deleteBullet({ id: name });
-
   }
 
   componentWillUnmount() {
