@@ -7,7 +7,7 @@ import OtherPlayers from './components/otherPlayers';
 import PlayArea from './components/PlayArea';
 import { isPlayerReady } from '../../store/reducers/app';
 import { connectPlayers } from '../../store/reducers/players';
-import { connectBullets, fakeBulletCreator } from '../../store/reducers/bullets';
+import { connectBullets } from '../../store/reducers/bullets';
 
 import '../../store/socket';
 
@@ -58,12 +58,11 @@ class App extends Component {
 
 
   getPlayer() {
-    const { fakeBulletCreator, userID, isDefender } = this.props;
+    const { userID, isDefender } = this.props;
     if (isDefender) {
       return (
         <PlayerDefender
           userID={ userID }
-          fakeBulletCreator={ fakeBulletCreator }
           lives={ 10 }
           loser={ false }
         />
@@ -122,14 +121,12 @@ App.propTypes = {
   userID: PropTypes.string.isRequired,
   isReady: PropTypes.bool,
   isDefender: PropTypes.bool,
-  fakeBulletCreator: PropTypes.func.isRequired,
   isPlayerReady: PropTypes.func.isRequired,
   connectPlayers: PropTypes.func.isRequired,
   connectBullets: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({
-  fakeBulletCreator: () => dispatch(fakeBulletCreator()),
   isPlayerReady: () => dispatch(isPlayerReady()),
   connectPlayers: () => dispatch(connectPlayers()),
   connectBullets: () => dispatch(connectBullets()),

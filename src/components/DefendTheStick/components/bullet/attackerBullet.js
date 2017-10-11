@@ -18,13 +18,13 @@ class AttackerBullet extends Component {
     });
     const { deleteBullet, name } = this.props;
     deleteBullet({ id: name });
+
   }
 
   componentWillUnmount() {
     if (this.functionReferenceToRemove) {
       this.bullet.removeEventListener('body-loaded');
     }
-    setTimeout(this.props.fakeBulletCreator, 10000);
   }
 
   bodyLoaded() {
@@ -60,7 +60,6 @@ class AttackerBullet extends Component {
 AttackerBullet.propTypes = {
   name: PropTypes.string.isRequired,
   deleteBullet: PropTypes.func.isRequired,
-  fakeBulletCreator: PropTypes.func.isRequired,
   impulse: PropTypes.shape({
     x: PropTypes.number,
     y: PropTypes.number,
