@@ -26,19 +26,44 @@ class HUD extends Component {
     );
   }
 
-
   constructor(props) {
     super(props);
     this.onColission = this.onColission.bind(this);
-  }
 
+    // function limitSphere(ball, objs) {
+    //   var arr;
+    //   raycaster.set(ball.position.clone(), ball.velocity.clone().unit());
+    //   raycaster.far = ball.velocity.length();
+    //   arr = raycaster.intersectObjects(objs);
+
+    //   if(arr.length){
+    //     ball.position.copy(arr[0].point);
+    //   }
+    // }
+  }
   componentDidMount() {
     this.defender.addEventListener('collide', this.onColission);
   }
 
+
+  // this.defender.addEventListener('body-loaded', () => {
+  //   console.log(this.defender);
+  //   debugger;
+  //   requestAnimationFrame(this.onColission);
+  // });
+
+
+  // componentWillUnmount() {
+  //   if (this.functionReferenceToRemove) {
+  //     this.bullet.removeEventListener('body-loaded');
+  //   }
+  // }
+
   onColission(e) {
     console.log(e, this);
+    debugger;
   }
+
 
   render() {
     const { lives, loser, userID } = this.props;
@@ -52,24 +77,13 @@ class HUD extends Component {
         super-hands
       >
         <a-entity
+          geometry="primitive: sphere; radius: 0.32;"
           id={ 'COLLIDER_CONSTRAINT' }
-          static-body="shape: sphere; sphereRadius: 0.1"
-        >
-          { hudContent }
-        </a-entity>
-        <a-entity
-          id={ 'COLLIDER' }
-          constraint={ `
-            target: #COLLIDER_CONSTRAINT;
-            type: distance;
-            distance: 0;
-            collideConnected: false;
-            shape: sphere;
-            sphereRadius: 0.3;
-          ` }
-          dynamic-body="linearDamping: 1; angularDamping: 1;"
           ref={ (c) => { this.defender = c; } }
+          static-body
+          position="0 0 0"
         />
+        { hudContent }
       </a-entity>
     );
   }
