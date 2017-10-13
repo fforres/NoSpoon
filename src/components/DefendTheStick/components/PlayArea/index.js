@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import TheStick from '../TheStick';
 import { AttackerBullet, DefenderBullet } from '../bullet';
 
 class PlayArea extends Component {
@@ -44,7 +43,7 @@ class PlayArea extends Component {
     return array;
   }
   render() {
-    const { removeLife, isDefender } = this.props;
+    const { isDefender } = this.props;
     const ballsComponent = isDefender ? this.renderAttackerBullets() : this.renderDefenderBullets();
     // const otherPersonsBalls = [];
     return (
@@ -78,7 +77,14 @@ class PlayArea extends Component {
           material="color: rgb(123,123,123); opacity: 0.5;"
           height="0.3"
         />
-        <TheStick onColission={ removeLife } isDefender={ isDefender } />
+        <a-cylinder
+          id="thestick"
+          static-body
+          radius="0.01"
+          height="0.1"
+          position="0 0 0"
+        />
+
         { ballsComponent }
         { /* <a-sphere
           grabbable
@@ -116,11 +122,6 @@ class PlayArea extends Component {
           height="1"
           depth="1"
         /> */ }
-        { /* <a-sky
-          id="background"
-          theta-length="90"
-          radius="30"
-        /> */ }
       </a-entity>
     );
   }
@@ -129,7 +130,6 @@ class PlayArea extends Component {
 
 PlayArea.propTypes = {
   balls: PropTypes.object.isRequired,
-  removeLife: PropTypes.func.isRequired,
   isDefender: PropTypes.bool.isRequired
 };
 

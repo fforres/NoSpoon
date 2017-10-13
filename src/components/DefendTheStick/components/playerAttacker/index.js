@@ -33,8 +33,8 @@ class PlayerAttacker extends Component {
   static getRandomPosition () {
     const angle = Math.random() * Math.PI * 2;
     const radius = 11; // size of the play-area
-    return `${(Math.cos(angle) * radius)} 1.8 ${(Math.sin(angle) * radius)}`;
-    // return { x: (Math.cos(angle) * radius), y: 1.8, z: (Math.sin(angle) * radius) };
+    // return `${(Math.cos(angle) * radius)} 1.8 ${(Math.sin(angle) * radius)}`;
+    return { x: (Math.cos(angle) * radius), y: 1.8, z: -(Math.sin(angle) * radius) };
   }
 
   constructor(props) {
@@ -104,15 +104,15 @@ class PlayerAttacker extends Component {
     const { blocked } = this.state;
     const hudContent = winner ? PlayerAttacker.Winner() : PlayerAttacker.getPlayingHud(lives);
     const cursorColor = blocked ? 'color: red' : 'color: green';
-
+    const { x, y, z } = this.initialPosition;
     return (
-      <Entity
+      <a-camera
         primitive="a-camera"
         name={ 'PLAYER_ATTACKER CAMERA' }
         id={ 'PLAYER_CAMERA' }
         ref={ (c) => { this.camera = c; } }
         player-emiter={ `id: ${userID}; defender: false;` }
-        position={ this.initialPosition }
+        position={ `${x} ${y} ${z}` }
         look-controls
       >
         <a-entity
@@ -143,7 +143,7 @@ class PlayerAttacker extends Component {
           material={ cursorColor }
         />
         { hudContent }
-      </Entity>
+      </a-camera>
     );
   }
 }

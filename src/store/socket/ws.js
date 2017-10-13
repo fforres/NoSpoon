@@ -41,6 +41,10 @@ function WS () {
     console.info('socket Opened', msg);
   };
 
+  this.ping = () => {
+    this.ws.send(JSON.stringify({ type: 'ping' }));
+  };
+
   this.onOpen = (cb) => {
     this.onOpenFunction = cb;
   };
@@ -58,6 +62,7 @@ WS.prototype.connect = function connect() {
   ws.addEventListener('close', this.onClose);
   ws.addEventListener('open', msg => this.onSocketOpened(msg, ws));
   ws.addEventListener('message', this.onMessage);
+  this.keepalive = setInterval(this.ping, 500);
 };
 
 WS.prototype.subscribe = function subscribe(msgType, callback) {
