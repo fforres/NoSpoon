@@ -1,7 +1,7 @@
 import 'aframe';
 import 'aframe-environment-component';
 import 'aframe-physics-system/index';
-import extras from 'aframe-extras';
+import extras from 'aframe-extras/index';
 import 'super-hands/dist/super-hands';
 import 'webvr-ui/build/webvr-ui';
 import React, { Component } from 'react';
