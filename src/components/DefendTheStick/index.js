@@ -22,6 +22,8 @@ class App extends Component {
           src="https://cdn.aframe.io/a-painter/images/floor.jpg"
           alt="groundTexture"
         />
+        <a-asset-item id="shield" src="../../assets/shield.gltf" />
+        <a-asset-item id="shield2" src="../../assets/shield.dae" />
         <a-mixin
           id="controller"
           super-hands
@@ -117,6 +119,8 @@ class App extends Component {
         { isReady ? playArea : null }
         { isReady ? player : null }
         { isReady ? <OtherPlayers /> : null }
+        <a-entity id="shield" gltf-model="#shield" />
+        <a-entity id="shield2" collada-model="#shield2" />
       </a-scene>
     );
   }
