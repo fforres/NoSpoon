@@ -1,6 +1,5 @@
 import 'aframe';
 import React, { Component } from 'react';
-import { Entity } from 'aframe-react';
 import CANNON from 'cannon';
 import PropTypes from 'prop-types'; // ES6
 import { connect } from 'react-redux';
@@ -41,6 +40,7 @@ class PlayerAttacker extends Component {
     super(props);
     this.state = {
       blocked: false,
+      rotation: '0 0 0',
     };
     this.onPressDragDelay = 150;
     this.impulseAmount = 4;
@@ -52,6 +52,16 @@ class PlayerAttacker extends Component {
     this.blockUserBallCreator = this.blockUserBallCreator.bind(this);
     this.unBlockUserBallCreator = this.unBlockUserBallCreator.bind(this);
   }
+
+  componentDidMount() {
+    // const { x, y, z } = this.initialPosition;
+    // const fromVector = new THREE.Vector3(x, y, z);
+    // const toVector = new THREE.Vector3();
+    // const subs = new THREE.Vector3(0, 0, 0).subVectors(toVector, fromVector);
+    // const adds = new THREE.Vector3(0, 0, 0).addVectors(toVector, fromVector);
+    // this.camera.object3D.lookAt(new THREE.Vector3(0, 0, 0));
+  }
+
 
   startCounter() {
     this.counter = performance.now();
@@ -101,7 +111,7 @@ class PlayerAttacker extends Component {
   render() {
     // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
     const { lives, winner, userID } = this.props;
-    const { blocked } = this.state;
+    const { blocked, rotation } = this.state;
     const hudContent = winner ? PlayerAttacker.Winner() : PlayerAttacker.getPlayingHud(lives);
     const cursorColor = blocked ? 'color: red' : 'color: green';
     const { x, y, z } = this.initialPosition;
@@ -113,6 +123,7 @@ class PlayerAttacker extends Component {
         ref={ (c) => { this.camera = c; } }
         player-emiter={ `id: ${userID}; defender: false;` }
         position={ `${x} ${y} ${z}` }
+        rotation={ rotation }
         look-controls
       >
         <a-entity
