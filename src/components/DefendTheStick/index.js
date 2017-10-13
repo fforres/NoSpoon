@@ -46,8 +46,8 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.props.isPlayerReady({ userName: `fforres${performance.now()}` });
-    // this.getName();
+    // this.props.isPlayerReady({ userName: `fforres${performance.now()}` });
+    this.getName();
   }
 
   componentWillReceiveProps(nextProps) {

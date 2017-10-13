@@ -42,7 +42,7 @@ function WS () {
   };
 
   this.ping = () => {
-    // this.ws.send(JSON.stringify({ type: 'ping' }));
+    this.ws.send(JSON.stringify({ type: 'ping' }));
   };
 
   this.onOpen = (cb) => {
