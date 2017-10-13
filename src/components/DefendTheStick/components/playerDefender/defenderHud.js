@@ -28,42 +28,24 @@ class HUD extends Component {
 
   constructor(props) {
     super(props);
-    this.onColission = this.onColission.bind(this);
-
-    // function limitSphere(ball, objs) {
-    //   var arr;
-    //   raycaster.set(ball.position.clone(), ball.velocity.clone().unit());
-    //   raycaster.far = ball.velocity.length();
-    //   arr = raycaster.intersectObjects(objs);
-
-    //   if(arr.length){
-    //     ball.position.copy(arr[0].point);
-    //   }
-    // }
+    this.addColissionEvent = this.addColissionEvent.bind(this);
   }
   componentDidMount() {
-    this.defender.addEventListener('collide', this.onColission);
+    requestAnimationFrame(this.addColissionEvent);
   }
 
-
-  // this.defender.addEventListener('body-loaded', () => {
-  //   console.log(this.defender);
-  //   debugger;
-  //   requestAnimationFrame(this.onColission);
-  // });
-
-
-  // componentWillUnmount() {
-  //   if (this.functionReferenceToRemove) {
-  //     this.bullet.removeEventListener('body-loaded');
-  //   }
-  // }
-
-  onColission(e) {
-    console.log(e, this);
-    debugger;
+  componentWillUnmount() {
+    this.defender.removeListener('hit');
+    this.defender.removeListener('hitend');
   }
 
+  addColissionEvent() {
+    this.defender.addEventListener('hit', (e) => {
+      if (e.detail.el) {
+        this.props.onHit({ bulletId: e.detail.el.id });
+      }
+    });
+  }
 
   render() {
     const { lives, loser, userID } = this.props;
@@ -77,6 +59,10 @@ class HUD extends Component {
         super-hands
       >
         <a-entity
+          sphere-collider={ `
+            objects: .abullet;
+            radius: 0.33;
+          ` }
           geometry="primitive: sphere; radius: 0.32;"
           id={ 'COLLIDER_CONSTRAINT' }
           ref={ (c) => { this.defender = c; } }
@@ -95,6 +81,7 @@ HUD.defaultProps = {
 };
 
 HUD.propTypes = {
+  onHit: PropTypes.func.isRequired,
   lives: PropTypes.number,
   loser: PropTypes.bool,
   userID: PropTypes.string.isRequired

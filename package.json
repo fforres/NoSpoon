@@ -5,6 +5,7 @@
   "dependencies": {
     "aframe": "^0.7.0",
     "aframe-environment-component": "^1.0.0",
+    "aframe-extras": "^3.12.3",
     "aframe-physics-system": "^2.0.0",
     "aframe-react": "^4.3.0",
     "autoprefixer": "7.1.2",

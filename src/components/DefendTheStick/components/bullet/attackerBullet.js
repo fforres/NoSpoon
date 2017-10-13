@@ -41,6 +41,8 @@ class AttackerBullet extends Component {
     return (
       <a-sphere
         grabbable
+        sphere-collider
+        class={ 'abullet' }
         ref={ (c) => { this.bullet = c; } }
         id={ name }
         key={ name }

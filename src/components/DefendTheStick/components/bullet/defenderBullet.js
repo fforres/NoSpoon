@@ -40,6 +40,7 @@ class DefenderBullet extends Component {
     const { x, y, z } = position;
     return (
       <a-sphere
+        sphere-collider
         ref={ (c) => { this.bullet = c; } }
         id={ name }
         key={ name }
