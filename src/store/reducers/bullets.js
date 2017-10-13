@@ -21,6 +21,7 @@ export default function reducer(state = defaultState, { type, payload }) {
       balls: {
         ...state.balls,
         [payload.id]: {
+          owner: payload.userId,
           position: payload.position,
           impulse: payload.impulse,
         }
@@ -48,6 +49,7 @@ export const createBall = ({ position, impulse }) => (dispatch, getState) => {
   const id = `${performance.now().toString().split('.').join('')}__${mainApp.userID}`;
   dispatch(setNewBall({
     id,
+    userId: mainApp.userID,
     position,
     impulse
   }));
@@ -97,8 +99,8 @@ export const fakeBulletCreator = () => (dispatch) => {
 };
 
 export const connectBullets = () => (dispatch) => {
-  WS.subscribe('createBullet', ({ id, position, impulse }) => {
-    dispatch(setNewBall({ id, position, impulse }));
+  WS.subscribe('createBullet', ({ id, user, position, impulse }) => {
+    dispatch(setNewBall({ id, position, impulse, userId: user.id }));
   });
   WS.subscribe('bulletPosition', (data) => {
     console.log(data);

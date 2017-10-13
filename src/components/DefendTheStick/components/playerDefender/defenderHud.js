@@ -1,7 +1,6 @@
 import 'aframe';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Entity } from 'aframe-react';
 
 class HUD extends Component {
   static getPlayingHud(lives) {

@@ -1,4 +1,4 @@
-import { omit, debounce } from 'lodash';
+import { throttle } from 'lodash';
 import WS from '../socket/ws';
 import { getDisplay } from '../../components/DefendTheStick/components/helpers';
 import { removeBall } from './bullets';
@@ -36,7 +36,8 @@ export const setReady = payload => ({ type: READY, payload });
 export const setLives = payload => ({ type: ADD_POINT, payload });
 
 export const userMadeAPoint = ({ bulletId }) => (dispatch, getState) => {
-  const userId = getState().balls.balls[bulletId];
+  const bullet = getState().balls.balls[bulletId];
+  const userId = bullet.owner;
   if (userId) {
     debouncedWSUserMadeAPoint({ userId, bulletId, dispatch });
   }
@@ -51,10 +52,9 @@ const WSUserMadeAPoint = ({ userId, bulletId, dispatch }) => {
   });
   dispatch(removeBall({ id: bulletId }));
 };
-const debouncedWSUserMadeAPoint = debounce(
+const debouncedWSUserMadeAPoint = throttle(
   (...args) => WSUserMadeAPoint(...args),
   1500, // 1 Seconds of immortality because reaons
-  { leading: false, trailing: true }
 );
 
 
