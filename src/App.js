@@ -1,7 +1,7 @@
 import 'aframe';
 import 'aframe-environment-component';
 import 'aframe-physics-system/index';
-import extras from 'aframe-extras/index';
+import sphereColider from 'aframe-extras/src/misc/sphere-collider';
 import 'super-hands/dist/super-hands';
 import 'webvr-ui/build/webvr-ui';
 import React, { Component } from 'react';
@@ -11,7 +11,7 @@ import store from './store';
 import NoSpoon from './components/DefendTheStick';
 import './App.css';
 
-AFRAME.registerComponent('sphere-collider', extras.misc['sphere-collider']);
+AFRAME.registerComponent('sphere-collider', sphereColider);
 
 class AppContainer extends Component {
   render() {
