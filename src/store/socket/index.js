@@ -1,5 +1,6 @@
 import 'aframe';
 import WS from './ws';
+import store from '../../store';
 
 AFRAME.registerComponent('player-emiter', {
   schema: {
@@ -24,9 +25,14 @@ AFRAME.registerComponent('player-emiter', {
   },
   updateUserPos () {
     const user = this.el.object3D;
+    const { userID, isDefender, userName } = store.getState().mainApp;
     const data = {
       type: 'userPosition',
-      user: this.userData,
+      user: {
+        id: userID,
+        isDefender,
+        userName,
+      },
       position: { ...user.getWorldPosition() },
       rotation: { ...user.getWorldRotation() },
     };
