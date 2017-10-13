@@ -14,12 +14,12 @@ class OtherPlayers extends Component {
     const array = [];
     const { players } = this.props;
     Object.keys(players).forEach((player) => {
-      const { rotation, position, id } = players[player];
+      const { rotation, position, id, userName } = players[player];
       array.push(
         <Face
           id={ id }
           key={ id }
-          name={ id }
+          name={ userName }
           position={ position }
           rotation={ rotation }
         />

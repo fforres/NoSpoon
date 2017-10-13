@@ -30,20 +30,25 @@ export default class Face extends Component {
   }
 
   render() {
-    const { id, position, rotation } = this.props;
+    const { id, position, rotation, name } = this.props;
     return (
-      <Entity
-        key={ id }
-        name={ id }
-        id={ id }
-        geometry="primitive: sphere; radius: 0.3;"
-        position={ `${position.x} ${position.y} ${position.z}` }
-        rotation={ Face.getFaceRotation(rotation) }
-        shadow="cast:true;receive:true;"
-      >
-        { Face._renderEye('0.1 0.09 0.278') }
-        { Face._renderEye('-0.1 0.09 0.278') }
-      </Entity>
+      <a-entity>
+        <Entity
+          key={ id }
+          id={ `USER: ${name}` }
+          geometry="primitive: sphere; radius: 0.3;"
+          position={ `${position.x} ${position.y} ${position.z}` }
+          rotation={ Face.getFaceRotation(rotation) }
+          shadow="cast:true;receive:true;"
+        >
+          <a-entity
+            position="0 0.6 0"
+            text={ `color: white; align: center; value: ${name}; width: 9` }
+          />
+          { Face._renderEye('0.1 0.09 0.278') }
+          { Face._renderEye('-0.1 0.09 0.278') }
+        </Entity>
+      </a-entity>
     );
   }
 
@@ -51,6 +56,7 @@ export default class Face extends Component {
 
 Face.propTypes = {
   id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   rotation: PropTypes.shape({
     x: PropTypes.string,
     y: PropTypes.string,

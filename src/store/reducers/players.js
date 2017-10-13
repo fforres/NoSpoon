@@ -21,6 +21,7 @@ export default function reducer(state = defaultState, { type, payload }) {
         ...state.players,
         [payload.id]: {
           id: payload.id,
+          userName: payload.userName,
           position: payload.position,
           rotation: payload.rotation,
         }
@@ -41,6 +42,7 @@ export const connectPlayers = () => (dispatch) => {
   WS.subscribe('userPosition', (data) => {
     const newPlayer = {
       id: data.user.id,
+      userName: data.user.userName,
       position: data.position,
       rotation: data.rotation,
     };

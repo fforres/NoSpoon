@@ -3,7 +3,6 @@ import WS from '../socket/ws';
 import { getDisplay } from '../../components/DefendTheStick/components/helpers';
 import { removeBall } from './bullets';
 
-const SET_PLAYER_NAME = 'theMatrix/currentPlayer/SET_PLAYER_NAME';
 const CREATE_CURRENT_PLAYER = 'theMatrix/currentPlayer/CREATE_CURRENT_PLAYER';
 const ADD_POINT = 'theMatrix/currentPlayer/ADD_POINT';
 const READY = 'theMatrix/currentPlayer/READY';

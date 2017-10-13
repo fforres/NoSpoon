@@ -46,6 +46,7 @@ class App extends Component {
   }
 
   componentWillMount() {
+    // this.props.isPlayerReady({ userName: 'fforres' });
     this.getName();
   }
 
