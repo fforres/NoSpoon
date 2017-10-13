@@ -33,11 +33,6 @@ class HUD extends Component {
     requestAnimationFrame(this.addColissionEvent);
   }
 
-  componentWillUnmount() {
-    this.defender.removeListener('hit');
-    this.defender.removeListener('hitend');
-  }
-
   addColissionEvent() {
     this.defender.addEventListener('hit', (e) => {
       if (e.detail.el) {

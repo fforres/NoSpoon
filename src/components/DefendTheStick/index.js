@@ -45,8 +45,8 @@ class App extends Component {
     this.getName = this.getName.bind(this);
   }
 
-  componentWillMount() {
-    // this.props.isPlayerReady({ userName: 'fforres' });
+  componentDidMount() {
+    // this.props.isPlayerReady({ userName: `fforres${performance.now()}` });
     this.getName();
   }
 
@@ -59,11 +59,10 @@ class App extends Component {
 
   getName() {
     const userName = window.prompt('Whats your name Player?'); // eslint-disable-line no-alert
-    if (userName && userName.trim() !== '') {
-      this.props.isPlayerReady({ userName });
-    } else {
-      this.getName();
+    if (!userName) {
+      return setTimeout(this.getName, 200);
     }
+    return this.props.isPlayerReady({ userName });
   }
 
   getPlayer() {

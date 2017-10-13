@@ -42,7 +42,12 @@ export default class Face extends Component {
           shadow="cast:true;receive:true;"
         >
           <a-entity
+            position="0 0.6 0.05"
+            text={ `color: white; align: center; value: ${name}; width: 9` }
+          />
+          <a-entity
             position="0 0.6 0"
+            rotation="0 180 0"
             text={ `color: white; align: center; value: ${name}; width: 9` }
           />
           { Face._renderEye('0.1 0.09 0.278') }

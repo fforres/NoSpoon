@@ -1,8 +1,9 @@
 // import Firebase from '../socket/Firebase';
+import { omit } from 'lodash';
 import WS from '../socket/ws';
 
 const SET_PLAYER = 'theMatrix/players/SET_PLAYER';
-const REMOVE_PLAYERS = 'theMatrix/players/REMOVE_PLAYERS';
+const REMOVE_PLAYER = 'theMatrix/players/REMOVE_PLAYER';
 const CLEAR = 'theMatrix/players/CLEAR';
 
 export const viewStates = ['init', 'loading', 'error', 'success'].reduce((obj, val) => ({ ...obj, [val]: val }), {});
@@ -24,11 +25,12 @@ export default function reducer(state = defaultState, { type, payload }) {
           userName: payload.userName,
           position: payload.position,
           rotation: payload.rotation,
+          timeStamp: performance.now(),
         }
       }
     };
-  case REMOVE_PLAYERS:
-    return { ...state, balls: { ...state.balls } };
+  case REMOVE_PLAYER:
+    return { ...state, players: { ...omit(state.players, payload.id) } };
   case CLEAR:
     return defaultState;
   default:
@@ -37,8 +39,9 @@ export default function reducer(state = defaultState, { type, payload }) {
 }
 
 export const setNewPlayer = payload => ({ type: SET_PLAYER, payload });
+export const deletePlayer = payload => ({ type: REMOVE_PLAYER, payload });
 
-export const connectPlayers = () => (dispatch) => {
+export const connectPlayers = () => (dispatch, getState) => {
   WS.subscribe('userPosition', (data) => {
     const newPlayer = {
       id: data.user.id,
@@ -48,6 +51,21 @@ export const connectPlayers = () => (dispatch) => {
     };
     dispatch(setNewPlayer(newPlayer));
   });
+
+  WS.subscribe('userDisconnected', (data) => {
+    dispatch(deletePlayer({ id: data.user.id }));
+  });
+
+  setInterval(() => {
+    Object.keys(getState().players.players).forEach((player) => {
+      const { players } = getState().players;
+      if (players[player]) {
+        if (performance.now() - players[player].timeStamp > 4000) {
+          // dispatch(deletePlayer({ id: players[player].id }));
+        }
+      }
+    });
+  }, 2000);
 };
 
 export const clear = () => ({ type: CLEAR });
