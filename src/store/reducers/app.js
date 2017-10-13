@@ -3,6 +3,7 @@ import WS from '../socket/ws';
 import { getDisplay } from '../../components/DefendTheStick/components/helpers';
 import { removeBall } from './bullets';
 
+const SET_PLAYER_NAME = 'theMatrix/currentPlayer/SET_PLAYER_NAME';
 const CREATE_CURRENT_PLAYER = 'theMatrix/currentPlayer/CREATE_CURRENT_PLAYER';
 const ADD_POINT = 'theMatrix/currentPlayer/ADD_POINT';
 const READY = 'theMatrix/currentPlayer/READY';
@@ -14,6 +15,7 @@ const defaulState = {
   loser: false,
   userID: null,
   isReady: false,
+  name: '',
 };
 
 export default function reducer(state = {}, { type, payload }) {
@@ -58,12 +60,13 @@ const debouncedWSUserMadeAPoint = throttle(
 );
 
 
-export const createCurrentPlayer = () => {
+export const createCurrentPlayer = (userName) => {
   const defender = new URL(window.location.href).searchParams.get('defender');
   const player = {
     points: 0,
     isDefender: !!(defender === 'true'),
     loser: false,
+    userName,
     userID: `user-${performance.now().toString().split('.').join('')}`,
   };
 
@@ -72,6 +75,7 @@ export const createCurrentPlayer = () => {
     user: {
       id: player.userID,
       isDefender: player.isDefender,
+      userName,
     },
   });
 
@@ -79,7 +83,7 @@ export const createCurrentPlayer = () => {
 };
 
 
-export const isPlayerReady = () => (dispatch) => {
+export const isPlayerReady = ({ userName }) => (dispatch) => {
   WS.subscribe('identifyUser', () => {
     getDisplay()
       .then((isHeadSet) => {
@@ -88,7 +92,7 @@ export const isPlayerReady = () => (dispatch) => {
   });
 
   WS.onOpen(() => {
-    dispatch(createCurrentPlayer());
+    dispatch(createCurrentPlayer(userName));
   });
 
 };

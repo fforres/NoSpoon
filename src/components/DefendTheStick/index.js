@@ -41,12 +41,12 @@ class App extends Component {
   }
   constructor(props) {
     super(props);
-    this.state = {};
     this.getPlayer = this.getPlayer.bind(this);
+    this.getName = this.getName.bind(this);
   }
 
   componentWillMount() {
-    this.props.isPlayerReady();
+    this.getName();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -56,6 +56,14 @@ class App extends Component {
     }
   }
 
+  getName() {
+    const userName = window.prompt('Whats your name Player?'); // eslint-disable-line no-alert
+    if (userName && userName.trim() !== '') {
+      this.props.isPlayerReady({ userName });
+    } else {
+      this.getName();
+    }
+  }
 
   getPlayer() {
     const { userID, isDefender } = this.props;
@@ -128,7 +136,7 @@ App.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  isPlayerReady: () => dispatch(isPlayerReady()),
+  isPlayerReady: ({ userName }) => dispatch(isPlayerReady({ userName })),
   connectPlayers: () => dispatch(connectPlayers()),
   connectBullets: () => dispatch(connectBullets()),
 });
