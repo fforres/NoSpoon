@@ -98,6 +98,7 @@ class App extends Component {
         ref={ (c) => { this.scene = c; } }
         webvr-ui
         physics={ `
+          iterations: 20;
           debug: true;
           driver: local;
           gravity: 0;

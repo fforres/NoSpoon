@@ -1,4 +1,5 @@
 import { omit } from 'lodash';
+import CANNON from 'cannon';
 import WS from '../socket/ws';
 
 const SET_BALL = 'theMatrix/bullets/SET_BALL';
@@ -20,6 +21,7 @@ export default function reducer(state = defaultState, { type, payload }) {
       balls: {
         ...state.balls,
         [payload.id]: {
+          owner: payload.userId,
           position: payload.position,
           impulse: payload.impulse,
         }
@@ -47,6 +49,7 @@ export const createBall = ({ position, impulse }) => (dispatch, getState) => {
   const id = `${performance.now().toString().split('.').join('')}__${mainApp.userID}`;
   dispatch(setNewBall({
     id,
+    userId: mainApp.userID,
     position,
     impulse
   }));
@@ -63,7 +66,7 @@ export const createBall = ({ position, impulse }) => (dispatch, getState) => {
   });
 };
 
-export const fakeBulletCreator = () => () => {
+export const fakeBulletCreator = () => (dispatch) => {
   if (true) {
     return;
   }
@@ -76,56 +79,28 @@ export const fakeBulletCreator = () => () => {
     },
   };
 
-  const data1 = {
-    ...data,
-    id: `${performance.now().toString().split('.').join('')}`,
-    position: {
-      x: -5.745240321559881,
-      y: 3.1151000523958334,
-      z: 6.922302134402269,
-    }
+  const crossHairVec = new CANNON.Vec3(0, 1.5, 0);
+  const position = {
+    x: 0,
+    y: 2,
+    z: -8,
   };
-  const data2 = {
-    ...data,
-    id: `${performance.now().toString().split('.').join('')}`,
-    position: {
-      x: -5.745240321559881,
-      y: 3.1151000523958334,
-      z: -6.922302134402269,
-    }
-  };
-  const data3 = {
-    ...data,
-    id: `${performance.now().toString().split('.').join('')}`,
-    position: {
-      x: 5.745240321559881,
-      y: 3.1151000523958334,
-      z: 6.922302134402269,
-    }
-  };
-  const data4 = {
-    ...data,
-    id: `${performance.now().toString().split('.').join('')}`,
-    position: {
-      x: 5.745240321559881,
-      y: 3.1151000523958334,
-      z: -6.922302134402269,
-    }
-  };
-  WS.send(data1);
-  WS.send(data2);
-  WS.send(data3);
-  WS.send(data4);
+  const position1Vec = new CANNON.Vec3(position.x, position.y, position.z);
+
+  const impulse = position1Vec.vsub(crossHairVec);
+  impulse.normalize();
+  impulse.scale(5, impulse);
+
+  dispatch(createBall({
+    position,
+    impulse,
+  }));
 
 };
 
 export const connectBullets = () => (dispatch) => {
-  WS.subscribe('createBullet', (data) => {
-    dispatch(setNewBall({
-      id: data.id,
-      position: data.position,
-      impulse: data.impulse,
-    }));
+  WS.subscribe('createBullet', ({ id, user, position, impulse }) => {
+    dispatch(setNewBall({ id, position, impulse, userId: user.id }));
   });
   WS.subscribe('bulletPosition', (data) => {
     console.log(data);

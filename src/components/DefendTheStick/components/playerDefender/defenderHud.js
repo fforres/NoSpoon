@@ -25,6 +25,27 @@ class HUD extends Component {
     );
   }
 
+  constructor(props) {
+    super(props);
+    this.addColissionEvent = this.addColissionEvent.bind(this);
+  }
+  componentDidMount() {
+    requestAnimationFrame(this.addColissionEvent);
+  }
+
+  componentWillUnmount() {
+    this.defender.removeListener('hit');
+    this.defender.removeListener('hitend');
+  }
+
+  addColissionEvent() {
+    this.defender.addEventListener('hit', (e) => {
+      if (e.detail.el) {
+        this.props.onHit({ bulletId: e.detail.el.id });
+      }
+    });
+  }
+
   render() {
     const { lives, loser, userID } = this.props;
     const hudContent = loser ? HUD.LOOSER() : HUD.getPlayingHud(lives);
@@ -36,6 +57,17 @@ class HUD extends Component {
         wasd-controls
         super-hands
       >
+        <a-entity
+          sphere-collider={ `
+            objects: .abullet;
+            radius: 0.33;
+          ` }
+          geometry="primitive: sphere; radius: 0.32;"
+          id={ 'COLLIDER_CONSTRAINT' }
+          ref={ (c) => { this.defender = c; } }
+          static-body
+          position="0 0 0"
+        />
         { hudContent }
       </a-entity>
     );
@@ -48,6 +80,7 @@ HUD.defaultProps = {
 };
 
 HUD.propTypes = {
+  onHit: PropTypes.func.isRequired,
   lives: PropTypes.number,
   loser: PropTypes.bool,
   userID: PropTypes.string.isRequired

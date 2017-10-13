@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CANNON from 'cannon';
 import PropTypes from 'prop-types';
-import { deleteBullet, fakeBulletCreator } from '../../../../store/reducers/bullets';
+import { deleteBullet } from '../../../../store/reducers/bullets';
 
 class DefenderBullet extends Component {
 
@@ -40,6 +40,7 @@ class DefenderBullet extends Component {
     const { x, y, z } = position;
     return (
       <a-sphere
+        sphere-collider
         ref={ (c) => { this.bullet = c; } }
         id={ name }
         key={ name }
@@ -69,7 +70,6 @@ DefenderBullet.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  fakeBulletCreator: () => dispatch(fakeBulletCreator()),
   deleteBullet: ({ id }) => dispatch(deleteBullet({ id })),
 });
 

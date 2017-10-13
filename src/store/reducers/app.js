@@ -1,5 +1,7 @@
+import { throttle } from 'lodash';
 import WS from '../socket/ws';
 import { getDisplay } from '../../components/DefendTheStick/components/helpers';
+import { removeBall } from './bullets';
 
 const CREATE_CURRENT_PLAYER = 'theMatrix/currentPlayer/CREATE_CURRENT_PLAYER';
 const ADD_POINT = 'theMatrix/currentPlayer/ADD_POINT';
@@ -33,14 +35,28 @@ export const setReady = payload => ({ type: READY, payload });
 
 export const setLives = payload => ({ type: ADD_POINT, payload });
 
-export const userMadeAPoint = ({ userId }) => () => {
+export const userMadeAPoint = ({ bulletId }) => (dispatch, getState) => {
+  const bullet = getState().balls.balls[bulletId];
+  const userId = bullet.owner;
+  if (userId) {
+    debouncedWSUserMadeAPoint({ userId, bulletId, dispatch });
+  }
+};
+
+const WSUserMadeAPoint = ({ userId, bulletId, dispatch }) => {
   WS.send({
     type: 'userMadeAPoint',
     user: {
       id: userId,
     },
   });
+  dispatch(removeBall({ id: bulletId }));
 };
+const debouncedWSUserMadeAPoint = throttle(
+  (...args) => WSUserMadeAPoint(...args),
+  1500, // 1 Seconds of immortality because reaons
+);
+
 
 export const createCurrentPlayer = () => {
   const defender = new URL(window.location.href).searchParams.get('defender');
