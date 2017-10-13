@@ -7,10 +7,10 @@ import Face from '../face';
 class OtherPlayers extends Component {
   constructor(props) {
     super(props);
-    this.getAttackersComponents = this.getAttackersComponents.bind(this);
+    this.getOtherPlayers = this.getOtherPlayers.bind(this);
   }
 
-  getAttackersComponents() {
+  getOtherPlayers() {
     const array = [];
     const { players } = this.props;
     Object.keys(players).forEach((player) => {
@@ -29,7 +29,7 @@ class OtherPlayers extends Component {
   }
 
   render() {
-    const attackerComponents = this.getAttackersComponents();
+    const attackerComponents = this.getOtherPlayers();
     return (
       <a-entity>
         { attackerComponents }
