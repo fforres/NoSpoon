@@ -109,7 +109,6 @@ class PlayerAttacker extends Component {
   }
 
   render() {
-    // const debug = process.env.NODE_ENV === 'development' ? 'debug: true' : '';
     const { lives, winner, userID } = this.props;
     const { blocked, rotation } = this.state;
     const hudContent = winner ? PlayerAttacker.Winner() : PlayerAttacker.getPlayingHud(lives);

@@ -100,6 +100,8 @@ class App extends Component {
     const player = this.getPlayer();
     const playArea = this.getPlayArea();
     const assets = App.getAssets();
+    const debug = process.env.NODE_ENV === 'development' ? 'debug: true;' : '';
+
     return (
       <a-scene
         antialias={ 'true' }
@@ -107,7 +109,7 @@ class App extends Component {
         webvr-ui
         physics={ `
           iterations: 20;
-          debug: true;
+          ${debug}
           driver: local;
           gravity: 0;
         ` }
