@@ -55,13 +55,13 @@ WS.prototype.onError = function onError(msg) {
 };
 
 WS.prototype.connect = function connect() {
-  this.url = process.env.NODE_ENV === 'development' ? 'ws://localhost:3001' : 'wss://aqueous-lake-16031.herokuapp.com/';
+  this.url = process.env.NODE_ENV !== 'development' ? 'ws://localhost:3001' : 'ws://ec2-52-67-177-149.sa-east-1.compute.amazonaws.com:3001';
   const ws = new WebSocket(this.url);
   ws.addEventListener('error', this.onError);
   ws.addEventListener('close', this.onClose);
   ws.addEventListener('open', msg => this.onSocketOpened(msg, ws));
   ws.addEventListener('message', this.onMessage);
-  this.keepalive = setInterval(this.ping, 500);
+  // this.keepalive = setInterval(this.ping, 500);
 };
 
 WS.prototype.subscribe = function subscribe(msgType, callback) {
