@@ -69,9 +69,11 @@ export const createCurrentPlayer = (userName) => {
     userID: `user-${performance.now().toString().split('.').join('')}`,
   };
 
-  WS.send({
-    type: 'RESET',
-  });
+  if (player.isDefender) {
+    WS.send({
+      type: 'RESET',
+    });
+  }
 
   WS.send({
     type: 'identifyUser',
