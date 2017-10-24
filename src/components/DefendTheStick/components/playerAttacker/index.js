@@ -138,6 +138,7 @@ class PlayerAttacker extends Component {
           height="2"
           width="2"
           position="0 0 -0.11"
+          rotation="0 180 0"
           material="opacity: 0.1; color: #697676;"
           className="bulletGenerator"
           class="bulletGenerator"

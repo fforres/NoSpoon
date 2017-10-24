@@ -30,7 +30,7 @@ export default class Face extends Component {
   }
 
   render() {
-    const { id, position, rotation, name } = this.props;
+    const { id, position, rotation, name, points } = this.props;
     return (
       <a-entity>
         <Entity
@@ -50,6 +50,17 @@ export default class Face extends Component {
             rotation="0 180 0"
             text={ `color: white; align: center; value: ${name}; width: 9` }
           />
+
+          <a-entity
+            position="0 1.1 0.05"
+            text={ `color: white; align: center; value: ${points} points; width: 5` }
+          />
+          <a-entity
+            position="0 1.1 0"
+            rotation="0 180 0"
+            text={ `color: white; align: center; value: ${points} points; width: 5` }
+          />
+
           { Face._renderEye('0.1 0.09 0.278') }
           { Face._renderEye('-0.1 0.09 0.278') }
         </Entity>
@@ -59,6 +70,10 @@ export default class Face extends Component {
 
 }
 
+Face.defaultProps = {
+  points: 0,
+};
+
 Face.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
@@ -67,6 +82,7 @@ Face.propTypes = {
     y: PropTypes.string,
     z: PropTypes.string
   }).isRequired,
+  points: PropTypes.number,
   position: PropTypes.shape({
     x: PropTypes.number,
     y: PropTypes.number,

@@ -83,6 +83,12 @@ export const createCurrentPlayer = (userName) => {
 
 
 export const isPlayerReady = ({ userName }) => (dispatch) => {
+
+  WS.subscribe('userMadeAPoint', (data) => {
+    // if (data.id) {
+    debugger;
+    // }
+  });
   WS.subscribe('identifyUser', () => {
     getDisplay()
       .then((isHeadSet) => {

@@ -7,9 +7,6 @@ function WS () {
     try {
       const parsedMsg = JSON.parse(msg.data);
       if (this.subscriptions[parsedMsg.type]) {
-        if (parsedMsg.type === 'createBullet') {
-          // debugger;
-        }
         this.subscriptions[parsedMsg.type].forEach((el) => { el(parsedMsg); });
       }
     } catch (e) {
@@ -23,6 +20,9 @@ function WS () {
   };
 
   this.reconnect = () => {
+    if (!this.ws) {
+      this.connect();
+    }
     this.setTimeout = setTimeout(() => {
       console.info('Reconnecting WebSocketClient');
       if (!this.ws) {
@@ -42,7 +42,9 @@ function WS () {
   };
 
   this.ping = () => {
-    this.ws.send(JSON.stringify({ type: 'ping' }));
+    if (this.ws) {
+      this.ws.send(JSON.stringify({ type: 'ping' }));
+    }
   };
 
   this.onOpen = (cb) => {
