@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 function WS () {
-  this.autoReconnectInterval = 5000;
+  this.autoReconnectInterval = 1000;
   this.subscriptions = {};
   this.onMessage = (msg) => {
     try {
@@ -20,9 +20,6 @@ function WS () {
   };
 
   this.reconnect = () => {
-    if (!this.ws) {
-      this.connect();
-    }
     this.setTimeout = setTimeout(() => {
       console.info('Reconnecting WebSocketClient');
       if (!this.ws) {

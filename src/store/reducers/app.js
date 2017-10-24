@@ -70,6 +70,10 @@ export const createCurrentPlayer = (userName) => {
   };
 
   WS.send({
+    type: 'RESET',
+  });
+
+  WS.send({
     type: 'identifyUser',
     user: {
       id: player.userID,
