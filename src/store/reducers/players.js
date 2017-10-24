@@ -23,7 +23,7 @@ export default function reducer(state = defaultState, { type, payload }) {
         ...state.players,
         [payload.id]: {
           id: payload.id,
-          points: state.players[payload.id] ? state.players[payload.id].points : 0,
+          points: state.players[payload.id] ? parseInt(state.players[payload.id].points, 10) : 0,
           userName: payload.userName,
           position: payload.position,
           rotation: payload.rotation,
@@ -38,7 +38,7 @@ export default function reducer(state = defaultState, { type, payload }) {
         ...state.players,
         [payload.id]: {
           ...state.players[payload.id],
-          points: state.players[payload.id] + 1,
+          points: parseInt(state.players[payload.id].points, 10) + 1,
           timeStamp: performance.now(),
         }
       }
@@ -52,7 +52,7 @@ export default function reducer(state = defaultState, { type, payload }) {
   }
 }
 
-export const addPoints = ({ userId }) => ({ type: ADD_POINTS, payload: { userId } });
+export const addPoints = payload => ({ type: ADD_POINTS, payload });
 export const setNewPlayer = payload => ({ type: SET_PLAYER, payload });
 export const deletePlayer = payload => ({ type: REMOVE_PLAYER, payload });
 
@@ -67,8 +67,20 @@ export const connectPlayers = () => (dispatch, getState) => {
     dispatch(setNewPlayer(newPlayer));
   });
 
-  WS.subscribe('userDisconnected', (data) => {
-    dispatch(deletePlayer({ id: data.user.id }));
+  WS.subscribe('userDisconnected', ({ user }) => {
+    dispatch(deletePlayer({ id: user.id }));
+  });
+
+  WS.subscribe('userMadeAPoint', ({ user }) => {
+    const { id } = user;
+    if (!getState().players.players[id]) {
+      return;
+    }
+    dispatch(addPoints({ id: user.id }));
+  });
+
+  WS.subscribe('userWon', ({ id }) => {
+    window.alert(`Ganador: ${getState().players.players[id].userName}`); // eslint-disable-line no-alert
   });
 
   setInterval(() => {
