@@ -83,9 +83,11 @@ WS.prototype.send = function send(msg) {
     console.error(msg);
     // throw new Error('Message object withouth type');
   }
-  if (!msg.user || !msg.user.id) {
-    console.error(msg);
-    // throw new Error('Message object withouth user ID');
+  if (msg.type !== 'RESET') {
+    if (!msg.user || !msg.user.id) {
+      console.error(msg);
+      // throw new Error('Message object withouth user ID');
+    }
   }
   if (this.ws) {
     this.ws.send(JSON.stringify(msg));
