@@ -1,12 +1,16 @@
 import 'aframe';
+import 'aframe-environment-component';
+import 'aframe-physics-system/index';
+import sphereColider from 'aframe-extras/src/misc/sphere-collider';
+import 'super-hands/dist/super-hands';
+import 'webvr-ui/build/webvr-ui';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-// import registerServiceWorker from './registerServiceWorker';
-// registerServiceWorker();
 
-// ReactDOM.render(<App />, document.getElementById('root'));
+AFRAME.registerComponent('sphere-collider', sphereColider);
+
 const rootEl = document.getElementById('root');
 
 ReactDOM.render(

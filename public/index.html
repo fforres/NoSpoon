@@ -9,7 +9,6 @@
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -19,9 +18,10 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>No Spoon!</title>
   </head>
   <body>
+    <script></script>
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
@@ -37,4 +37,17 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
   </body>
+  <script>
+    (function() {
+      let showSpoon = false;
+      setInterval(function() {
+        var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+        link.type = 'image/x-icon';
+        link.rel = 'shortcut icon';
+        link.href = showSpoon ? './spoon.ico' : './cross.ico';
+        showSpoon = !showSpoon;
+        document.getElementsByTagName('head')[0].appendChild(link);
+      }, 750);
+    })();
+  </script>
 </html>
