@@ -7,13 +7,23 @@ import { createBall } from '../../../../store/reducers/bullets';
 
 class PlayerAttacker extends Component {
 
-  static getPlayingHud(lives) {
+  static getPlayingHud(points) {
+    const pointsData = {
+      0: '0 puntos   :(',
+      1: '1 punto   :|',
+      2: '2 puntos   :)',
+      3: '3 puntos   :D',
+    };
     return (
       <a-entity
         geometry="primitive: plane; height: 0.3; width: 0.6"
         position="0.4 -0.4 -1"
         material="color: #0000FF; opacity: 0.5"
-        text={ ['align:center', 'color:white', `value: ATTACK! Lives : ${lives}`].join(';') }
+        text={ [
+          'align:center',
+          'color:white',
+          `value: ${pointsData[points]}`
+        ].join(';') }
       />
     );
   }
@@ -24,7 +34,11 @@ class PlayerAttacker extends Component {
         geometry="primitive: plane; height: 4; width: 4"
         position="0 0 -2"
         material="color: #FF0000; opacity: 0.7"
-        text={ ['align:center', 'color:white', 'value: ATTACK! YOU Win!!'].join(';') }
+        text={ [
+          'align:center',
+          'color:white',
+          'value: Winner Winner chicken dinner!'
+        ].join(';') }
       />
     );
   }
@@ -52,16 +66,6 @@ class PlayerAttacker extends Component {
     this.blockUserBallCreator = this.blockUserBallCreator.bind(this);
     this.unBlockUserBallCreator = this.unBlockUserBallCreator.bind(this);
   }
-
-  componentDidMount() {
-    // const { x, y, z } = this.initialPosition;
-    // const fromVector = new THREE.Vector3(x, y, z);
-    // const toVector = new THREE.Vector3();
-    // const subs = new THREE.Vector3(0, 0, 0).subVectors(toVector, fromVector);
-    // const adds = new THREE.Vector3(0, 0, 0).addVectors(toVector, fromVector);
-    // this.camera.object3D.lookAt(new THREE.Vector3(0, 0, 0));
-  }
-
 
   startCounter() {
     this.counter = performance.now();
@@ -109,9 +113,9 @@ class PlayerAttacker extends Component {
   }
 
   render() {
-    const { lives, winner, userID } = this.props;
+    const { points, winner, userID } = this.props;
     const { blocked, rotation } = this.state;
-    const hudContent = winner ? PlayerAttacker.Winner() : PlayerAttacker.getPlayingHud(lives);
+    const hudContent = winner ? PlayerAttacker.Winner() : PlayerAttacker.getPlayingHud(points);
     const cursorColor = blocked ? 'color: red' : 'color: green';
     const { x, y, z } = this.initialPosition;
     return (
@@ -160,14 +164,14 @@ class PlayerAttacker extends Component {
 }
 
 PlayerAttacker.defaultProps = {
-  lives: 10,
+  points: 0,
   winner: true,
 };
 
 PlayerAttacker.propTypes = {
   createBall: PropTypes.func.isRequired,
   userID: PropTypes.string.isRequired,
-  lives: PropTypes.number,
+  points: PropTypes.number,
   winner: PropTypes.bool
 };
 

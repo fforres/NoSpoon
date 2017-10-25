@@ -12,9 +12,9 @@ const defaulState = {
   points: 0,
   isDefender: false,
   loser: false,
-  userID: null,
+  userID: '',
   isReady: false,
-  name: '',
+  userName: '',
 };
 
 export default function reducer(state = {}, { type, payload }) {
@@ -88,7 +88,15 @@ export const createCurrentPlayer = (userName) => {
 };
 
 
-export const isPlayerReady = ({ userName }) => (dispatch) => {
+export const isPlayerReady = ({ userName }) => (dispatch, getState) => {
+
+  WS.subscribe('userMadeAPoint', ({ user }) => {
+    const { id } = user;
+    if (getState().mainApp.userID === id) {
+      // add point to myself
+      dispatch(setLives({ points: getState().mainApp.points + 1 }));
+    }
+  });
 
   WS.subscribe('identifyUser', () => {
     getDisplay()

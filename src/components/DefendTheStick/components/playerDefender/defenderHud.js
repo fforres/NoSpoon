@@ -3,24 +3,16 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class HUD extends Component {
-  static getPlayingHud(lives) {
+  static getPlayingHud(winner) {
+    if (winner.trim().length === 0) {
+      return null;
+    }
     return (
       <a-entity
         geometry="primitive: plane; height: 0.3; width: 0.6"
         position="0.4 -0.4 -1"
         material="color: #0000FF; opacity: 0.5"
-        text={ ['align:center', 'color:white', `value: Lives : ${lives}`].join(';') }
-      />
-    );
-  }
-
-  static LOOSER() {
-    return (
-      <a-entity
-        geometry="primitive: plane; height: 4; width: 4"
-        position="0 0 -2"
-        material="color: #FF0000; opacity: 0.7"
-        text={ ['align:center', 'color:white', 'value: YOU LOST!!'].join(';') }
+        text={ ['align:center', 'color:white', `value: Winner!! ${winner}`].join(';') }
       />
     );
   }
@@ -42,8 +34,8 @@ class HUD extends Component {
   }
 
   render() {
-    const { lives, loser, userID } = this.props;
-    const hudContent = loser ? HUD.LOOSER() : HUD.getPlayingHud(lives);
+    const { userID, winner } = this.props;
+    const hudContent = HUD.getPlayingHud(winner);
     return (
       <a-entity
         camera="userHeight: 1.6;"
@@ -71,13 +63,12 @@ class HUD extends Component {
 
 HUD.defaultProps = {
   lives: 3,
-  loser: false,
+  winner: '',
 };
 
 HUD.propTypes = {
   onHit: PropTypes.func.isRequired,
-  lives: PropTypes.number,
-  loser: PropTypes.bool,
+  winner: PropTypes.string,
   userID: PropTypes.string.isRequired
 };
 
