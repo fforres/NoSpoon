@@ -3,20 +3,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class HUD extends Component {
-  static getPlayingHud(winner) {
-    if (winner.trim().length === 0) {
-      return null;
-    }
-    return (
-      <a-entity
-        geometry="primitive: plane; height: 0.3; width: 0.6"
-        position="0.4 -0.4 -1"
-        material="color: #0000FF; opacity: 0.5"
-        text={ ['align:center', 'color:white', `value: Winner!! ${winner}`].join(';') }
-      />
-    );
-  }
-
   constructor(props) {
     super(props);
     this.addColissionEvent = this.addColissionEvent.bind(this);
@@ -35,7 +21,6 @@ class HUD extends Component {
 
   render() {
     const { userID, winner } = this.props;
-    const hudContent = HUD.getPlayingHud(winner);
     return (
       <a-entity
         camera="userHeight: 1.6;"
@@ -55,7 +40,6 @@ class HUD extends Component {
           static-body
           position="0 0 0"
         />
-        { hudContent }
       </a-entity>
     );
   }

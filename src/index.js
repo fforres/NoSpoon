@@ -1,6 +1,8 @@
 import 'aframe';
 import 'aframe-environment-component';
 import 'aframe-physics-system/index';
+import 'aframe-text-geometry-component';
+import 'aframe-animation-component';
 import sphereColider from 'aframe-extras/src/misc/sphere-collider';
 import 'super-hands/dist/super-hands';
 import 'webvr-ui/build/webvr-ui';

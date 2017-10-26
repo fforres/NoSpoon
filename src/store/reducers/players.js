@@ -79,14 +79,6 @@ export const connectPlayers = () => (dispatch, getState) => {
     dispatch(addPoints({ id: user.id }));
   });
 
-  WS.subscribe('userWon', ({ id }) => {
-    if (getState().mainApp.userID === id) {
-      window.alert(`Ganaste!!: ${getState().mainApp.userName}`); // eslint-disable-line no-alert
-      return;
-    }
-    window.alert(`Ganador: ${getState().players.players[id].userName}`); // eslint-disable-line no-alert
-  });
-
   setInterval(() => {
     Object.keys(getState().players.players).forEach((player) => {
       const { players } = getState().players;

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'; // ES6
 import { connect } from 'react-redux';
 import PlayerDefender from './components/playerDefender';
 import PlayerAttacker from './components/playerAttacker';
+import WinnerBigText from './components/winnerBigText';
 import OtherPlayers from './components/otherPlayers';
 import PlayArea from './components/PlayArea';
 import { isPlayerReady } from '../../store/reducers/app';
@@ -36,6 +37,7 @@ class App extends Component {
           drag-droppable
           dynamic-body
         />
+
       </a-assets>
     );
   }
@@ -46,7 +48,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // this.props.isPlayerReady({ userName: `fforres${performance.now()}` });
     this.getName();
   }
 
@@ -100,11 +101,20 @@ class App extends Component {
     );
   }
 
+  getWinnerText() {
+    const { winner } = this.props;
+    if (winner.trim().length === 0) {
+      return null;
+    }
+    return <WinnerBigText text={ `${winner.trim()}` } />;
+  }
+
   render() {
     const { isReady } = this.props;
     const player = this.getPlayer();
     const playArea = this.getPlayArea();
     const assets = App.getAssets();
+    const winnerText = this.getWinnerText();
     const debug = process.env.NODE_ENV === 'development' ? 'debug: true;' : '';
 
     return (
@@ -120,6 +130,7 @@ class App extends Component {
         ` }
       >
         { assets }
+        { isReady ? winnerText : null }
         { isReady ? playArea : null }
         { isReady ? player : null }
         { isReady ? <OtherPlayers /> : null }
@@ -132,6 +143,7 @@ App.defaultProps = {
   isReady: false,
   isDefender: false,
   userID: '',
+  winner: '',
   points: 0,
 };
 App.propTypes = {
@@ -142,6 +154,7 @@ App.propTypes = {
   isPlayerReady: PropTypes.func.isRequired,
   connectPlayers: PropTypes.func.isRequired,
   connectBullets: PropTypes.func.isRequired,
+  winner: PropTypes.string,
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -155,6 +168,7 @@ const mapStateToProps = ({ mainApp }) => ({
   isDefender: mainApp.isDefender,
   isReady: mainApp.isReady,
   points: mainApp.points,
+  winner: mainApp.winner.userName,
   isHeadSet: mainApp.isHeadSet,
 });
 
