@@ -58,6 +58,12 @@ class App extends Component {
   }
 
   getName() {
+
+    if (process.env.NODE_ENV === 'development') {
+      return this.props.isPlayerReady({
+        userName: performance.now().toString(),
+      });
+    }
     const userName = window.prompt('Whats your name Player?'); // eslint-disable-line no-alert
     if (!userName) {
       return setTimeout(this.getName, 200);
@@ -66,20 +72,19 @@ class App extends Component {
   }
 
   getPlayer() {
-    const { userID, isDefender } = this.props;
+    const { userID, isDefender, points } = this.props;
     if (isDefender) {
       return (
         <PlayerDefender
           userID={ userID }
-          lives={ 10 }
-          loser={ false }
+          winner={ '' }
         />
       );
     }
     return (
       <PlayerAttacker
         userID={ userID }
-        lives={ 10 }
+        points={ points }
         winner={ false }
       />
     );
@@ -127,11 +132,13 @@ App.defaultProps = {
   isReady: false,
   isDefender: false,
   userID: '',
+  points: 0,
 };
 App.propTypes = {
-  userID: PropTypes.string.isRequired,
+  userID: PropTypes.string,
   isReady: PropTypes.bool,
   isDefender: PropTypes.bool,
+  points: PropTypes.number.isRequired,
   isPlayerReady: PropTypes.func.isRequired,
   connectPlayers: PropTypes.func.isRequired,
   connectBullets: PropTypes.func.isRequired,
@@ -147,6 +154,7 @@ const mapStateToProps = ({ mainApp }) => ({
   userID: mainApp.userID,
   isDefender: mainApp.isDefender,
   isReady: mainApp.isReady,
+  points: mainApp.points,
   isHeadSet: mainApp.isHeadSet,
 });
 

@@ -71,14 +71,6 @@ export const fakeBulletCreator = () => (dispatch) => {
     return;
   }
 
-  const data = {
-    type: 'createBullet',
-    user: {
-      id: 'user-9659250000000001',
-      attacker: true,
-    },
-  };
-
   const crossHairVec = new CANNON.Vec3(0, 1.5, 0);
   const position = {
     x: 0,

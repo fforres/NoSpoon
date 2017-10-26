@@ -80,6 +80,10 @@ export const connectPlayers = () => (dispatch, getState) => {
   });
 
   WS.subscribe('userWon', ({ id }) => {
+    if (getState().mainApp.userID === id) {
+      window.alert(`Ganaste!!: ${getState().mainApp.userName}`); // eslint-disable-line no-alert
+      return;
+    }
     window.alert(`Ganador: ${getState().players.players[id].userName}`); // eslint-disable-line no-alert
   });
 
