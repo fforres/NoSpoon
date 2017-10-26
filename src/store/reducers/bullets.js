@@ -94,13 +94,13 @@ export const connectBullets = () => (dispatch) => {
   WS.subscribe('createBullet', ({ id, user, position, impulse }) => {
     dispatch(setNewBall({ id, position, impulse, userId: user.id }));
   });
-  WS.subscribe('bulletPosition', (data) => {
-    console.log(data);
-    // dispatch(setNewBall({
-    //   id: data.id,
-    //   position: data.position,
-    // }));
-  });
+  // WS.subscribe('bulletPosition', (data) => {
+  //   console.log(data);
+  //   // dispatch(setNewBall({
+  //   //   id: data.id,
+  //   //   position: data.position,
+  //   // }));
+  // });
 };
 
 export const deleteBullet = ({ id }) => (dispatch) => {
