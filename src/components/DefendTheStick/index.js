@@ -48,7 +48,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // this.props.isPlayerReady({ userName: `fforres${performance.now()}` });
     this.getName();
   }
 
@@ -104,10 +103,10 @@ class App extends Component {
 
   getWinnerText() {
     const { winner } = this.props;
-    // if (winner.trim().length === 0) {
-    //   return null;
-    // }
-    return <WinnerBigText text={ `${winner.trim()} ljkasjldas` } />;
+    if (winner.trim().length === 0) {
+      return null;
+    }
+    return <WinnerBigText text={ `${winner.trim()}` } />;
   }
 
   render() {

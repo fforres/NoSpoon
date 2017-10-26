@@ -13,8 +13,14 @@ class winnerBigText extends Component {
         id="textElement"
         ref={ (c) => { this.textElement = c; } }
         position="-4.843 5.899 0"
-        animation__scale="property: scale; dir: alternate; dur: 500;
-                    easing: easeInSine; loop: true; to: 1.6 1.2 1.6"
+        animation__scale={ `
+          property: scale;
+          dir: alternate;
+          dur: 700;
+          easing: easeInSine;
+          loop: true;
+          to: 1.6 1.2 1.6
+        ` }
         text-geometry={ `
           bevelThickness: 0.01;
           bevelSize: 0.01;
