@@ -14,6 +14,9 @@ class PlayerAttacker extends Component {
       2: '2 puntos   :)',
       3: '3 puntos   :D',
     };
+    if (points < 0 || points > 3) {
+      return null;
+    }
     return (
       <a-entity
         geometry="primitive: plane; height: 0.3; width: 0.6"
@@ -23,21 +26,6 @@ class PlayerAttacker extends Component {
           'align:center',
           'color:white',
           `value: ${pointsData[points]}`
-        ].join(';') }
-      />
-    );
-  }
-
-  static Winner() {
-    return (
-      <a-entity
-        geometry="primitive: plane; height: 4; width: 4"
-        position="0 0 -2"
-        material="color: #FF0000; opacity: 0.7"
-        text={ [
-          'align:center',
-          'color:white',
-          'value: Winner Winner chicken dinner!'
         ].join(';') }
       />
     );
@@ -115,7 +103,7 @@ class PlayerAttacker extends Component {
   render() {
     const { points, winner, userID } = this.props;
     const { blocked, rotation } = this.state;
-    const hudContent = winner ? PlayerAttacker.Winner() : PlayerAttacker.getPlayingHud(points);
+    const hudContent = PlayerAttacker.getPlayingHud(points);
     const cursorColor = blocked ? 'color: red' : 'color: green';
     const { x, y, z } = this.initialPosition;
     return (

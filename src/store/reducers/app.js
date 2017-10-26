@@ -7,6 +7,7 @@ const CREATE_CURRENT_PLAYER = 'theMatrix/currentPlayer/CREATE_CURRENT_PLAYER';
 const ADD_POINT = 'theMatrix/currentPlayer/ADD_POINT';
 const READY = 'theMatrix/currentPlayer/READY';
 const CLEAR = 'theMatrix/currentPlayer/CLEAR';
+const SET_WINNER = 'theMatrix/currentPlayer/SET_WINNER';
 
 const defaulState = {
   points: 0,
@@ -14,10 +15,14 @@ const defaulState = {
   loser: false,
   userID: '',
   isReady: false,
+  winner: {
+    id: '',
+    userName: '',
+  },
   userName: '',
 };
 
-export default function reducer(state = {}, { type, payload }) {
+export default function reducer(state = defaulState, { type, payload }) {
   switch (type) {
   case CREATE_CURRENT_PLAYER:
     return { ...state, ...payload.player, isReady: false };
@@ -25,12 +30,17 @@ export default function reducer(state = {}, { type, payload }) {
     return { ...state, isReady: payload.isReady, isHeadSet: payload.isHeadSet };
   case ADD_POINT:
     return { ...state, points: payload.points };
+  case SET_WINNER: {
+    return { ...state, winner: { ...payload } };
+  }
   case CLEAR:
     return defaulState;
   default:
     return state;
   }
 }
+
+export const setWinner = payload => ({ type: SET_WINNER, payload });
 
 export const setReady = payload => ({ type: READY, payload });
 
@@ -96,6 +106,13 @@ export const isPlayerReady = ({ userName }) => (dispatch, getState) => {
       // add point to myself
       dispatch(setLives({ points: getState().mainApp.points + 1 }));
     }
+  });
+
+  WS.subscribe('userWon', ({ user }) => {
+    dispatch(setWinner({
+      id: user.id,
+      userName: user.userName,
+    }));
   });
 
   WS.subscribe('identifyUser', () => {
